@@ -1,6 +1,6 @@
 # aBMC
 - [前言](preface.md)
-- [开发者必读指南](guide.md)
+- [登录指南](guide.md)
 
 # 使用手册
 - [常规配置](general.md)
