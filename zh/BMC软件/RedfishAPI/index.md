@@ -1,7 +1,7 @@
 # Redfish 说明
 - [概述](oiverview.md)
-- [接口通用说明](general.md)
-- [使用方式](usage.md)
+- [登录认证](usage.md)
+- [Redfish 接口通用说明](general.md)
 
 # API 使用手册
 
