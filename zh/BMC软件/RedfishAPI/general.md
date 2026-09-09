@@ -1,4 +1,4 @@
-# Redfish 接口通用说明
+# Redfish API 通用说明
 
 ## 1 命令格式说明
 
