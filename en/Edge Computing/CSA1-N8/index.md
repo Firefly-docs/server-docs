@@ -1,9 +1,10 @@
 # Product Introduction
 - [Preface](product_introduction.md)
 - [Product Specifications and Components](product_specifications.md)
-- [Core Board Systems and Combinations](product_core_board_assembly.md)
+- [product_core_board_assembly](product_core_board_assembly.md)
 # Quick Start
 - [Server Installation](start_server_installation.md)
+- [Server Status Identification](start_server_status.md)
 - [Accessing the Server (BMC)](op_login_bmc.md)
 - [Accessing Sub-nodes [step]](op_login_sub.md)
 - [Troubleshooting](op_issues_troubleshooting.md)

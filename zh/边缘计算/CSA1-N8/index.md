@@ -1,9 +1,10 @@
 # 产品导读
-- [前言](product_introduction.md)
+- [简介](product_introduction.md)
 - [产品规格和组件](product_specifications.md)
-- [核心板的系统与组合](product_core_board_assembly.md)
+- [服务器系统支持列表](product_system_support_list.md)
 # 快速开始
 - [服务器安装](start_server_installation.md)
+- [服务器状态识别](start_server_status.md)
 - [访问服务器（BMC）](op_login_bmc.md)
 - [访问子节点 [step]](op_login_sub.md)
 - [异常排查](op_issues_troubleshooting.md)
