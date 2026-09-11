@@ -4,8 +4,6 @@
 
 开始使用服务器前，请通过服务器上的指示灯判断当前运行状态。
 
-![Front view](../../../servers_img/CSD2-N128/front_view.png)
-
 ## BMC 状态指示灯
 
 ![BMC 状态指示灯](../../../servers_img/CSD2-N128/front_view_led_bmc.png)

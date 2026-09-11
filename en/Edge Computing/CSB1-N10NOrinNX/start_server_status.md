@@ -4,8 +4,6 @@ After the server is connected to the power outlet, the BMC is powered on automat
 
 Before using the server, check the indicators on the server to determine its current operating status.
 
-![Front view](../../../servers_img/CSB1-N10/front_view.png)
-
 ## BMC Status Indicator
 
 ![BMC status indicator](../../../servers_img/CSB1-N10/front_view_led_bmc.png)

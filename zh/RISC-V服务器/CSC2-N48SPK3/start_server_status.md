@@ -4,8 +4,6 @@
 
 开始使用服务器前，请通过服务器上的电源按键/指示灯判断当前运行状态。
 
-![Front view](../../../servers_img/CSC2-N48/front_view.png)
-
 ## 电源按键/指示灯
 
 ![电源按键/指示灯](../../../servers_img/CSC2-N48/front_view_led_power.png)
