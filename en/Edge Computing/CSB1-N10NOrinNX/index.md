@@ -1,7 +1,7 @@
 # Product Introduction
 - [Preface](product_introduction.md)
 - [Product Specifications and Components](product_specifications.md)
-- [product_core_board_assembly](product_core_board_assembly.md)
+- [Server System Support List](product_system_support_list.md)
 # Quick Start
 - [Server Installation](start_server_installation.md)
 - [Server Power Operations](start_server_power.md)
@@ -9,7 +9,6 @@
 - [Server Serial Port](start_server_serial.md)
 - [Accessing the Server (BMC)](op_login_bmc.md)
 - [Accessing Sub-nodes [step]](op_login_sub.md)
-- [Troubleshooting](op_issues_troubleshooting.md)
 # Firmware Development
 - [Obtaining the SDK](sdk_application.md)
 - [Secondary Customization Firmware](dev_sub_firmware.md)
@@ -20,3 +19,4 @@
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
 # Operations and Maintenance
+- [Troubleshooting](op_issues_troubleshooting.md)

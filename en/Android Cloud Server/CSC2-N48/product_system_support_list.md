@@ -1,4 +1,4 @@
-# Core Board Systems and Combinations
+# Server System Support List
 
 This chassis adopts a modular design and is compatible with multiple core boards, providing excellent flexibility and scalability. Users can select different core board models according to computing power requirements, interface configuration, and budget, and combine them into diverse complete-server solutions. The following sections describe the specifications and common combinations of each core board for reference during selection.
 

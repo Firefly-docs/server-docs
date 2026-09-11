@@ -9,7 +9,6 @@
 - [服务器的串口使用](start_server_serial.md)
 - [访问服务器（BMC）](op_login_bmc.md)
 - [访问子节点 [step]](op_login_sub.md)
-- [异常排查](op_issues_troubleshooting.md)
 # 固件开发
 - [获取 SDK](sdk_application.md)
 - [二次定制化固件](dev_sub_firmware.md)
@@ -20,3 +19,4 @@
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
 # 运营维护
+- [异常排查](op_issues_troubleshooting.md)
