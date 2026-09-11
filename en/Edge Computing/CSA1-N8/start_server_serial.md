@@ -10,6 +10,10 @@ The server debug serial port is an RJ45 connector. Use a USB-to-RJ45 serial cabl
 A 1 m cable is recommended. The longer the serial cable, the more the signal attenuates; an overly long cable may cause communication problems.
 </Callout>
 
+<Callout type="info" title="Driver">
+The FT232-based serial cable is driver-free on recent versions of Windows. If the PC cannot recognize the serial device, download and install the driver from the FTDI [driver download page](https://ftdichip.com/drivers/).
+</Callout>
+
 ## Connect the Serial Terminal
 
 1. Plug the USB end of the serial cable into the PC, and the RJ45 end into the server debug serial port.

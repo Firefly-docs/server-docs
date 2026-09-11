@@ -10,6 +10,10 @@
 建议选择 1m 线长。串口线越长信号衰减越明显，线材过长可能导致通信异常。
 </Callout>
 
+<Callout type="info" title="驱动说明">
+采用 FT232 芯片的串口线在较新版本的 Windows 操作系统中免驱。如果 PC 无法识别串口设备，请从 FTDI 官网[驱动下载页面](https://ftdichip.com/cn/drivers/)下载并安装驱动。
+</Callout>
+
 ## 调试串口位置
 
 调试串口位于整机前面板，为丝印 **CONSOLE** 的 RJ45 接口：

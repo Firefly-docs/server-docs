@@ -10,6 +10,10 @@ The server debug serial port is an RJ45 connector. Use a USB-to-RJ45 serial cabl
 A 1 m cable is recommended. The longer the serial cable, the more the signal attenuates; an overly long cable may cause communication problems.
 </Callout>
 
+<Callout type="info" title="Driver">
+The FT232-based serial cable is driver-free on recent versions of Windows. If the PC cannot recognize the serial device, download and install the driver from the FTDI [driver download page](https://ftdichip.com/drivers/).
+</Callout>
+
 ## Debug Serial Port Location
 
 The debug serial port is on the rear panel, the RJ45 connector labeled **▲CON**. Directly below it, **▼MGMT** is the management network port — do not confuse them:
