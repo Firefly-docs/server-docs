@@ -7,6 +7,7 @@
 - [服务器的电源操作](start_server_power.md)
 - [服务器状态识别](start_server_status.md)
 - [服务器的串口使用](start_server_serial.md)
+- [start_server_network](start_server_network.md)
 - [访问服务器（BMC）](op_login_bmc.md)
 - [访问子节点 [step]](op_login_sub.md)
 # 固件开发

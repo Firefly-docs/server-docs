@@ -7,6 +7,7 @@
 - [Server Power Operations](start_server_power.md)
 - [Server Status Identification](start_server_status.md)
 - [Server Serial Port](start_server_serial.md)
+- [start_server_network](start_server_network.md)
 - [Accessing the Server (BMC)](op_login_bmc.md)
 - [Accessing Sub-nodes [step]](op_login_sub.md)
 # Firmware Development
