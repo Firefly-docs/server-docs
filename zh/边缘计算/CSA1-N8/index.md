@@ -5,7 +5,6 @@
 # 快速开始
 - [服务器安装](start_server_installation.md)
 - [服务器状态识别](start_server_status.md)
-- [服务器的串口使用](start_server_serial.md)
 - [服务器网络接线方式](start_server_network.md)
 - [访问服务器（BMC）](op_login_bmc.md)
 - [访问子节点 [step]](op_login_sub.md)

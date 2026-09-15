@@ -4,12 +4,14 @@ This chapter describes the general network wiring methods of the server. The wir
 
 Before wiring, learn the role of each network port:
 
-- **GEM port**: The MGMT port directly connected to the BMC.
-- **SFP+1, SFP+2, and GE ports**: All connected to the internal switch, which in turn connects to the sub-boards and the BMC.
+- **GEM port**: The MGMT port directly connected to the BMC. It is the out-of-band management port of the server.
+- **SFP+1, SFP+2, and GE ports**: The service network ports of the server. They are all connected to the internal switch, which in turn connects to the sub-boards and the BMC.
 
-Either of the following two wiring methods allows the whole server to communicate with the external network.
+Out-of-band management is a remote management channel that does not rely on the operating system or the service network. As long as the server is powered, you can access the BMC through the GEM port to power the server on or off, monitor hardware, upgrade firmware, and so on, even when the server is not booted or the system fails. For details, see the "Accessing the Server (BMC)" chapter.
 
-## Connect One RJ45 Cable as the External Network Cable
+**Either of the following two wiring methods allows the whole server to communicate with the external network; the difference is whether the out-of-band management channel shares the same external cable with the service network.**
+
+## One Cable: Shared Uplink for Service and Out-of-Band Management
 
 **Tools**
 
@@ -21,13 +23,13 @@ Either of the following two wiring methods allows the whole server to communicat
 1. Insert the 10G SFP+ to RJ45 module into the SFP+1 port of the server (1 in the figure), and connect the external network cable to the module.
 2. Interconnect the GEM port and the GE port with a network cable (2 in the figure).
 
-Note: The GEM port is directly connected to the BMC. After it is interconnected with the GE port, the BMC management port can communicate with the external network through the internal switch.
+Note: The GEM port is directly connected to the BMC. After it is interconnected with the GE port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management and the service network share the same external cable on the SFP+1 port.
 
 The wiring locations are shown below:
 
 ![Single external network cable wiring](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
 
-## Connect Two RJ45 Cables as the External Network Cables
+## Two Cables: Independent Uplinks for Service and Out-of-Band Management
 
 **Tools**
 
@@ -37,6 +39,8 @@ The wiring locations are shown below:
 
 1. Connect one network cable to the GEM port of the server (1 in the figure), and the other end to the external network.
 2. Connect the other network cable to the GE port (2 in the figure), and the other end to the external network.
+
+In this method, the out-of-band management (GEM port) and the service network (GE port) are connected to the external network independently, without affecting each other.
 
 The wiring locations are shown below:
 
