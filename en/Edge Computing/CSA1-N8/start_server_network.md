@@ -11,6 +11,8 @@ Out-of-band management is a remote management channel that does not rely on the 
 
 ## Internal Network Topology
 
+![Server internal network topology](../../../servers_img/CSA1-N8/network_topo.png)
+
 Inside the server, these ports fall into two parts: the service channel and the management channel.
 
 - **Service channel**: The SFP+1, SFP+2, and GE ports on the chassis are connected to the internal switch chip SWITCH1, which connects the PHY1 ports of the sub-boards. The BMC is also connected to SWITCH1 through pci_net.
@@ -18,13 +20,11 @@ Inside the server, these ports fall into two parts: the service channel and the 
 
 In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and PHY0, attached to SWITCH1 and SWITCH0 respectively, and the GEM port is a direct outlet of the BMC. Because out-of-band management and the service network belong to two separate channels, out-of-band management can be uplinked independently in the second wiring method below.
 
-The internal connections are shown below:
-
-![Server internal network topology](../../../servers_img/CSA1-N8/network_topo.png)
-
 **Either of the following two wiring methods allows the whole server to communicate with the external network; the difference is whether the out-of-band management channel shares the same external cable with the service network.**
 
 ## One Cable: Shared Uplink for Service and Out-of-Band Management
+
+![Single external network cable wiring](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
 
 **Tools**
 
@@ -38,11 +38,9 @@ The internal connections are shown below:
 
 Note: The GEM port is directly connected to the BMC. After it is interconnected with the GE port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management and the service network share the same external cable on the SFP+1 port.
 
-The wiring locations are shown below:
-
-![Single external network cable wiring](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
-
 ## Two Cables: Independent Uplinks for Service and Out-of-Band Management
+
+![Two external network cables wiring](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)
 
 **Tools**
 
@@ -54,7 +52,3 @@ The wiring locations are shown below:
 2. Connect the other network cable to the GE port (2 in the figure), and the other end to the external network.
 
 In this method, the out-of-band management (GEM port) and the service network (GE port) are connected to the external network independently, without affecting each other.
-
-The wiring locations are shown below:
-
-![Two external network cables wiring](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)

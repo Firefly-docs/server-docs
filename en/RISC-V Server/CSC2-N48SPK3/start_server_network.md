@@ -13,6 +13,8 @@ Out-of-band management is a remote management channel that does not rely on the 
 
 ## One Cable: Shared Uplink for Service and Out-of-Band Management
 
+![Single external network cable wiring](../../../servers_img/CSC2-N48/start_server_network/single_external_network_wiring.png)
+
 **Tools**
 
 - 10G SFP+ to RJ45 modules × 2 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
@@ -25,11 +27,9 @@ Out-of-band management is a remote management channel that does not rely on the 
 
 Note: The MGMT port is directly connected to the BMC. After it is interconnected with the SFP+1 port, the BMC management port can communicate with the external network through the internal switch and the module in the external-network port. The MGMT port is a gigabit copper port, and the module in the SFP+1 port negotiates to 1 Gbps with it. In this method, out-of-band management and the service network share the same external cable.
 
-The wiring locations are shown below:
-
-![Single external network cable wiring](../../../servers_img/CSC2-N48/start_server_network/single_external_network_wiring.png)
-
 ## Two Cables: Independent Uplinks for Service and Out-of-Band Management
+
+![Two network cables wiring](../../../servers_img/CSC2-N48/start_server_network/dual_external_network_wiring.png)
 
 **Tools**
 
@@ -42,7 +42,3 @@ The wiring locations are shown below:
 2. Insert the 10G SFP+ to RJ45 module into any one of the SFP+1 to SFP+4 ports of the server (2 in the figure, SFP+1 as an example), connect one end of the other network cable to the module, and the other end to the external network.
 
 In this method, the out-of-band management (MGMT port) and the service network (SFP+ ports) are connected to the external network independently, without affecting each other.
-
-The wiring locations are shown below:
-
-![Two network cables wiring](../../../servers_img/CSC2-N48/start_server_network/dual_external_network_wiring.png)

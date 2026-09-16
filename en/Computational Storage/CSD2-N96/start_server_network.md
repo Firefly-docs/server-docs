@@ -9,9 +9,11 @@ Before wiring, learn the role of each network port:
 
 Out-of-band management is a remote management channel that does not rely on the operating system or the service network. As long as the server is powered, you can access the BMC through the MGMT port to power the server on or off, monitor hardware, upgrade firmware, and so on, even when the server is not booted or the system fails. For details, see the "Accessing the BMC" chapter.
 
-**Either of the following two wiring methods allows the whole server to communicate with the external network; the difference is whether the out-of-band management channel shares the same external cable with the service network.**
+**Either of the following three wiring methods allows the whole server to communicate with the external network. They differ in whether out-of-band management shares an external cable with the service network, and whether the two internal switches have separate uplinks.**
 
 ## One Cable: Shared Uplink for Service and Out-of-Band Management
+
+![Single external network cable wiring](../../../servers_img/CSD2-N96/start_server_network/single_external_network_wiring.png)
 
 **Tools**
 
@@ -29,11 +31,9 @@ Note: The MGMT port is directly connected to the BMC. After it is interconnected
 
 CAUTION: The fiber patch cord between SFP+4 and SFP+5 bridges the two internal switches and must not be omitted. Otherwise, the BMC cannot communicate with the SFP+5 to SFP+8 ports.
 
-The wiring locations are shown below. Ports marked with the same number in the figure form one interconnected group:
-
-![Single external network cable wiring](../../../servers_img/CSD2-N96/start_server_network/single_external_network_wiring.png)
-
 ## Two Cables: Independent Uplinks for Service and Out-of-Band Management
+
+![Two network cables wiring](../../../servers_img/CSD2-N96/start_server_network/dual_external_network_wiring.png)
 
 **Tools**
 
@@ -49,6 +49,19 @@ The wiring locations are shown below. Ports marked with the same number in the f
 
 In this method, the out-of-band management (MGMT port) and the service network (SFP+ ports) are connected to the external network independently, without affecting each other.
 
-The wiring locations are shown below. Ports marked with the same number in the figure form one interconnected group:
+## Three Cables: Independent Uplinks for Both Switches
 
-![Two network cables wiring](../../../servers_img/CSD2-N96/start_server_network/dual_external_network_wiring.png)
+![Three network cables wiring](../../../servers_img/CSD2-N96/start_server_network/triple_external_network_wiring.png)
+
+**Tools**
+
+- 10G SFP+ to RJ45 modules × 2 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
+- Network cables × 3 (one for the MGMT port, one for the module in the SFP+4 port, one for the module in the SFP+5 port)
+
+**Wiring steps**
+
+1. Connect one network cable to the MGMT port of the server (marked as 1 in the figure), and the other end to the external network.
+2. Insert one 10G SFP+ to RJ45 module into the SFP+4 port of the server (marked as 2 in the figure), connect one end of a network cable to the module, and the other end to the external network.
+3. Insert the other 10G SFP+ to RJ45 module into the SFP+5 port of the server (marked as 3 in the figure), connect one end of the last network cable to the module, and the other end to the external network.
+
+In this method, the two internal switches are uplinked to the external network separately through SFP+4 and SFP+5, and no jumper between the switches is needed; the MGMT port (BMC) is also uplinked directly. Compared with the two-cable method, the service traffic of the left switch no longer needs to be forwarded by the right switch, which reduces the load on the right switch.

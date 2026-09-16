@@ -11,6 +11,8 @@
 
 ## 内部网络拓扑
 
+![服务器内部网络拓扑](../../../servers_img/CSA1-N8/network_topo.png)
+
 上面这些网口在服务器内部可以分成业务通道和管理通道两部分：
 
 - **业务通道**：机箱上的 SFP+1、SFP+2、GE 口接入内部交换芯片 SWITCH1，由 SWITCH1 连接各子板的 PHY1 网口；BMC 也通过 pci_net 接入 SWITCH1。
@@ -18,13 +20,11 @@
 
 也就是说，每块子板（SUB01–SUB08）上都有 PHY1、PHY0 两个网口，分别挂在 SWITCH1 与 SWITCH0 上，而 GEM 口是 BMC 的直连出口。正因为带外管理与业务网络分属两条通道，下文第二种接线方式才能让带外管理独立上联。
 
-内部连接关系如下图所示：
-
-![服务器内部网络拓扑](../../../servers_img/CSA1-N8/network_topo.png)
-
 **以下两种接线方式任选其一，均可以使整台服务器与外网通信；区别在于带外管理通道与业务网络是否共用同一根外网线。**
 
 ## 单根外网线：业务与带外管理共用上联
+
+![单独一根外网网线接线示意](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
 
 **工具准备**
 
@@ -38,11 +38,9 @@
 
 说明：GEM 口直连 BMC，将其与 GE 口互连后，BMC 管理网口即可经由内部交换机与外部网络通信。该方式下，带外管理与业务网络共用 SFP+1 口的同一根外网线。
 
-接线位置如下图所示：
-
-![单独一根外网网线接线示意](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
-
 ## 双根外网线：业务与带外管理独立上联
+
+![两根 RJ45 网线接线示意](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)
 
 **工具准备**
 
@@ -54,7 +52,3 @@
 2. 将另一根网线接入服务器的 GE 口（图中 2），另一端接入外部网络。
 
 该方式下，带外管理（GEM 口）与业务网络（GE 口）各自独立上联，互不影响。
-
-接线位置如下图所示：
-
-![两根 RJ45 网线接线示意](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)
