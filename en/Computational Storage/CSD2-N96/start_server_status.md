@@ -4,7 +4,7 @@ After the server is connected to the power outlet, the BMC is powered on automat
 
 Before using the server, check the indicators on the server to determine its current operating status.
 
-## 1 BMC Status Indicator
+## BMC Status Indicator [step]
 
 ![BMC status indicator](../../../servers_img/CSD2-N96/front_view_led_bmc.png)
 
@@ -18,7 +18,7 @@ The rear panel also has a BS indicator with the same states as the one on the fr
 
 ![Rear BS indicator](../../../servers_img/CSD2-N96/rear_view_led_bmc.png)
 
-## 2 Switch Indicators
+## Switch Indicators [step]
 
 ![Switch indicators](../../../servers_img/CSD2-N96/front_view_led_es.png)
 
@@ -32,7 +32,7 @@ The rear panel also has ES1 and ES2 indicators with the same states as those on 
 
 ![Rear switch indicators](../../../servers_img/CSD2-N96/rear_view_led_es.png)
 
-## 3 Fan Indicator
+## Fan Indicator [step]
 
 ![Fan indicator](../../../servers_img/CSD2-N96/front_view_led_fan.png)
 
@@ -41,7 +41,7 @@ The fan indicator is a red/green dual-color indicator that shows the operating s
 - **Steady green**: The fan is working normally.
 - **Steady red**: The fan has a fault.
 
-## 4 UID Button
+## UID Button [step]
 
 ![UID button](../../../servers_img/CSD2-N96/front_view_led_uid.png)
 
@@ -56,7 +56,7 @@ The UID indicator is used to help O&M personnel quickly locate a server. When mu
 - **Light the UID indicator remotely**: When remote O&M personnel find a server abnormal, they can turn on its UID indicator on the aBMC web page, so that on-site personnel can locate the abnormal server accordingly.
 - **Press the UID button on site**: The virtual UID LED on the aBMC web page lights up in sync, so remote O&M personnel can confirm the server to be decommissioned and perform data operations before decommissioning.
 
-## 5 Power Button/Indicator
+## Power Button/Indicator [step]
 
 ![Power button/indicator](../../../servers_img/CSD2-N96/front_view_led_power.png)
 

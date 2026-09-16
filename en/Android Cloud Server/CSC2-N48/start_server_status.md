@@ -4,7 +4,7 @@ After the server is connected to the power outlet, the BMC is powered on automat
 
 Before using the server, check the power button/indicator on the server to determine its current operating status.
 
-## 1 Power Button/Indicator
+## Power Button/Indicator [step]
 
 ![Power button/indicator](../../../servers_img/CSC2-N48/front_view_led_power.png)
 

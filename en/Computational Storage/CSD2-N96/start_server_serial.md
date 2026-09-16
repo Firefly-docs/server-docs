@@ -2,7 +2,7 @@
 
 The serial port is the most direct and lowest-level way to access the server. When the network is unreachable, the display has no output, and all remote means fail, the serial port is your most reliable fallback: through it you can view boot logs and log in to the command line to troubleshoot problems that cannot be diagnosed remotely.
 
-## 1 Prepare the Serial Cable
+## Prepare the Serial Cable [step]
 
 The server debug serial port is an RJ45 connector. Use a USB-to-RJ45 serial cable (console cable) with a built-in **FT232 chip**. Recommended cable: [Taobao purchase link](https://detail.tmall.com/item.htm?id=704142723329&skuId=5200647198949).
 
@@ -14,13 +14,13 @@ A 1 m cable is recommended. The longer the serial cable, the more the signal att
 The FT232-based serial cable is driver-free on recent versions of Windows. If the PC cannot recognize the serial device, download and install the driver from the FTDI [driver download page](https://ftdichip.com/drivers/).
 </Callout>
 
-## 2 Debug Serial Port Location
+## Debug Serial Port Location [step]
 
 The debug serial port is on the rear panel, the RJ45 connector labeled **▲CON**. Directly below it, **▼MGMT** is the management network port — do not confuse them:
 
 ![Debug serial port location](../../../servers_img/CSD2-N96/server_serial.png)
 
-## 3 Connect the Serial Terminal
+## Connect the Serial Terminal [step]
 
 1. Plug the USB end of the serial cable into the PC, and the RJ45 end into the server debug serial port.
 2. Confirm that the PC has detected the serial device:

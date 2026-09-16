@@ -10,9 +10,9 @@
     </CodeBlockTabsList>
 
     <CodeBlockTab value="SafeOpwerOn">
-      ## 1 Safe Power-On of the Server
+      ## Safe Power-On of the Server [step]
 
-      ### 1.1 Power-On Procedure
+      ### Power-On Procedure
 
       1. Before powering on, confirm that the server is completely powered off.
       2. Plug one end of the IEC C13 power cord into the server power inlet.
@@ -27,7 +27,7 @@
         2. This protection mechanism can preferentially block abnormal current and prevent damage to core precision components such as MOS power transistors, rectifier bridges, and EMI filter circuits; it is a fault-tolerant protection design built into the power supply. Violating the rule by hot-plugging only triggers the fuse open-circuit protection and does not directly break down or burn the power supply itself; it only prevents the device from powering on normally.
         3. After the protection is triggered, no components need to be replaced. Simply disconnect the power completely, turn off the PDU breaker switch, and let it cool for about **5 minutes**. After the self-recovering fuse automatically resets and the circuit returns to normal, the server can be safely powered on again following the standard procedure. In addition, residual voltage remains in the capacitors after the device is powered off, and repeated hot plugging within a short time can easily trigger the protection repeatedly. Therefore, wait more than 30 seconds to ensure the capacitors are fully discharged and avoid repeated protection triggering.
       </Callout>
-      ### 1.2 Power-On Methods
+      ### Power-On Methods
 
       The server supports the following power-on methods:
 
@@ -51,7 +51,7 @@
     </CodeBlockTab>
 
     <CodeBlockTab value="SafeOpwerOff">
-      ## 2 Safe Power-Off of the Server
+      ## Safe Power-Off of the Server [step]
       <div>
         <ul style="padding-left: 24px; margin: 10px 0;">
           <li>After power-off, all services and programs will be terminated. Therefore, before powering off, be sure to confirm that all services and programs on the server have been stopped or migrated to other devices.</li>
