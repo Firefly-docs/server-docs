@@ -11,7 +11,7 @@ Out-of-band management is a remote management channel that does not rely on the 
 
 **Either of the following three wiring methods allows the whole server to communicate with the external network. They differ in whether out-of-band management shares an external cable with the service network, and whether the two internal switches have separate uplinks.**
 
-## One Cable: Shared Uplink for Service and Out-of-Band Management
+## 1 One Cable: Shared Uplink for Service and Out-of-Band Management
 
 ![Single external network cable wiring](../../../servers_img/CSD2-N96/start_server_network/single_external_network_wiring.png)
 
@@ -31,7 +31,7 @@ Note: The MGMT port is directly connected to the BMC. After it is interconnected
 
 CAUTION: The fiber patch cord between SFP+4 and SFP+5 bridges the two internal switches and must not be omitted. Otherwise, the BMC cannot communicate with the SFP+5 to SFP+8 ports.
 
-## Two Cables: Independent Uplinks for Service and Out-of-Band Management
+## 2 Two Cables: Independent Uplinks for Service and Out-of-Band Management
 
 ![Two network cables wiring](../../../servers_img/CSD2-N96/start_server_network/dual_external_network_wiring.png)
 
@@ -49,7 +49,7 @@ CAUTION: The fiber patch cord between SFP+4 and SFP+5 bridges the two internal s
 
 In this method, the out-of-band management (MGMT port) and the service network (SFP+ ports) are connected to the external network independently, without affecting each other.
 
-## Three Cables: Independent Uplinks for Both Switches
+## 3 Three Cables: Independent Uplinks for Both Switches
 
 ![Three network cables wiring](../../../servers_img/CSD2-N96/start_server_network/triple_external_network_wiring.png)
 

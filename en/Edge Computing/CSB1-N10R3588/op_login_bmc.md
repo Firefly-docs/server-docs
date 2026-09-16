@@ -46,7 +46,7 @@ aBMC presets default parameters at the factory for initial commissioning. The fo
   </tbody>
 </table>
 
-## Console Login
+## 1 Console Login
 
 The console login supports the following methods.
 

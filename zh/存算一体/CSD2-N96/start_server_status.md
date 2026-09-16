@@ -4,7 +4,7 @@
 
 开始使用服务器前，请通过服务器上的指示灯判断当前运行状态。
 
-## BMC 状态指示灯
+## 1 BMC 状态指示灯
 
 ![BMC 状态指示灯](../../../servers_img/CSD2-N96/front_view_led_bmc.png)
 
@@ -18,7 +18,7 @@
 
 ![背面 BS 指示灯](../../../servers_img/CSD2-N96/rear_view_led_bmc.png)
 
-## 交换机指示灯
+## 2 交换机指示灯
 
 ![交换机指示灯](../../../servers_img/CSD2-N96/front_view_led_es.png)
 
@@ -32,7 +32,7 @@
 
 ![背面交换机指示灯](../../../servers_img/CSD2-N96/rear_view_led_es.png)
 
-## 风扇指示灯
+## 3 风扇指示灯
 
 ![风扇指示灯](../../../servers_img/CSD2-N96/front_view_led_fan.png)
 
@@ -41,7 +41,7 @@
 - **绿色常亮**：风扇工作正常。
 - **红色常亮**：风扇出现故障。
 
-## UID 按键灯
+## 4 UID 按键灯
 
 ![UID 按键灯](../../../servers_img/CSD2-N96/front_view_led_uid.png)
 
@@ -56,7 +56,7 @@ UID 灯用于帮助运维人员快速定位服务器。当机房中部署多台�
 - **远程点亮 UID 灯**：远程运维人员发现服务器异常时，可在 aBMC Web 页面控制 UID 灯亮起，现场人员据此定位异常服务器。
 - **现场按下 UID 按键**：aBMC Web 页面的 UID 虚拟 LED 会同步亮起，远程运维人员可确认待下架的服务器，方便下架前进行数据操作。
 
-## 电源按键/指示灯
+## 5 电源按键/指示灯
 
 ![电源按键/指示灯](../../../servers_img/CSD2-N96/front_view_led_power.png)
 

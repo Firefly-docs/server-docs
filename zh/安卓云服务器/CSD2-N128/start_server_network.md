@@ -11,7 +11,7 @@
 
 **以下三种接线方式任选其一，均可以使整台服务器与外网通信；区别在于带外管理是否与业务网络共用外网线，以及两台内部交换机是否分别独立上联。**
 
-## 单根外网线：业务与带外管理共用上联
+## 1 单根外网线：业务与带外管理共用上联
 
 ![单独一根外网网线接线示意](../../../servers_img/CSD2-N128/start_server_network/single_external_network_wiring.png)
 
@@ -31,7 +31,7 @@
 
 注意：SFP+4 与 SFP+5 的互连跳线用于打通两台内部交换机，不可省略，否则 BMC 无法与 SFP+5～SFP+8 口互通。
 
-## 双根外网线：业务与带外管理独立上联
+## 2 双根外网线：业务与带外管理独立上联
 
 ![两根网线接线示意](../../../servers_img/CSD2-N128/start_server_network/dual_external_network_wiring.png)
 
@@ -49,7 +49,7 @@
 
 该方式下，带外管理（MGMT 口）与业务网络（SFP+ 口）各自独立上联，互不影响。
 
-## 三根外网线：双交换机分别独立上联
+## 3 三根外网线：双交换机分别独立上联
 
 ![三根网线接线示意](../../../servers_img/CSD2-N128/start_server_network/triple_external_network_wiring.png)
 

@@ -9,7 +9,7 @@ Before wiring, learn the role of each network port:
 
 Out-of-band management is a remote management channel that does not rely on the operating system or the service network. As long as the server is powered, you can access the BMC through the GEM port to power the server on or off, monitor hardware, upgrade firmware, and so on, even when the server is not booted or the system fails. For details, see the "Accessing the BMC" chapter.
 
-## Internal Network Topology
+## 1 Internal Network Topology
 
 ![Server internal network topology](../../../servers_img/CSA1-N8/network_topo.png)
 
@@ -22,7 +22,7 @@ In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and P
 
 **Either of the following two wiring methods allows the whole server to communicate with the external network; the difference is whether the out-of-band management channel shares the same external cable with the service network.**
 
-## One Cable: Shared Uplink for Service and Out-of-Band Management
+## 2 One Cable: Shared Uplink for Service and Out-of-Band Management
 
 ![Single external network cable wiring](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
 
@@ -38,7 +38,7 @@ In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and P
 
 Note: The GEM port is directly connected to the BMC. After it is interconnected with the GE port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management and the service network share the same external cable on the SFP+1 port.
 
-## Two Cables: Independent Uplinks for Service and Out-of-Band Management
+## 3 Two Cables: Independent Uplinks for Service and Out-of-Band Management
 
 ![Two external network cables wiring](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)
 

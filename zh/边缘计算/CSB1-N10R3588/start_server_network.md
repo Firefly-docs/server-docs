@@ -11,7 +11,7 @@
 
 **以下两种接线方式任选其一，均可以使整台服务器与外网通信；区别在于带外管理通道与业务网络是否共用同一根外网线。**
 
-## 单根外网线：业务与带外管理共用上联
+## 1 单根外网线：业务与带外管理共用上联
 
 ![单独一根外网网线接线示意](../../../servers_img/CSB1-N10/start_server_network/single_external_network_wiring.png)
 
@@ -26,7 +26,7 @@
 
 说明：MGMT 口直连 BMC，将其与 GE2 口互连后，BMC 管理网口即可经由内部交换机与外部网络通信。该方式下，带外管理与业务网络共用 GE1 口的同一根外网线。
 
-## 双根外网线：业务与带外管理独立上联
+## 2 双根外网线：业务与带外管理独立上联
 
 ![两根 RJ45 网线接线示意](../../../servers_img/CSB1-N10/start_server_network/dual_external_network_wiring.png)
 

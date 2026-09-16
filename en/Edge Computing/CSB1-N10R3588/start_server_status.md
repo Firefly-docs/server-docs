@@ -4,7 +4,7 @@ After the server is connected to the power outlet, the BMC is powered on automat
 
 Before using the server, check the indicators on the server to determine its current operating status.
 
-## BMC Status Indicator
+## 1 BMC Status Indicator
 
 ![BMC status indicator](../../../servers_img/CSB1-N10/front_view_led_bmc.png)
 
@@ -14,7 +14,7 @@ The indicator marked with the silkscreen BS on the front panel is the system sta
 - **Steady green**: The BMC has entered the system normally.
 - **Steady red**: The BMC has a fault.
 
-## Sub-board Status Indicators
+## 2 Sub-board Status Indicators
 
 ![Sub-board status indicators](../../../servers_img/CSB1-N10/front_view_led_subboard.png)
 
@@ -24,7 +24,7 @@ The 10 indicators marked with the silkscreen 1 to 10 on the front panel correspo
 - **Steady green**: The sub-board has entered the system normally.
 - **Steady red**: The sub-board has a fault.
 
-## Switch Indicator
+## 3 Switch Indicator
 
 ![Switch indicator](../../../servers_img/CSB1-N10/front_view_led_switch.png)
 
@@ -34,7 +34,7 @@ The indicator marked with the silkscreen ES on the front panel is the system sta
 - **Fast blinking (4 Hz)**: The switch is starting up.
 - **Slow blinking (1 Hz)**: The switch is working normally.
 
-## 10G Port Indicators
+## 4 10G Port Indicators
 
 ![Correspondence between the S1 indicator and the SFP+1 port](../../../servers_img/CSB1-N10/front_view_led_sfp1.png)
 
@@ -45,7 +45,7 @@ The two indicators marked with the silkscreen S1 and S2 on the front panel are t
 - **Steady on**: The corresponding 10G optical port has successfully detected the optical module.
 - **Blinking**: The corresponding 10G optical port is transmitting data.
 
-## UID Button/Indicator
+## 5 UID Button/Indicator
 
 ![UID button/indicator](../../../servers_img/CSB1-N10/front_view_led_uid.png)
 
@@ -61,7 +61,7 @@ The UID indicator is used to help O&M personnel quickly locate a server. When mu
 - **Light the UID indicator remotely**: When remote O&M personnel find a server abnormal, they can turn on its UID indicator on the aBMC web page, so that on-site personnel can locate the abnormal server accordingly.
 - **Press the UID button on site**: The virtual UID LED on the aBMC web page lights up in sync, so remote O&M personnel can confirm the server to be decommissioned and perform data operations before decommissioning.
 
-## Sub-board Power Button/Indicator
+## 6 Sub-board Power Button/Indicator
 
 ![Sub-board power button/indicator](../../../servers_img/CSB1-N10/front_view_led_power.png)
 
