@@ -1,4 +1,4 @@
-# Product Specifications and Components
+# Specifications
 
 ## Server Specifications
 

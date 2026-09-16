@@ -1,4 +1,4 @@
-# BMC Firmware Upgrade
+# BMC Upgrade
 
 This document describes the BMC firmware upgrade procedure for the CSB1-N10. There are two main upgrade methods:
 

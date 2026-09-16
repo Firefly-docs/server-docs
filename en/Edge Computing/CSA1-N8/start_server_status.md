@@ -1,4 +1,4 @@
-# Server Status Identification
+# Status Indicators
 
 After the server is connected to the power outlet, the whole machine is powered on automatically.
 

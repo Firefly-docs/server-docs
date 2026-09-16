@@ -1,4 +1,4 @@
-# Device rootfs Export and Firmware Repackaging
+# rootfs Export
 
 > Version: Official release
 >

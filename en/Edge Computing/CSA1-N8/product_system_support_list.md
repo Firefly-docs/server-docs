@@ -1,4 +1,4 @@
-# Server System Support List
+# Support List
 
 The BMC is equipped with Rockchip RK3588S, and the sub-board supports BM1684X.
 

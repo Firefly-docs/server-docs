@@ -1,4 +1,4 @@
-# BMC Firmware Upgrade
+# BMC Upgrade
 
 This document describes the BMC firmware upgrade procedure for the CSC2-N48SPK3. There are two main upgrade methods:
 

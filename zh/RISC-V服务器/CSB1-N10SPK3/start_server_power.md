@@ -1,4 +1,4 @@
-# 服务器的电源操作
+# 电源操作
 
 <CodeBlockTabs defaultValue="SafeOpwerOn">
     <CodeBlockTabsList>

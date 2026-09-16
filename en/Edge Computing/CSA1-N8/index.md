@@ -1,22 +1,22 @@
-# Product Introduction
+# Overview
 - [Preface](product_introduction.md)
-- [Product Specifications and Components](product_specifications.md)
-- [Server System Support List](product_system_support_list.md)
+- [Specifications](product_specifications.md)
+- [Support List](product_system_support_list.md)
 # Quick Start
 - [Server Installation](start_server_installation.md)
-- [Server Status Identification](start_server_status.md)
+- [Status Indicators](start_server_status.md)
 - [Server Serial Port](start_server_serial.md)
-- [Server Network Wiring](start_server_network.md)
-- [Accessing the Server (BMC)](op_login_bmc.md)
-- [Accessing Sub-nodes [step]](op_login_sub.md)
-# Firmware Development
+- [Network Wiring](start_server_network.md)
+- [Accessing the BMC](op_login_bmc.md)
+- [Sub-nodes [step]](op_login_sub.md)
+# Firmware
 - [Obtaining the SDK](sdk_application.md)
-- [Secondary Customization Firmware](dev_sub_firmware.md)
-- [Device rootfs Export and Firmware Repackaging](recovery_export.md)
-- [BMC Firmware Upgrade](bmc_firmware_upgrade.md)
-# Software Development
+- [Custom Firmware](dev_sub_firmware.md)
+- [rootfs Export](recovery_export.md)
+- [BMC Upgrade](bmc_firmware_upgrade.md)
+# Software
 - [aBMC](aBMC.md)
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
-# Operations and Maintenance
+# Maintenance
 - [Troubleshooting](op_issues_troubleshooting.md)

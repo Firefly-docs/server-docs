@@ -1,4 +1,4 @@
-# BMC Firmware Upgrade
+# BMC Upgrade
 
 This document describes the BMC firmware upgrade procedure for the CSD2-N128. There are two main upgrade methods:
 

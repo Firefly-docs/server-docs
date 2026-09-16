@@ -1,4 +1,4 @@
-# Secondary Customization Firmware
+# Custom Firmware
 
 
 ## 1. Introduction
@@ -20,7 +20,7 @@
 
 The tool is suitable for scenarios where firmware contents need to be customized before upgrading, such as expanding partitions, preloading files, adjusting rootfs configuration, and generating TFTP or SD card upgrade packages. For ordinary firmware upgrades, the upgrade management features described earlier on this page should still be preferred; use `firmware-kits` only when the firmware needs to be modified or repacked first.
 
-If your workflow includes exporting the rootfs on the device and repackaging the firmware on a PC, also refer to [Device rootfs Export and Firmware Repackaging](recovery_export.mdpp).
+If your workflow includes exporting the rootfs on the device and repackaging the firmware on a PC, also refer to [rootfs Export](recovery_export.mdpp).
 
 The following describes how to use `firmware-kits` to unpack, modify, and repack BM1684 and RK3588 firmware. Follow the steps strictly.
 

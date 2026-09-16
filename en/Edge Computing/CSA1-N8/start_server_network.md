@@ -1,13 +1,26 @@
-# Server Network Wiring
+# Network Wiring
 
-This chapter describes the general network wiring methods of the server. The wiring methods below cover most usage scenarios. For special requirements, or if you need the internal network topology of the server, contact sales for technical support.
+This chapter first explains how the network inside the server is connected, and then introduces the common wiring methods. The wiring methods below cover most usage scenarios. For special requirements, contact sales for technical support.
 
 Before wiring, learn the role of each network port:
 
 - **GEM port**: The MGMT port directly connected to the BMC. It is the out-of-band management port of the server.
 - **SFP+1, SFP+2, and GE ports**: The service network ports of the server. They are all connected to the internal switch, which in turn connects to the sub-boards and the BMC.
 
-Out-of-band management is a remote management channel that does not rely on the operating system or the service network. As long as the server is powered, you can access the BMC through the GEM port to power the server on or off, monitor hardware, upgrade firmware, and so on, even when the server is not booted or the system fails. For details, see the "Accessing the Server (BMC)" chapter.
+Out-of-band management is a remote management channel that does not rely on the operating system or the service network. As long as the server is powered, you can access the BMC through the GEM port to power the server on or off, monitor hardware, upgrade firmware, and so on, even when the server is not booted or the system fails. For details, see the "Accessing the BMC" chapter.
+
+## Internal Network Topology
+
+Inside the server, these ports fall into two parts: the service channel and the management channel.
+
+- **Service channel**: The SFP+1, SFP+2, and GE ports on the chassis are connected to the internal switch chip SWITCH1, which connects the PHY1 ports of the sub-boards. The BMC is also connected to SWITCH1 through pci_net.
+- **Management channel**: The BMC is connected to another switch chip, SWITCH0, through usb_net, and SWITCH0 connects the PHY0 ports of the sub-boards. The MGMT port of the BMC is routed directly to the GEM port on the chassis, without going through any switch chip.
+
+In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and PHY0, attached to SWITCH1 and SWITCH0 respectively, and the GEM port is a direct outlet of the BMC. Because out-of-band management and the service network belong to two separate channels, out-of-band management can be uplinked independently in the second wiring method below.
+
+The internal connections are shown below:
+
+![Server internal network topology](../../../servers_img/CSA1-N8/network_topo.png)
 
 **Either of the following two wiring methods allows the whole server to communicate with the external network; the difference is whether the out-of-band management channel shares the same external cable with the service network.**
 

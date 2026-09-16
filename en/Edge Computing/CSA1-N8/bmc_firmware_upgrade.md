@@ -1,4 +1,4 @@
-# BMC Firmware Upgrade
+# BMC Upgrade
 
 This document describes the BMC firmware upgrade procedure for the CSA1-N8. There are two main upgrade methods:
 

@@ -1,4 +1,4 @@
-# Accessing the Server (BMC)
+# Accessing the BMC
 ## Login Notes
 aBMC presets default parameters at the factory for initial commissioning. The following table lists the default login, network, and serial port configuration. For device security, be sure to change the default account password on first login and rotate it regularly.
 
