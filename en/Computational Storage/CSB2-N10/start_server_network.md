@@ -18,9 +18,7 @@ Out-of-band management is a remote management channel that does not rely on the 
     </CodeBlockTabsList>
 
     <CodeBlockTab value="OutOfBand">
-      ## Out-of-Band Management: Dedicated MGMT Uplink [step]
-
-      ![Two external network cables wiring](../../../servers_img/CSB2-N10/start_server_network/dual_external_network_wiring.png)
+      ![Out-of-band management wiring](../../../servers_img/CSB2-N10/start_server_network/out_of_band_management_wiring.png)
 
       **Tools**
 
@@ -35,19 +33,16 @@ Out-of-band management is a remote management channel that does not rely on the 
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
-      ## In-Band Management: Management Traffic over the Service Network [step]
-
-      ![Single external network cable wiring](../../../servers_img/CSB2-N10/start_server_network/single_external_network_wiring.png)
+      ![In-band management wiring](../../../servers_img/CSB2-N10/start_server_network/in_band_management_wiring.png)
 
       **Tools**
 
-      - Network cables × 2 (one for the upstream switch, one for interconnecting the MGMT and GE2 ports)
+      - Network cable × 1 (for the upstream switch)
 
       **Wiring steps**
 
-      1. Connect one network cable to the GE1 port of the server, and the other end to the upstream switch (Upstream Switch).
-      2. Interconnect the MGMT port and the GE2 port with the other network cable.
+      1. Connect the network cable to the GE1 port of the server, and the other end to the upstream switch (Upstream Switch).
 
-      Note: The MGMT port is directly connected to the BMC. After it is interconnected with the GE2 port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management traffic goes over the service network and shares the same external cable on the GE1 port. The upstream switch then connects to endpoints such as a personal computer (Personal PC).
+      Note: In this method, a single network cable on the GE1 port is enough. Management traffic reaches the external network over the service network through the internal switch, sharing the same external cable on the GE1 port as service traffic. The upstream switch then connects to endpoints such as a personal computer (Personal PC).
     </CodeBlockTab>
 </CodeBlockTabs>

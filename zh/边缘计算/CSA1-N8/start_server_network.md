@@ -20,6 +20,8 @@
 
 也就是说，每块子板（SUB01–SUB08）上都有 PHY1、PHY0 两个网口，分别挂在 SWITCH1 与 SWITCH0 上，而 GEM 口是 BMC 的直连出口。正因为带外管理走的是独立通道，下文带外管理方式才能直接给 BMC 单独拉一根外网线。
 
+## 网线连接方式 [step]
+
 **接线方式分为带外管理和带内管理两种，任选其一都可以让整机连上外网；推荐优先使用带外管理。**
 
 <CodeBlockTabs defaultValue="OutOfBand">
@@ -29,9 +31,7 @@
     </CodeBlockTabsList>
 
     <CodeBlockTab value="OutOfBand">
-      ## 带外管理：GEM 口独立上联 [step]
-
-      ![两根 RJ45 网线接线示意](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)
+      ![带外管理接线示意](../../../servers_img/CSA1-N8/start_server_network/out_of_band_management_wiring.png)
 
       **工具准备**
 
@@ -46,20 +46,16 @@
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
-      ## 带内管理：管理流量借道业务网络 [step]
-
-      ![单独一根外网网线接线示意](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
+      ![带内管理接线示意](../../../servers_img/CSA1-N8/start_server_network/in_band_management_wiring.png)
 
       **工具准备**
 
-      - 万兆光口转 RJ45 模块 × 1（[购买链接](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690)）
-      - 网线 × 2（一根用于连接外网，一根用于互连 GEM 口与 GE 口）
+      - 网线 × 1（连接 GE 口与外部网络）
 
       **接线步骤**
 
-      1. 将万兆光口转 RJ45 模块插入服务器的 SFP+1 光口，外网网线接入该模块。
-      2. 使用一根网线将 GEM 口与 GE 口直连。
+      1. 将网线接入服务器的 GE 口，另一端接入外部网络。
 
-      说明：GEM 口直连 BMC，将其与 GE 口互连后，BMC 管理网口即可经由内部交换机与外部网络通信。该方式下，带外管理流量借道业务网络，与业务共用 SFP+1 口的同一根外网线。
+      说明：GE 口与 BMC 均接入内部交换机，GE 口上联外网后，管理流量与业务流量共用同一网络通道，通过业务网络即可访问 BMC，无需再单独连接 GEM 口。
     </CodeBlockTab>
 </CodeBlockTabs>

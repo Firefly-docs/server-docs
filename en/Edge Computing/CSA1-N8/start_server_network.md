@@ -20,6 +20,8 @@ Inside the server, these ports fall into two parts: the service channel and the 
 
 In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and PHY0, attached to SWITCH1 and SWITCH0 respectively, and the GEM port is a direct outlet of the BMC. Because out-of-band management runs on a dedicated channel, it can be uplinked to the external network with its own cable, as described in the out-of-band management method below.
 
+## Wiring Methods [step]
+
 **There are two wiring methods: out-of-band management and in-band management. Either of them gives the whole server access to the external network; out-of-band management is recommended.**
 
 <CodeBlockTabs defaultValue="OutOfBand">
@@ -29,9 +31,7 @@ In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and P
     </CodeBlockTabsList>
 
     <CodeBlockTab value="OutOfBand">
-      ## Out-of-Band Management: Dedicated GEM Uplink [step]
-
-      ![Two external network cables wiring](../../../servers_img/CSA1-N8/start_server_network/dual_external_network_wiring.png)
+      ![Out-of-band management wiring](../../../servers_img/CSA1-N8/start_server_network/out_of_band_management_wiring.png)
 
       **Tools**
 
@@ -46,20 +46,16 @@ In other words, each sub-board (SUB01–SUB08) has two network ports, PHY1 and P
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
-      ## In-Band Management: Management Traffic over the Service Network [step]
-
-      ![Single external network cable wiring](../../../servers_img/CSA1-N8/start_server_network/single_external_network_wiring.png)
+      ![In-band management wiring](../../../servers_img/CSA1-N8/start_server_network/in_band_management_wiring.png)
 
       **Tools**
 
-      - 10G SFP+ to RJ45 module × 1 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
-      - Network cables × 2 (one for the external network, one for interconnecting the GEM and GE ports)
+      - Network cable × 1 (for connecting the GE port to the external network)
 
       **Wiring steps**
 
-      1. Insert the 10G SFP+ to RJ45 module into the SFP+1 port of the server, and connect the external network cable to the module.
-      2. Interconnect the GEM port and the GE port with a network cable.
+      1. Connect the network cable to the GE port of the server, and the other end to the external network.
 
-      Note: The GEM port is directly connected to the BMC. After it is interconnected with the GE port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management traffic goes over the service network and shares the same external cable on the SFP+1 port.
+      Note: Both the GE port and the BMC are connected to the internal switch. With the GE port uplinked to the external network, management traffic and service traffic share the same network channel, so the BMC can be accessed through the service network without connecting the GEM port.
     </CodeBlockTab>
 </CodeBlockTabs>

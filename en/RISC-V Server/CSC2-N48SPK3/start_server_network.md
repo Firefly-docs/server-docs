@@ -18,9 +18,7 @@ Out-of-band management is a remote management channel that does not rely on the 
     </CodeBlockTabsList>
 
     <CodeBlockTab value="OutOfBand">
-      ## Out-of-Band Management: Dedicated MGMT Uplink [step]
-
-      ![Two network cables wiring](../../../servers_img/CSC2-N48/start_server_network/dual_external_network_wiring.png)
+      ![Out-of-band management wiring](../../../servers_img/CSC2-N48/start_server_network/out_of_band_management_wiring.png)
 
       **Tools**
 
@@ -36,20 +34,17 @@ Out-of-band management is a remote management channel that does not rely on the 
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
-      ## In-Band Management: Management Traffic over the Service Network [step]
-
-      ![Single external network cable wiring](../../../servers_img/CSC2-N48/start_server_network/single_external_network_wiring.png)
+      ![In-band management wiring](../../../servers_img/CSC2-N48/start_server_network/in_band_management_wiring.png)
 
       **Tools**
 
-      - 10G SFP+ to RJ45 modules × 2 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
-      - Network cables × 2 (one for interconnecting the MGMT and SFP+1 ports, one for the upstream switch)
+      - 10G SFP+ to RJ45 module × 1 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
+      - Network cable × 1 (for the upstream switch)
 
       **Wiring steps**
 
-      1. Insert one 10G SFP+ to RJ45 module into the SFP+1 port of the server, and interconnect the MGMT port and the module with a network cable.
-      2. Insert the other module into any one of the SFP+2, SFP+3, and SFP+4 ports (SFP+2 as an example), connect one end of the external network cable to the module, and the other end to the upstream switch (Upstream Switch).
+      1. Insert the 10G SFP+ to RJ45 module into the SFP+4 port of the server, connect one end of the network cable to the module, and the other end to the upstream switch (Upstream Switch).
 
-      Note: The MGMT port is directly connected to the BMC. After it is interconnected with the SFP+1 port, the BMC management port can communicate with the external network through the internal switch and the module in the external-network port. The MGMT port is a gigabit copper port, and the module in the SFP+1 port negotiates to 1 Gbps with it. In this method, out-of-band management traffic goes over the service network and shares the same external cable. The upstream switch then connects to endpoints such as a personal computer (Personal PC).
+      Note: The BMC management port of the CSC2 is connected to the internal switch, on the same service network as the SFP+1 to SFP+4 ports. Therefore, a single network cable on the SFP+4 port is enough for the BMC management traffic to reach the external network over the service network, without interconnecting the MGMT port with a service port. The MGMT port can still be used for out-of-band management as described in the previous section. The upstream switch then connects to endpoints such as a personal computer (Personal PC).
     </CodeBlockTab>
 </CodeBlockTabs>

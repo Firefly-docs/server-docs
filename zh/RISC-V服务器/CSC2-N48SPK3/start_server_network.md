@@ -18,9 +18,7 @@
     </CodeBlockTabsList>
 
     <CodeBlockTab value="OutOfBand">
-      ## 带外管理：MGMT 口独立上联 [step]
-
-      ![两根网线接线示意](../../../servers_img/CSC2-N48/start_server_network/dual_external_network_wiring.png)
+      ![带外管理接线示意](../../../servers_img/CSC2-N48/start_server_network/out_of_band_management_wiring.png)
 
       **工具准备**
 
@@ -36,20 +34,17 @@
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
-      ## 带内管理：管理流量借道业务网络 [step]
-
-      ![单独一根外网网线接线示意](../../../servers_img/CSC2-N48/start_server_network/single_external_network_wiring.png)
+      ![带内管理接线示意](../../../servers_img/CSC2-N48/start_server_network/in_band_management_wiring.png)
 
       **工具准备**
 
-      - 万兆光口转 RJ45 模块 × 2（[购买链接](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690)）
-      - 网线 × 2（一根用于互连 MGMT 口与 SFP+1 口，一根用于连接上游交换机）
+      - 万兆光口转 RJ45 模块 × 1（[购买链接](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690)）
+      - 网线 × 1（连接上游交换机）
 
       **接线步骤**
 
-      1. 将一个万兆光口转 RJ45 模块插入服务器的 SFP+1 光口，并使用一根网线将 MGMT 口与该模块直连。
-      2. 将另一个模块插入 SFP+2、SFP+3、SFP+4 中任意一个光口（以 SFP+2 为例），外网网线一端接入该模块，另一端接入上游交换机（Upstream Switch）。
+      1. 将万兆光口转 RJ45 模块插入服务器的 SFP+4 光口，网线一端接入该模块，另一端接入上游交换机（Upstream Switch）。
 
-      说明：MGMT 口直连 BMC，将其与 SFP+1 口互连后，BMC 管理网口即可经由内部交换机、通过外网光口上的模块与外部网络通信。MGMT 口为千兆电口，SFP+1 口的模块与之协商为 1 Gbps。该方式下，带外管理流量借道业务网络，与业务共用同一根外网线；上游交换机再连接个人电脑（Personal PC）等终端。
+      说明：CSC2 的 BMC 管理网口本身接入内部交换机，与 SFP+1～SFP+4 口同处一个业务网络。因此只需一根网线将 SFP+4 口上联，BMC 管理流量即可借道业务网络与外部网络通信，无需再将 MGMT 口与业务网口互连；MGMT 口仍可按上一节的方式用于带外管理。上游交换机再连接个人电脑（Personal PC）等终端。
     </CodeBlockTab>
 </CodeBlockTabs>

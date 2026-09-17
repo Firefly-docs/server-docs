@@ -18,9 +18,7 @@
     </CodeBlockTabsList>
 
     <CodeBlockTab value="OutOfBand">
-      ## 带外管理：MGMT 口独立上联 [step]
-
-      ![两根 RJ45 网线接线示意](../../../servers_img/CSB2-N10/start_server_network/dual_external_network_wiring.png)
+      ![带外管理接线示意](../../../servers_img/CSB2-N10/start_server_network/out_of_band_management_wiring.png)
 
       **工具准备**
 
@@ -35,19 +33,16 @@
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
-      ## 带内管理：管理流量借道业务网络 [step]
-
-      ![单独一根外网网线接线示意](../../../servers_img/CSB2-N10/start_server_network/single_external_network_wiring.png)
+      ![带内管理接线示意](../../../servers_img/CSB2-N10/start_server_network/in_band_management_wiring.png)
 
       **工具准备**
 
-      - 网线 × 2（一根用于连接上游交换机，一根用于互连 MGMT 口与 GE2 口）
+      - 网线 × 1（用于连接上游交换机）
 
       **接线步骤**
 
-      1. 将一根网线接入服务器的 GE1 口，另一端接入上游交换机（Upstream Switch）。
-      2. 使用另一根网线将 MGMT 口与 GE2 口直连。
+      1. 将网线接入服务器的 GE1 口，另一端接入上游交换机（Upstream Switch）。
 
-      说明：MGMT 口直连 BMC，将其与 GE2 口互连后，BMC 管理网口即可经由内部交换机与外部网络通信。该方式下，带外管理流量借道业务网络，与业务共用 GE1 口的同一根外网线；上游交换机再连接个人电脑（Personal PC）等终端。
+      说明：该方式下只需一根网线接入 GE1 口，管理流量即可经由内部交换机借道业务网络与外部网络通信，与业务共用 GE1 口的同一根外网线；上游交换机再连接个人电脑（Personal PC）等终端。
     </CodeBlockTab>
 </CodeBlockTabs>
