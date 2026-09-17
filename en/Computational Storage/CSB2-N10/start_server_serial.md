@@ -4,7 +4,7 @@ The serial port is the most direct and lowest-level way to access the server. Wh
 
 ## Prepare the Serial Cable [step]
 
-The server debug serial port is an RJ45 connector. Use a USB-to-RJ45 serial cable (console cable) with a built-in **FT232 chip**. Recommended cable: [Taobao purchase link](https://detail.tmall.com/item.htm?id=704142723329&skuId=5200647198949).
+The server debug serial port is an RJ45 connector. Use a USB-to-RJ45 serial cable (console cable) with a built-in **FT232 chip**.
 
 <Callout type="info" title="Cable Length">
 A 1 m cable is recommended. The longer the serial cable, the more the signal attenuates; an overly long cable may cause communication problems.

@@ -22,7 +22,7 @@ Out-of-band management is a remote management channel that does not rely on the 
 
       **Tools**
 
-      - 10G SFP+ to RJ45 modules × 2 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
+      - 10G SFP+ to RJ45 modules × 2
       - Network cables × 3 (one for the MGMT port, the other two for the modules in the SFP+4 and SFP+5 ports)
 
       **Wiring steps**
@@ -39,7 +39,7 @@ Out-of-band management is a remote management channel that does not rely on the 
 
       **Tools**
 
-      - 10G SFP+ to RJ45 modules × 2 ([Purchase link](https://item.taobao.com/item.htm?id=615471664761&skuId=4338443096690))
+      - 10G SFP+ to RJ45 modules × 2
       - Network cables × 2 (for the modules in the SFP+2 and SFP+5 ports)
 
       **Wiring steps**

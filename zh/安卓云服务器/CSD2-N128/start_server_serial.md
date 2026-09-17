@@ -4,7 +4,7 @@
 
 ## 准备串口线 [step]
 
-服务器的调试串口为 RJ45 接口，请使用内置 **FT232 芯片**的 USB 转 RJ45 串口线（Console 线）连接，推荐线材：[淘宝购买链接](https://detail.tmall.com/item.htm?id=704142723329&skuId=5200647198949)。
+服务器的调试串口为 RJ45 接口，请使用内置 **FT232 芯片**的 USB 转 RJ45 串口线（Console 线）连接。
 
 <Callout type="info" title="线长选择">
 建议选择 1m 线长。串口线越长信号衰减越明显，线材过长可能导致通信异常。
