@@ -16,7 +16,7 @@
 
 服务器背面也设有一颗 BS 指示灯，状态含义与前面板一致：
 
-![背面 BS 指示灯](../../../servers_img/CSD2-N96/rear_view_led_bmc.png)
+![背面 BS 指示灯](../../../servers_img/CSD2-Nx/rear_view_led_bmc.png)
 
 ## 交换机指示灯 [step]
 
@@ -30,7 +30,7 @@
 
 服务器背面同样设有 ES1、ES2 指示灯，状态含义与前面板一致：
 
-![背面交换机指示灯](../../../servers_img/CSD2-N96/rear_view_led_es.png)
+![背面交换机指示灯](../../../servers_img/CSD2-Nx/rear_view_led_es.png)
 
 ## 风扇指示灯 [step]
 
@@ -49,7 +49,7 @@ UID 按键灯是一盏蓝色按键灯，按键与指示灯一体化设计，按�
 
 服务器背面也设有一盏 UID 指示灯：
 
-![背面 UID 指示灯](../../../servers_img/CSD2-N96/rear_view_led_uid.png)
+![背面 UID 指示灯](../../../servers_img/CSD2-Nx/rear_view_led_uid.png)
 
 UID 灯用于帮助运维人员快速定位服务器。当机房中部署多台同款服务器时：
 

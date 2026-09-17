@@ -29,6 +29,6 @@ CSD2-N128 是一款2U机架式的ARM准系统高密度阵列式服务器。该�
 ### 正面图
 ![Front view](../../../servers_img/CSD2-N128/front_view.png)
 ### 背面图
-![Rear view](../../../servers_img/CSD2-N128/rear_view.png)
+![Rear view](../../../servers_img/CSD2-Nx/rear_view.png)
 ### 透视图
 ![Perspective view](../../../servers_img/CSD2-N128/perspective_view.png)

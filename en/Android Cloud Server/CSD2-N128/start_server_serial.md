@@ -18,7 +18,7 @@ The FT232-based serial cable is driver-free on recent versions of Windows. If th
 
 The debug serial port is on the rear panel, the RJ45 connector labeled **▲CON**. Directly below it, **▼MGMT** is the management network port — do not confuse them:
 
-![Debug serial port location](../../../servers_img/CSD2-N128/server_serial.png)
+![Debug serial port location](../../../servers_img/CSD2-Nx/server_serial.png)
 
 ## Connect the Serial Terminal [step]
 

@@ -18,7 +18,7 @@
 
 调试串口位于整机后面板，为丝印 **▲CON** 的 RJ45 接口，其正下方的 **▼MGMT** 为管理网口，请注意区分：
 
-![调试串口位置](../../../servers_img/CSD2-N96/server_serial.png)
+![调试串口位置](../../../servers_img/CSD2-Nx/server_serial.png)
 
 
 ## 连接串口终端 [step]

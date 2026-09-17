@@ -28,10 +28,10 @@ Out-of-band management is a remote management channel that does not rely on the 
 
       **Wiring steps**
 
-      1. Connect one network cable to the MGMT port of the server (1 in the figure), and the other end to the external network.
-      2. Connect the other network cable to the GE1 port (2 in the figure), and the other end to the external network.
+      1. Connect one network cable to the MGMT port of the server, and the other end to the upstream switch (Upstream Switch).
+      2. Connect the other network cable to the GE1 port, and the other end to the same upstream switch (Upstream Switch).
 
-      In this method, the out-of-band management (MGMT port) and the service network (GE1 port) are connected to the external network independently, without affecting each other.
+      In this method, the out-of-band management (MGMT port) and the service network (GE1 port) are connected to the upstream switch independently, without affecting each other. The upstream switch then connects to endpoints such as a personal computer (Personal PC), so that the server can communicate with the external network.
     </CodeBlockTab>
 
     <CodeBlockTab value="InBand">
@@ -41,13 +41,13 @@ Out-of-band management is a remote management channel that does not rely on the 
 
       **Tools**
 
-      - Network cables × 2 (one for the external network, one for interconnecting the MGMT and GE2 ports)
+      - Network cables × 2 (one for the upstream switch, one for interconnecting the MGMT and GE2 ports)
 
       **Wiring steps**
 
-      1. Connect one network cable to the GE1 port of the server (1 in the figure), and the other end to the external network.
-      2. Interconnect the MGMT port and the GE2 port with the other network cable (2 in the figure).
+      1. Connect one network cable to the GE1 port of the server, and the other end to the upstream switch (Upstream Switch).
+      2. Interconnect the MGMT port and the GE2 port with the other network cable.
 
-      Note: The MGMT port is directly connected to the BMC. After it is interconnected with the GE2 port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management traffic goes over the service network and shares the same external cable on the GE1 port.
+      Note: The MGMT port is directly connected to the BMC. After it is interconnected with the GE2 port, the BMC management port can communicate with the external network through the internal switch. In this method, out-of-band management traffic goes over the service network and shares the same external cable on the GE1 port. The upstream switch then connects to endpoints such as a personal computer (Personal PC).
     </CodeBlockTab>
 </CodeBlockTabs>

@@ -66,7 +66,7 @@ This document describes the BMC firmware upgrade procedure for the CSC2-N48SPK3.
 
 Connect the host to the server's OTG port using a USB-A data cable.
 
-![Connect the OTG port](../../../servers_img/CSC2-N48SPK3/bmc_upgrade/bmc_upgrade_usb_port.png)
+![Connect the OTG port](../../../servers_img/CSC2-N48/bmc_upgrade/bmc_upgrade_usb_port.png)
 
 There are multiple ways to enter Loader mode. Choose any one of the following methods.
 
@@ -92,7 +92,7 @@ There are multiple ways to enter Loader mode. Choose any one of the following me
 
     Power off the device, hold down the **RECOVER** button on the BMC board, and then power on the server. After the host recognizes the Loader device, release the **RECOVER** button and flash the firmware following the normal procedure.
 
-    ![Location of the RECOVER button](../../../servers_img/CSC2-N48SPK3/bmc_upgrade/loader_recovery_button.png)
+    ![Location of the RECOVER button](../../../servers_img/CSC2-N48/bmc_upgrade/loader_recovery_button.png)
   </CodeBlockTab>
 </CodeBlockTabs>
 

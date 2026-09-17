@@ -28,6 +28,6 @@ Key Features
 ### Front View
 ![Front view](../../../servers_img/CSD2-N128/front_view.png)
 ### Rear View
-![Rear view](../../../servers_img/CSD2-N128/rear_view.png)
+![Rear view](../../../servers_img/CSD2-Nx/rear_view.png)
 ### Perspective View
 ![Perspective view](../../../servers_img/CSD2-N128/perspective_view.png)

@@ -66,7 +66,7 @@
 
 使用 USB-A 数据线连接主机和服务器的 OTG 接口。
 
-![连接 OTG 接口](../../../servers_img/CSB1-N10R3588/bmc_upgrade/bmc_upgrade_usb_port.png)
+![连接 OTG 接口](../../../servers_img/CSB1-N10/bmc_upgrade/bmc_upgrade_usb_port.png)
 
 进入 Loader 模式有多种方式，选择以下方式的任意一种即可。
 
@@ -92,7 +92,7 @@
 
     设备断电后，按住 BMC 板上的 **RECOVER** 按键，然后给服务器上电。主机识别到 Loader 设备后，可以松开 **RECOVER** 按键，并按正常流程烧写固件。
 
-    ![RECOVER 按键位置](../../../servers_img/CSB1-N10R3588/bmc_upgrade/loader_recovery_button.png)
+    ![RECOVER 按键位置](../../../servers_img/CSB1-N10/bmc_upgrade/loader_recovery_button.png)
   </CodeBlockTab>
 </CodeBlockTabs>
 

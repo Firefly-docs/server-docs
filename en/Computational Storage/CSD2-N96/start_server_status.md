@@ -16,7 +16,7 @@ The indicator marked with the silkscreen BS on the front panel is the system sta
 
 The rear panel also has a BS indicator with the same states as the one on the front panel:
 
-![Rear BS indicator](../../../servers_img/CSD2-N96/rear_view_led_bmc.png)
+![Rear BS indicator](../../../servers_img/CSD2-Nx/rear_view_led_bmc.png)
 
 ## Switch Indicators [step]
 
@@ -30,7 +30,7 @@ The two indicators marked with the silkscreen ES1 and ES2 on the front panel are
 
 The rear panel also has ES1 and ES2 indicators with the same states as those on the front panel:
 
-![Rear switch indicators](../../../servers_img/CSD2-N96/rear_view_led_es.png)
+![Rear switch indicators](../../../servers_img/CSD2-Nx/rear_view_led_es.png)
 
 ## Fan Indicator [step]
 
@@ -49,7 +49,7 @@ The UID button/indicator is a blue button indicator with the button and the indi
 
 The rear panel also has a UID indicator:
 
-![Rear UID indicator](../../../servers_img/CSD2-N96/rear_view_led_uid.png)
+![Rear UID indicator](../../../servers_img/CSD2-Nx/rear_view_led_uid.png)
 
 The UID indicator is used to help O&M personnel quickly locate a server. When multiple servers of the same model are deployed in the data center:
 
