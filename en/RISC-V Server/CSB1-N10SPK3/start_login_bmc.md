@@ -106,15 +106,16 @@ The console login supports the following methods.
 
     <CodeBlockTab value="Console_login">
       ### Console Serial Login
+      For cable selection and terminal connection, see [Server Serial Port](start_server_serial.md).
       1. Use an RJ45 serial cable to connect the server's Console port to the debug terminal;
-      2. Configure the terminal software parameters:
+      2. Set the terminal software parameters as follows:
           - Baud rate: 115200
           - Data bits: 8
           - Parity: None
           - Stop bits: 1
           - Flow control: None
-      3. After the connection is established, enter the BMC Linux account and password;
-      4. After login is complete, you can execute underlying system query commands.
+      3. After the connection is established, press **Enter** to wake up the terminal and log in to the BMC Linux system; no password is required for serial login;
+      4. After logging in, you can execute underlying system query commands.
         ![BMC OS Release Query Command Line Schematic Diagram](../../../servers_img/common/cmd_os_release_info.png)
     </CodeBlockTab>
 

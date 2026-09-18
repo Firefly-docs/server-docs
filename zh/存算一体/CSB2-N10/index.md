@@ -8,7 +8,7 @@
 - [状态识别](start_server_status.md)
 - [串口使用](start_server_serial.md)
 - [网络接线方式](start_server_network.md)
-- [访问 BMC](op_login_bmc.md)
+- [访问 BMC](start_login_bmc.md)
 - [子节点 [step]](op_login_sub.md)
 # 固件开发
 - [获取 SDK](sdk_application.md)

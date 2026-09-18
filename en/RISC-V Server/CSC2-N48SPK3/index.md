@@ -8,7 +8,7 @@
 - [Status Indicators](start_server_status.md)
 - [Server Serial Port](start_server_serial.md)
 - [Network Wiring](start_server_network.md)
-- [Accessing the BMC](op_login_bmc.md)
+- [Accessing the BMC](start_login_bmc.md)
 - [Sub-nodes [step]](op_login_sub.md)
 # Firmware
 - [Obtaining the SDK](sdk_application.md)

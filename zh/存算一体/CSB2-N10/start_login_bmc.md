@@ -105,16 +105,17 @@ aBMC 出厂预设默认参数便于初次调试，下表为默认登录、网络
     </CodeBlockTab>
 
     <CodeBlockTab value="Console_login">
-      ### Console串口登录
-      1. 使用RJ45串口线连接服务器Console口与调试终端；
-      2. 终端软件参数配置：
+      ### Console 串口登录
+      串口线选型与终端连接方法详见[串口使用](start_server_serial.md)。
+      1. 使用 RJ45 串口线连接服务器 Console 口与调试终端；
+      2. 终端软件参数设置如下：
           - 波特率：115200
           - 数据位：8
           - 奇偶校验：无
           - 停止位：1
           - 流控：无
-      3. 连接建立后输入BMC Linux账号密码；
-      4. 登录完成，可执行底层系统查询命令。
+      3. 连接建立后按 **Enter** 键唤醒终端，即可登录 BMC Linux 系统，串口登录无需密码；
+      4. 登录完成后，即可执行底层系统查询命令。
         ![BMC OS Release Query Command Line Schematic Diagram](../../../servers_img/common/cmd_os_release_info.png)
     </CodeBlockTab>
 
