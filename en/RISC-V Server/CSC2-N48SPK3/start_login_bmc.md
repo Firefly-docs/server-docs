@@ -30,26 +30,35 @@ aBMC presets default parameters at the factory for initial commissioning. The fo
       <td>Default Subnet Mask: 255.255.255.0</td>
     </tr>
     <tr>
-      <td>BMC Console Serial Port</td>
+      <td rowSpan="2">BMC Console Serial Port</td>
       <td>Baud Rate</td>
       <td>115200</td>
     </tr>
     <tr>
-      <td rowSpan="2">BMC Linux User Data</td>
+      <td>Credentials</td>
+      <td>No account or password required; press Enter to enter the BMC Linux system</td>
+    </tr>
+    <tr>
+      <td rowSpan="2">BMC Linux User Data<br/>● Used for SSH login</td>
       <td>Login Username</td>
-      <td>bmc</td>
+      <td>bmc or firefly</td>
     </tr>
     <tr>
       <td>Login Password</td>
-      <td>bmc</td>
+      <td>Same as the username (that is, bmc/bmc or firefly/firefly)</td>
     </tr>
   </tbody>
 </table>
 
 ## Console Login [step]
 
-The console login supports the following methods.
+You can log in through Web, Console, or SSH. Choose the one that fits your site conditions; for routine operations, Web is recommended:
 
+- **Web**: The management network port is reachable from the operation PC; use the browser GUI for system monitoring, firmware upgrades, and other routine operations;
+- **Console**: No network is available, or the system is not booted or produces no display output, and you need to check low-level boot logs;
+- **SSH**: You prefer the command line, or you need batch or scripted operations.
+
+See the tabs below for detailed steps.
 
 <CodeBlockTabs defaultValue="Web_login">
     <CodeBlockTabsList>
@@ -64,20 +73,20 @@ The console login supports the following methods.
 
       #### Environment Preparation
       ##### Server Network Cabling
-      Before logging in, connect the aBMC management network port to the LAN and ensure Layer 3 connectivity between the operation PC and the BMC management IP.
+      Before logging in, connect the aBMC management network port to the LAN, and make sure the operation PC can reach the BMC management IP at Layer 3.
       ![PC-Switch-Server Basic Network Connection Topology Diagram](../../../servers_img/common/pc_switch_server_basic_network_topology.png)
 
-      Two types of management network ports are supported; choose as needed:
+      Two types of management network ports are supported, choose as needed:
       - **Shared network port**: Reuses the server's service NIC, carrying both service traffic and BMC management traffic;
-      - **Dedicated MGMT network port**: An independent hardware network port that carries only BMC management commands, isolating the service network.
+      - **Dedicated MGMT network port**: An independent hardware port that carries only BMC management commands, isolating the service network.
 
       ![MGMT Management Port Wiring Diagram](../../../servers_img/common/mgmt_port_cable_connection.png)
 
-      #### Query the aBMC Management IP
+      ##### Query the aBMC Management IP
       You can run the `ip` / `ifconfig` commands in the server's local Linux system to read the MGMT network port IP address.
       ![MGMT Port IP Query Command Output Screenshot](../../../servers_img/common/mgnt_ip_query_terminal_screenshot.png)
 
-      ### Web Client Environment Requirements
+      #### Web Client Environment Requirements
       The browser compatibility and resolution standards are as follows:
       | Browser | Minimum Version | Resolution Requirement |
       | :--- | :--- | :--- |
@@ -88,13 +97,13 @@ The console login supports the following methods.
 
       #### Web Page Login Steps
       Using the Chrome browser as an example:
-      1. Enter `https://aBMC-management-IP` in the browser address bar; a certificate security warning will pop up when accessing.
+      1. Enter `https://aBMC-management-IP` in the browser address bar; a certificate security warning pops up when you access it.
           ![aBMC Certificate Warning Operation Schematic Diagram](../../../servers_img/common/abmc_chrome_cert_warning_schematic.png)
       2. Click `Advanced` on the page;
-      3. Select `Proceed to (site) (unsafe)` to ignore the certificate warning and jump to the login page.
+      3. Select `Proceed to (site) (unsafe)` to ignore the certificate warning and go to the login page.
           ![aBMC Login Page Schematic Diagram](../../../servers_img/common/abmc_login_page.png)
-      4. Enter the default account and password to log in and enter the system overview dashboard:
-          - Device panel: View the hardware running status of the ARM compute units and execute underlying Shell commands;
+      4. Enter the default account and password from the "Login Notes" table above (`admin`/`admin`) to log in and enter the system overview dashboard:
+          - Device panel: View the hardware running status of the ARM compute units and run underlying Shell commands;
           ![aBMC dashboard View](../../../servers_img/common/abmc_device_list.png)
           - Firmware upgrade page: Batch update the firmware of each compute unit;
           ![Add Firmware Upgrade Popup Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_popup.png)
@@ -114,14 +123,18 @@ The console login supports the following methods.
           - Parity: None
           - Stop bits: 1
           - Flow control: None
-      3. After the connection is established, press **Enter** to wake up the terminal and log in to the BMC Linux system; no password is required for serial login;
-      4. After logging in, you can execute underlying system query commands.
+      3. After the connection is established, press **Enter** to wake up the terminal and log in to the BMC Linux system; no account or password is required for serial login;
+      4. After logging in, you can run underlying system query commands.
         ![BMC OS Release Query Command Line Schematic Diagram](../../../servers_img/common/cmd_os_release_info.png)
     </CodeBlockTab>
 
     <CodeBlockTab value="Ssh_login">
       ### SSH Remote Login
       1. Use the system's built-in `ssh` tool or a terminal application such as MobaXterm locally;
-      2. Enter the aBMC management IP and the default account and password to complete the login.
+      2. Enter the aBMC management IP to log in; the BMC Linux account is `bmc`/`bmc` or `firefly`/`firefly` (the password is the same as the username).
+
+      > The default account depends on the device version: try `bmc`/`bmc` first, and if that fails, use `firefly`/`firefly`.
     </CodeBlockTab>
 </CodeBlockTabs>
+
+> If none of the methods above works, refer to [Troubleshooting](op_issues_troubleshooting.md).

@@ -59,7 +59,7 @@ The maximum storage times are determined based on the powered-off storage time s
 | :--- | :--- | :--- |
 | SFP+1 / SFP+2 | SFP+ ports | - The default rate of the 10G optical ports is 10 Gbps.<br/>- In a gigabit network environment, manually switch to 1 Gbps. |
 | GE | RJ45 | - Gigabit Ethernet port, 1000/100/10 Mbps auto-negotiation. |
-| GE M | RJ45 | - Used as the BMC management network.<br/>- 1000/100/10 Mbps auto-negotiation. |
+| GEM | RJ45 | - Used as the BMC management network.<br/>- 1000/100/10 Mbps auto-negotiation. |
 ### Display Interface
 
 | Marking | Interface Name | Description |
