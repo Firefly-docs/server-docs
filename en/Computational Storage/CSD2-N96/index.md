@@ -9,7 +9,7 @@
 - [Server Serial Port](start_server_serial.md)
 - [Network Wiring](start_server_network.md)
 - [Accessing the BMC](start_login_bmc.md)
-- [Sub-nodes](op_login_sub.md)
+- [Sub-node Login](start_login_sub.md)
 # Firmware
 - [Obtaining the SDK](sdk_application.md)
 - [Custom Firmware](dev_sub_firmware.md)
