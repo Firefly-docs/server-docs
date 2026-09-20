@@ -25,8 +25,8 @@ This document describes the BMC firmware upgrade procedure for the CSA1-N8. Ther
   </CodeBlockTabsList>
 
   <CodeBlockTab value="windows">
-    1. Download [RKDevTool](https://www.t-firefly.com/doc/download/172.html#other_572).
-      ![Download upgrade tool package](../../../servers_img/common/bmc_upgrade/download_page.png)
+    1. Download [RKDevTool](https://community.t-firefly.com/doc/download/273).
+      ![Download upgrade tool package](../../../servers_img/common/bmc_upgrade/download_page_windows.png)
     2. Extract the tool package.
     3. Enter the `DriverAssitant_v5.1.1` directory and run `DriverInstall.exe`.
     4. To ensure the correct driver version, it is recommended to select **Driver Uninstall** first, and then **Driver Install**.
@@ -37,8 +37,8 @@ This document describes the BMC firmware upgrade procedure for the CSA1-N8. Ther
 
   <CodeBlockTab value="linux">
     No device driver installation is required on Linux; however, `upgrade_tool`, `adb`, and `fastboot` must be installed.
-
-    Download [Linux UpgradeTool](https://www.t-firefly.com/doc/download/172.html#other_571), extract it, and install it to a system path:
+      ![Download upgrade tool package](../../../servers_img/common/bmc_upgrade/download_page_linux.png)
+    Download [Linux UpgradeTool](https://community.t-firefly.com/doc/download/273), extract it, and install it to a system path:
 
     ```bash
     unzip Linux_Upgrade_Tool_xxxx.zip
@@ -48,7 +48,7 @@ This document describes the BMC firmware upgrade procedure for the CSA1-N8. Ther
     sudo chmod a+x /usr/local/bin/upgrade_tool
     ```
 
-    Download [Linux adb fastboot](https://en.t-firefly.com/doc/download/149.html), extract it, and install it to a system path:
+    Download [Linux adb fastboot](https://community.t-firefly.com/doc/download/273), extract it, and install it to a system path:
 
     ```bash
     sudo mv adb /usr/local/bin
@@ -91,6 +91,8 @@ There are multiple ways to enter Loader mode. Choose any one of the following me
 
   <CodeBlockTab value="loader_by_button">
     ### Enter Loader via the Recovery Button
+
+    <p style="color: red; font-size: 1.2em; font-weight: bold;">Warning: This mode should only be used when the BMC is bricked. Improper operation may damage the hardware.</p>
 
     Power off the device, hold down the **RECOVER** button on the BMC board, and then power on the server. After the host recognizes the Loader device, release the **RECOVER** button and flash the firmware following the normal procedure.
 

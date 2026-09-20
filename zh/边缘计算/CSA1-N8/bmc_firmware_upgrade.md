@@ -25,8 +25,8 @@
   </CodeBlockTabsList>
 
   <CodeBlockTab value="windows">
-    1. 下载 [RKDevTool](https://www.t-firefly.com/doc/download/172.html#other_572)。
-      ![下载升级工具包](../../../servers_img/common/bmc_upgrade/download_page.png)
+    1. 下载 [RKDevTool](https://community.t-firefly.com/doc/download/273)。
+      ![下载升级工具包](../../../servers_img/common/bmc_upgrade/download_page_windows.png)
     2. 解压工具包。
     3. 进入 `DriverAssitant_v5.1.1` 目录，运行 `DriverInstall.exe`。
     4. 为保证驱动版本正确，建议先选择 **驱动卸载**，再选择 **驱动安装**。
@@ -37,8 +37,8 @@
 
   <CodeBlockTab value="linux">
     Linux 下无须安装设备驱动，需要安装 `upgrade_tool`、`adb` 和 `fastboot`。
-
-    下载 [Linux UpgradeTool](https://www.t-firefly.com/doc/download/172.html#other_571)，解压后安装到系统路径：
+      ![下载升级工具包](../../../servers_img/common/bmc_upgrade/download_page_linux.png)
+    下载 [Linux UpgradeTool](https://community.t-firefly.com/doc/download/273)，解压后安装到系统路径：
 
     ```bash
     unzip Linux_Upgrade_Tool_xxxx.zip
@@ -48,7 +48,7 @@
     sudo chmod a+x /usr/local/bin/upgrade_tool
     ```
 
-    下载 [Linux adb fastboot](https://en.t-firefly.com/doc/download/149.html)，解压后安装到系统路径：
+    下载 [Linux adb fastboot](https://community.t-firefly.com/doc/download/273)，解压后安装到系统路径：
 
     ```bash
     sudo mv adb /usr/local/bin
@@ -91,6 +91,8 @@ Loader 模式 [step]
 
   <CodeBlockTab value="loader_by_button">
     ### 通过 Recovery 按键进入 loader
+
+    <p style="color: red; font-size: 1.2em; font-weight: bold;">警告：这个模式只能在 BMC 变砖的情况下使用，操作不当可能会损坏硬件</p>
 
     设备断电后，按住 BMC 板上的 **RECOVER** 按键，然后给服务器上电。主机识别到 Loader 设备后，可以松开 **RECOVER** 按键，并按正常流程烧写固件。
 
