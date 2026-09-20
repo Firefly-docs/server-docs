@@ -173,7 +173,6 @@
 <CodeBlockTabs defaultValue="SSH">
     <CodeBlockTabsList>
         <CodeBlockTabsTrigger value="SSH">SSH</CodeBlockTabsTrigger>
-        <CodeBlockTabsTrigger value="NetADB">网络 ADB</CodeBlockTabsTrigger>
     </CodeBlockTabsList>
 
     <CodeBlockTab value="SSH">
@@ -254,9 +253,5 @@
       <Callout title="SSH 登录凭据" type="warn">
         SSH 使用的是子节点操作系统账号和密码，不是 aBMC Web 的 `admin/admin`。登录前应确认子节点已启用 SSH 服务、目标账号允许远程登录，并且防火墙放行了对应的 SSH 端口。
       </Callout>
-    </CodeBlockTab>
-
-    <CodeBlockTab value="NetADB">
-    ### 网络 ADB [step]
     </CodeBlockTab>
 </CodeBlockTabs>

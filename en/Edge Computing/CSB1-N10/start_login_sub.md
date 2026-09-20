@@ -173,7 +173,6 @@ Pick the command for your sub-node type:
 <CodeBlockTabs defaultValue="SSH">
     <CodeBlockTabsList>
         <CodeBlockTabsTrigger value="SSH">SSH</CodeBlockTabsTrigger>
-        <CodeBlockTabsTrigger value="NetADB">Network ADB</CodeBlockTabsTrigger>
     </CodeBlockTabsList>
 
     <CodeBlockTab value="SSH">
@@ -254,9 +253,5 @@ Pick the command for your sub-node type:
       <Callout title="SSH Login Credentials" type="warn">
         SSH uses the sub-node operating system account and password, not the aBMC Web `admin/admin`. Before logging in, confirm that the sub-node has the SSH service enabled, the target account is allowed to log in remotely, and the firewall permits the corresponding SSH port.
       </Callout>
-    </CodeBlockTab>
-
-    <CodeBlockTab value="NetADB">
-    ### Network ADB [step]
     </CodeBlockTab>
 </CodeBlockTabs>
