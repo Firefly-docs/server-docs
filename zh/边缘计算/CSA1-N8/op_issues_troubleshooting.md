@@ -93,13 +93,13 @@ A：**不允许。**
 
 * **是什么**
 
-    BMC 的 usb_net 网卡（192.168.150.100/24）与子板的 eth0 网卡（192.168.150.xx/24）用于构建 BMC 与子板之间的 SSH 通信链路。
+    BMC 的 `usb_net` 网卡（192.168.150.100/24）与子板的 `eth0` 网卡（192.168.150.xx/24）用于构建 BMC 与子板之间的 SSH 通信链路。
 
-    该链路是  [aBMC](docs/server/bmc-software/aBMC/preface) 定义的私有通信链路，用于实现 BMC 与子板之间的内部通信。
+    该链路是  [aBMC](/docs/server/bmc-software/aBMC/preface) 定义的私有通信链路，用于实现 BMC 与子板之间的内部通信。
 
 * **为什么不允许修改**
 
-    [aBMC](docs/server/bmc-software/aBMC/preface) 依赖该链路进行 BMC 与子板之间的通信。增加、修改或删除该链路上网卡的 IP 地址，会导致 BMC 与子板无法正常通信，进而导致子板失联，影响到 [aBMC](docs/server/bmc-software/aBMC/preface) 功能的正常使用。
+    [aBMC](/docs/server/bmc-software/aBMC/preface) 依赖该链路进行 BMC 与子板之间的通信。增加、修改或删除该链路上网卡的 IP 地址，会导致 BMC 与子板无法正常通信，进而导致子板失联，影响到 [aBMC](/docs/server/bmc-software/aBMC/preface) 功能的正常使用。
     
     因此，**不允许修改 BMC `usb_net` 网卡与子板 `eth0`  网卡的 IP 地址，也不允许在该链路上的网卡增加额外的IP 地址。**
 
@@ -117,7 +117,8 @@ A：**不允许。**
         ```
 
     2. **子板**
+
         进入 aBMC 固件升级页面，重新执行固件升级操作。
 
-        具体操作请参考：[升级](docs/server/bmc-software/aBMC/upgrade)
-        
+        具体操作请参考：[升级](/docs/server/bmc-software/aBMC/upgrade)
+
