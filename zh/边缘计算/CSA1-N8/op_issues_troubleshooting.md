@@ -82,7 +82,7 @@ A：默认情况下，用户通过 SSH、串口等方式登录 aBMC 后，终端
 
 
 
-## Q：BMC usb_net 网卡与子板 eth0 网卡是否允许修改或增加 IP 地址？
+## Q：BMC usb_net 网卡与子板 eth0 网卡是否允许修改或增加 IP 地址？ [step]
 
 A：**不允许。**
 
