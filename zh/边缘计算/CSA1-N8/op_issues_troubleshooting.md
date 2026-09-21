@@ -65,3 +65,59 @@ A：aBMC 系统默认已内置 Redis 7.2。业务服务如有 Redis 使用需求
 <Callout title="提示" type="info">
     提示：请勿手动独立安装、启动额外 Redis 进程，防止出现端口冲突、资源抢占等系统异常。
 </Callout>
+
+
+## Q：如何修改会话登录后的 LOGO？
+
+A：默认情况下，用户通过 SSH、串口等方式登录 aBMC 后，终端会显示系统默认的 LOGO。
+
+![会话登录logo](../../../servers_img/common/session_login_logo.png)
+
+如需修改会话登录后显示的 LOGO，可编辑以下文件
+
+```bash
+/etc/update-motd.d/00-header
+```
+
+保存文件后，**重新建立会话**即可查看修改后的显示效果。
+
+<Callout title="禁止" type="error">
+  请勿修改 `/etc/profile.d/` 目录下的文件来配置会话登录后的 LOGO。
+</Callout>
+
+
+
+## Q：BMC usb_net 网卡与子板 eth0 网卡是否允许修改或增加 IP 地址？
+
+A：**不允许。**
+
+* **是什么**
+
+    BMC 的 usb_net 网卡（192.168.150.100/24）与子板的 eth0 网卡（192.168.150.xx/24）用于构建 BMC 与子板之间的 SSH 通信链路。
+
+    该链路是  [aBMC](docs/server/bmc-software/aBMC/preface) 定义的私有通信链路，用于实现 BMC 与子板之间的内部通信。
+
+* **为什么不允许修改**
+
+    [aBMC](docs/server/bmc-software/aBMC/preface) 依赖该链路进行 BMC 与子板之间的通信。增加、修改或删除该链路上网卡的 IP 地址，会导致 BMC 与子板无法正常通信，进而导致子板失联，影响到 [aBMC](docs/server/bmc-software/aBMC/preface) 功能的正常使用。
+    
+    因此，**不允许修改 BMC `usb_net` 网卡与子板 `eth0`  网卡的 IP 地址，也不允许在该链路上的网卡增加额外的IP 地址。**
+
+* **修改后无法通信怎么办**
+
+    如果误改了相关网络配置，导致 BMC 与子板无法正常通信，可按照以下方式恢复：
+
+    1. **BMC**
+
+        执行以下命令，清除 Netplan 网络配置并重启 BMC：
+
+        ```bash
+        rm -rf /etc/netplan/*
+        reboot
+        ```
+
+    2. **子板**
+        进入 aBMC 固件升级页面，重新执行固件升级操作。
+
+        具体操作请参考：[升级](docs/server/bmc-software/aBMC/upgrade)
+        
