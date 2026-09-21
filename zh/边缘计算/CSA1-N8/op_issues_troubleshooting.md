@@ -116,5 +116,5 @@ A：**不允许。**
 
         进入 aBMC 固件升级页面，重新执行固件升级操作。
 
-        具体操作请参考：[升级](/docs/server/bmc-software/aBMC/upgrade)
+        具体操作请参考：[固件升级](/docs/server/bmc-software/aBMC/upgrade)
 
