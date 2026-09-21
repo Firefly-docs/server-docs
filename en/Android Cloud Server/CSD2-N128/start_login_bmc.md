@@ -50,7 +50,9 @@ aBMC ships with a set of preset default parameters for initial commissioning. Th
   </tbody>
 </table>
 
-> Security tip: Web and SSH share the same default account and password. Change them immediately on first login and rotate them regularly to reduce the risk of device intrusion.
+<Callout title="Security Tip" type="warn">
+Web and SSH share the same default username and password. Change them immediately after your first login and rotate passwords regularly to reduce the risk of device intrusion.
+</Callout>
 
 ## Login Methods [step]
 
@@ -104,6 +106,9 @@ The steps for each login method are described below.
       #### Web Page Login Steps
       Using the Chrome browser as an example:
       1. Enter `https://<aBMC management IP>` in the browser address bar; the first visit shows a certificate security warning.
+          <Callout title="Login Reminder" type="info">
+          The aBMC Web management interface uses **HTTPS** by default. Using the wrong protocol will cause Web login failure.
+          </Callout>
           ![aBMC Certificate Warning Operation Schematic Diagram](../../../servers_img/common/abmc_chrome_cert_warning_schematic.png)
       2. Click `Advanced` on the page.
       3. Select `Proceed to (site) (unsafe)` to ignore the warning and go to the login page.
@@ -146,5 +151,9 @@ The steps for each login method are described below.
     </CodeBlockTab>
 </CodeBlockTabs>
 
-> For complete feature descriptions, refer to the [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface).
-> If none of the methods above works, refer to [Troubleshooting](op_issues_troubleshooting.md).
+## FAQ [step]
+### Q: Where can I get the user manual? [step]
+For full feature descriptions, refer to [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface).
+
+### Q: What should I do if I cannot log in to the aBMC Web UI? [step]
+If the access fails, refer to [Troubleshooting](/docs/server/bmc-software/aBMC/op_issues_troubleshooting).

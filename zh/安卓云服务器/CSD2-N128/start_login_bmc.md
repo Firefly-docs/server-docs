@@ -50,7 +50,9 @@ aBMC 出厂预置了一套默认参数，便于初次调试，下表汇总默认
   </tbody>
 </table>
 
-> 安全提示：Web 与 SSH 使用相同的默认账号密码，首次登录请立即修改，并定期轮换更新，降低设备入侵风险。
+<Callout title="安全提示" type="warn">
+Web 与 SSH 使用相同的默认账号密码，首次登录请立即修改，并定期轮换更新，降低设备入侵风险。
+</Callout>
 
 ## 登录方式 [step]
 
@@ -104,6 +106,9 @@ Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中�
       #### Web 页面登录步骤
       以 Chrome 浏览器为例：
       1. 在浏览器地址栏输入 `https://<aBMC 管理 IP>`，首次访问会弹出证书安全告警。
+        <Callout title="登录提醒" type="info">
+        aBMC Web 管理默认使用 **HTTPS** 协议访问，若协议选择错误，会导致网页登录失败。
+        </Callout>
           ![aBMC Certificate Warning Operation Schematic Diagram](../../../servers_img/common/abmc_chrome_cert_warning_schematic.png)
       2. 点击页面上的 `Advanced（高级）`。
       3. 选择 `Proceed to (site) (unsafe)（继续访问，不安全）`，忽略告警并跳转到登录页。
@@ -146,5 +151,9 @@ Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中�
     </CodeBlockTab>
 </CodeBlockTabs>
 
-> 完整功能说明参考 [aBMC Web 使用手册](/docs/server/bmc-software/aBMC/preface)。
-> 以上方式均无法登录时，请参考[异常排查](op_issues_troubleshooting.md)。
+## FAQ [step]
+### Q：如何获取用户手册？[step]
+完整功能说明参考 [《aBMC Web 使用手册》](/docs/server/bmc-software/aBMC/preface)。
+
+### Q：aBMC Web无法登录该怎么处理？[step]
+访问失败时，请参考 [异常排查](/docs/server/bmc-software/aBMC/op_issues_troubleshooting)。
