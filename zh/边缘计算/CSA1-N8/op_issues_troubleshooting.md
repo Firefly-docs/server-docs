@@ -70,9 +70,7 @@ A：aBMC 系统默认已内置 Redis 7.2。业务服务如有 Redis 使用需求
 ## Q：如何修改会话登录后的 LOGO？
 
 A：默认情况下，用户通过 SSH、串口等方式登录 aBMC 后，终端会显示系统默认的 LOGO。
-
 ![会话登录logo](../../../servers_img/common/session_login_logo.png)
-
 如需修改会话登录后显示的 LOGO，可编辑以下文件
 
 ```bash
