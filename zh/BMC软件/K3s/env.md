@@ -236,9 +236,11 @@ rm -f "$conf" "$list"
 
 ## 操作系统初始化
 
-### 安装 Docker
+### Docker
 
 K3s 默认使用自带的 containerd 作为容器运行时。当前环境改用 Docker 作为容器运行时，并通过 `docker: true` 启用，因此**所有 K3s 节点都必须安装 Docker**。
+
+#### 安装
 
 具体安装步骤请参阅 [Docker 安装](https://community.t-firefly.com/docs/software/other/Docker/docker-install)。
 
@@ -256,7 +258,7 @@ Docker version 20.10.24+dfsg1, build 297e128
 active
 ```
 
-### 配置 Docker
+#### 迁移数据目录
 
 Firefly 设备默认启用 overlayroot。此时，`/` 由只读的根文件系统（`/root-ro`）和位于 `/userdata/rootfs_overlay` 的可写层组成，设备上只有 `/userdata` 是独立的 ext4 分区。
 
@@ -270,13 +272,11 @@ Docker 默认将数据存储在 `/var/lib/docker`，该目录位于 overlayfs �
 
 因此，需要将 Docker 的数据目录迁移到独立的 `/userdata` 分区，例如 `/userdata/docker`。
 
-#### 创建 Docker 数据目录
+创建数据目录：
 
 ```bash
 sudo mkdir -p /userdata/docker
 ```
-
-#### 配置 Docker
 
 编辑 `/etc/docker/daemon.json`：
 
@@ -318,7 +318,7 @@ EOF
 
 如果当前网络环境不需要 Docker Hub 镜像加速，也可以删除 `registry-mirrors` 配置。
 
-#### 重启 Docker 并验证配置
+#### 重启并验证
 
 配置完成后，重启 Docker：
 
@@ -336,23 +336,22 @@ Docker Root Dir: /userdata/docker
 如果 `Docker Root Dir` 显示为 `/userdata/docker`，说明 Docker 数据目录配置已经生效。
 
 
-### 配置系统 containerd
+### 系统 containerd
 
 系统 containerd 默认的数据目录是 `/var/lib/containerd`，同样位于 overlayfs 上；containerd 的 overlay 快照器与 Docker 的 overlay2 驱动受同样的限制，无法建立在 overlayfs 之上，因此也需要把数据目录放到 ext4 分区 `/userdata`。
 
-本方案的配置主要用于：
+K3s 自带 containerd（内嵌在 k3s 进程中运行，不依赖系统 containerd），系统 containerd 只用于支撑 Docker，因此还需要禁用它的 CRI 插件，避免两者同时提供 CRI 而冲突。
 
-* 禁止系统 containerd 的 CRI 插件。
-* 将 containerd 数据目录改到 `/userdata/containerd`，与 Docker 数据放在同一个数据分区。
+#### 修改配置
 
-#### 创建目录
+创建目录：
 
 ```bash
 sudo mkdir -p /etc/containerd
 sudo mkdir -p /userdata/containerd
 ```
 
-#### 修改配置
+编辑 `/etc/containerd/config.toml`：
 
 ```bash
 sudo tee /etc/containerd/config.toml >/dev/null <<'EOF'
@@ -362,16 +361,27 @@ root = "/userdata/containerd"
 EOF
 ```
 
-重启 containerd：
+主要配置项说明：
+
+| 配置项                | 说明                                                        |
+| ------------------ | --------------------------------------------------------- |
+| `disabled_plugins` | 禁用系统 containerd 的 CRI 插件，避免与 K3s 自带的 containerd 同时提供 CRI 而冲突 |
+| `root`             | 将 containerd 数据目录指向 ext4 分区 `/userdata/containerd`，避免建立在 overlayfs 之上 |
+
+#### 重启并验证
+
+配置完成后，重启 containerd：
 
 ```bash
 sudo systemctl restart containerd
+sudo systemctl is-active containerd
 ```
 
-配置说明：
+在输出中确认：
 
-* `disabled_plugins = ["cri"]`：K3s 自带 containerd（内嵌在 k3s 进程中运行，不依赖系统 containerd），系统 containerd 只用于支撑 Docker。关闭系统 containerd 的 CRI 插件，避免它与 K3s 自带的 containerd 同时提供 CRI 而冲突。
-* `root = "/userdata/containerd"`：指定 containerd 数据目录，指向 ext4 分区 `/userdata/containerd`，避免建立在 overlayfs 之上。
+```text
+active
+```
 
 
 ## 特殊情况
