@@ -3,19 +3,15 @@
 
 # 安装与部署
 - [系统环境](env.md)
-- [Server 部署](server.md)
-- [Agent 部署](agent.md)
-- [验证部署](verification.md)
+- [K3s部署](install.md)
+- [集群管理](cluster.md)
+- [升级与卸载](upgrade.md)
+
+# 卷与存储
+
+- [longhorn](longhorn.md)
 
 # 基本使用
 - [kubectl 使用](kubectl.md)
 
-
-# 可选解决方案
-- [Longhorn](longhorn.md)
-
 # 部署案例
-
-# 其他
-- [Helm](helm.md)
-- [Rancher](rancher.md)
