@@ -6,9 +6,9 @@
 
 如果节点比较多，可以先完成一台节点的配置并确认没有问题，再按相同方式处理其他节点。
 
-## 服务器规划
+## 集群规划 [step]
 
-### Server 硬件要求
+### Server 硬件要求 [step]
 
 K3s Server 负责运行 Kubernetes API、调度器以及其他集群管理组件。随着节点数量和 Pod 数量增加，Server 的 CPU 和内存占用也会随之增加。
 
@@ -24,7 +24,7 @@ K3s Server 负责运行 Kubernetes API、调度器以及其他集群管理组件
 
 > 以上配置主要用于确定 Server 的基础资源。实际部署时，还需要结合 Pod 数量、业务负载、监控、存储等组件的资源占用进行调整。
 
-### 节点配置
+### 节点配置 [step]
 
 当前环境使用 1 个 K3s Server 和 2 个 K3s Agent，具体配置如下：
 
@@ -41,11 +41,11 @@ K3s Server 负责运行 Kubernetes API、调度器以及其他集群管理组件
 * 每个节点都需要配置唯一的节点名称，可以在 K3s 配置文件中通过 `node-name` 指定。
 * 根据实际网络环境修改节点 IP，并确保各节点之间可以正常通信。
 
-## 部署前检查
+## 部署前检查 [step]
 
 正式安装 K3s 前，先逐台检查节点环境。
 
-### 检查节点网络
+### 检查节点网络 [step]
 
 所有节点都必须使用静态 IP，并确保节点之间可以互相访问。K3s 使用节点 IP 作为集群内部地址，如果 IP 发生变化，节点可能会异常或无法加入集群。
 
@@ -80,7 +80,7 @@ ping -c 4 172.16.100.178
 
 如果节点之间无法通信，或者地址不是静态配置，请先参考[网络设置](https://community.t-firefly.com/docs/server/bmc-software/aBMC/subNetwork)完成配置。
 
-### 检查防火墙端口
+### 检查防火墙端口 [step]
 
 确保防火墙以及其他安全策略不会拦截 K3s 所需的流量，同时确认这些端口没有被其他程序占用，也没有与其冲突的端口映射规则。
 
@@ -94,7 +94,7 @@ K3s 默认使用以下端口：
 | 80 / 443    | TCP | Traefik Ingress（启用 Traefik/ServiceLB 时） |
 | 30000-32767 | TCP | NodePort 服务端口                           |
 
-### 检查系统时间
+### 检查系统时间 [step]
 
 所有节点的系统时间应保持同步。
 
@@ -108,7 +108,7 @@ date
 
 如果时间没有同步，请先参考[时间管理](https://community.t-firefly.com/docs/server/bmc-software/aBMC/timeManager)完成配置。
 
-### 检查内核配置
+### 检查内核配置 [step]
 
 完成网络、端口和时间配置后，还需要确认当前 Linux 内核是否满足 K3s 的运行要求。
 
@@ -234,13 +234,13 @@ fi
 rm -f "$conf" "$list"
 ```
 
-## 操作系统初始化
+## 容器运行时 [step]
 
-### Docker
+### Docker [step]
 
 K3s 默认使用自带的 containerd 作为容器运行时。当前环境改用 Docker 作为容器运行时，并通过 `docker: true` 启用，因此**所有 K3s 节点都必须安装 Docker**。
 
-#### 安装
+**安装**
 
 具体安装步骤请参阅 [Docker 安装](https://community.t-firefly.com/docs/software/other/Docker/docker-install)。
 
@@ -258,7 +258,7 @@ Docker version 20.10.24+dfsg1, build 297e128
 active
 ```
 
-#### 迁移数据目录
+**迁移数据目录**
 
 Firefly 设备默认启用 overlayroot。此时，`/` 由只读的根文件系统（`/root-ro`）和位于 `/userdata/rootfs_overlay` 的可写层组成，设备上只有 `/userdata` 是独立的 ext4 分区。
 
@@ -318,7 +318,7 @@ EOF
 
 如果当前网络环境不需要 Docker Hub 镜像加速，也可以删除 `registry-mirrors` 配置。
 
-#### 重启并验证
+**重启并验证**
 
 配置完成后，重启 Docker：
 
@@ -336,13 +336,13 @@ Docker Root Dir: /userdata/docker
 如果 `Docker Root Dir` 显示为 `/userdata/docker`，说明 Docker 数据目录配置已经生效。
 
 
-### 系统 containerd
+### Containerd [step]
 
 系统 containerd 默认的数据目录是 `/var/lib/containerd`，同样位于 overlayfs 上；containerd 的 overlay 快照器与 Docker 的 overlay2 驱动受同样的限制，无法建立在 overlayfs 之上，因此也需要把数据目录放到 ext4 分区 `/userdata`。
 
 K3s 自带 containerd（内嵌在 k3s 进程中运行，不依赖系统 containerd），系统 containerd 只用于支撑 Docker，因此还需要禁用它的 CRI 插件，避免两者同时提供 CRI 而冲突。
 
-#### 修改配置
+**修改配置**
 
 创建目录：
 
@@ -368,7 +368,7 @@ EOF
 | `disabled_plugins` | 禁用系统 containerd 的 CRI 插件，避免与 K3s 自带的 containerd 同时提供 CRI 而冲突 |
 | `root`             | 将 containerd 数据目录指向 ext4 分区 `/userdata/containerd`，避免建立在 overlayfs 之上 |
 
-#### 重启并验证
+**重启并验证**
 
 配置完成后，重启 containerd：
 
@@ -384,9 +384,9 @@ active
 ```
 
 
-## 特殊情况
+## 特殊情况 [step]
 
-### 限制 LightDM 实时调度权限
+### 限制 LightDM 实时调度权限 [step]
 
 如果设备同时运行图形桌面环境，LightDM 可能使用较高的实时调度权限。
 
