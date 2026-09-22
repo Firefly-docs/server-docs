@@ -6,7 +6,7 @@
 
 如果节点比较多，可以先完成一台节点的配置并确认没有问题，再按相同方式处理其他节点。
 
-## 集群规划 [step]
+## 集群规划
 
 ### Server 硬件要求 [step]
 
@@ -110,131 +110,48 @@ date
 
 ### 检查内核配置 [step]
 
-完成网络、端口和时间配置后，还需要确认当前 Linux 内核是否满足 K3s 的运行要求。
+完成网络、端口和时间配置后，还需要确认当前 Linux 内核是否满足 K3s 的运行要求。K3s 运行容器依赖 namespace、cgroup、网络和文件系统等内核能力，这些能力由内核配置决定，缺少时无法通过安装软件包补充，因此需要在安装 K3s 前检查，必要时重新编译内核。
 
-K3s 运行容器需要依赖 namespace、cgroup、网络和文件系统等内核能力，这些能力由内核配置决定。若缺少必要配置，无法通过安装软件包补充，因此需要在安装 K3s 前完成检查，必要时调整或重新编译内核。
-
-执行以下脚本，检查当前运行内核的相关配置：
+K3s 自带 `check-config` 子命令，可以自动检查内核配置、cgroup、iptables 等条件，无需手工逐项比对。下载对应架构的 k3s 二进制（本环境为 `arm64`）并执行检查：
 
 ```bash
-#!/bin/bash
-# 检查运行内核是否包含 K3s 所需的配置项
-# 输出：检查结果，并列出被判定为未启用的配置项
-
-conf=$(mktemp)
-list=$(mktemp)
-
-if [ -f /proc/config.gz ]; then
-    zcat /proc/config.gz | grep -E "^CONFIG_[A-Z0-9_]+=" > "$conf"
-elif [ -f "/boot/config-$(uname -r)" ]; then
-    grep -E "^CONFIG_[A-Z0-9_]+=" "/boot/config-$(uname -r)" > "$conf"
-else
-    echo "未找到内核配置文件：/proc/config.gz 或 /boot/config-$(uname -r)"
-    exit 1
-fi
-
-cat > "$list" <<'EOF'
-CONFIG_NAMESPACES
-CONFIG_NET_NS
-CONFIG_PID_NS
-CONFIG_IPC_NS
-CONFIG_UTS_NS
-CONFIG_USER_NS
-CONFIG_CGROUPS
-CONFIG_MEMCG
-CONFIG_CGROUP_SCHED
-CONFIG_FAIR_GROUP_SCHED
-CONFIG_CFS_BANDWIDTH
-CONFIG_CGROUP_PIDS
-CONFIG_CGROUP_DEVICE
-CONFIG_CGROUP_FREEZER
-CONFIG_CPUSETS
-CONFIG_BLK_CGROUP
-CONFIG_CGROUP_HUGETLB
-CONFIG_CGROUP_BPF
-CONFIG_BPF_SYSCALL
-CONFIG_BLK_DEV_THROTTLING
-CONFIG_PAGE_COUNTER
-CONFIG_VETH
-CONFIG_BRIDGE
-CONFIG_BRIDGE_NETFILTER
-CONFIG_VXLAN
-CONFIG_BLK_DEV_LOOP
-CONFIG_OVERLAY_FS
-CONFIG_NETFILTER
-CONFIG_NF_CONNTRACK
-CONFIG_NETFILTER_XTABLES
-CONFIG_NETFILTER_XT_MATCH_CONNTRACK
-CONFIG_NETFILTER_XT_MATCH_COMMENT
-CONFIG_NETFILTER_XT_MATCH_ADDRTYPE
-CONFIG_NETFILTER_XT_MARK
-CONFIG_NETFILTER_XT_NAT
-CONFIG_NETFILTER_XT_TARGET_MASQUERADE
-CONFIG_IP_NF_IPTABLES
-CONFIG_IP_NF_FILTER
-CONFIG_IP_NF_NAT
-CONFIG_IP6_NF_IPTABLES
-CONFIG_IP6_NF_NAT
-CONFIG_NF_TABLES
-CONFIG_NF_TABLES_INET
-CONFIG_NFT_NAT
-CONFIG_NFT_CT
-CONFIG_NFT_REJECT
-CONFIG_NFT_COMPAT
-CONFIG_NETFILTER_XT_SET
-CONFIG_IP_SET
-CONFIG_IP_SET_HASH_IP
-CONFIG_IP_SET_HASH_NET
-CONFIG_IP_SET_HASH_IPPORT
-CONFIG_IP_SET_HASH_NETPORT
-CONFIG_IP_VS
-CONFIG_IP_VS_RR
-CONFIG_IP_VS_NFCT
-CONFIG_EXT4_FS
-CONFIG_EXT4_FS_POSIX_ACL
-CONFIG_EXT4_FS_SECURITY
-CONFIG_XFS_FS
-CONFIG_TMPFS
-CONFIG_TMPFS_POSIX_ACL
-CONFIG_SECCOMP
-CONFIG_SECCOMP_FILTER
-CONFIG_POSIX_MQUEUE
-CONFIG_INOTIFY_USER
-CONFIG_NFS_FS
-CONFIG_NFS_V3
-CONFIG_NFS_V4
-CONFIG_NFS_V4_1
-CONFIG_NFS_V4_2
-CONFIG_NFSD
-CONFIG_NFSD_V4
-CONFIG_SCSI
-CONFIG_BLK_DEV_SD
-CONFIG_ISCSI_TCP
-CONFIG_DM_CRYPT
-CONFIG_BLK_DEV_DM
-EOF
-
-total=0
-missing=0
-
-while read -r option; do
-    total=$((total + 1))
-    if ! grep -qE "^${option}=[ym]" "$conf"; then
-        echo "${option} 未启用"
-        missing=$((missing + 1))
-    fi
-done < "$list"
-
-if [ "$missing" -eq 0 ]; then
-    echo "检查通过：${total} 项配置均已启用"
-else
-    echo "检查完成：${missing} 项配置未启用，需要重新编译内核后烧写"
-fi
-
-rm -f "$conf" "$list"
+curl -sfLO https://github.com/k3s-io/k3s/releases/download/v1.36.4%2Bk3s1/k3s-arm64
+chmod +x k3s-arm64
+sudo ./k3s-arm64 check-config
 ```
 
-## 容器运行时 [step]
+节点上已经安装 K3s 时，也可以直接使用已安装的版本：
+
+```bash
+sudo k3s check-config
+```
+
+输出会逐项列出检查结果，最后一行是总体结论：
+
+```text
+System:
+- /usr/sbin iptables v1.8.9 (legacy): ok
+- swap: disabled
+- routes: default CIDRs 10.42.0.0/16 or 10.43.0.0/16 already routed
+
+info: reading kernel config from /proc/config.gz ...
+
+Generally Necessary:
+- cgroup hierarchy: cgroups V2 mounted, cpu|cpuset|memory controllers status: good
+- CONFIG_NAMESPACES: enabled
+- CONFIG_NET_NS: enabled
+...
+
+Storage Drivers:
+- "overlay":
+  - CONFIG_OVERLAY_FS: enabled
+
+STATUS: pass
+```
+
+`STATUS: pass` 表示内核满足 K3s 的运行要求。如果为 `fail`，需要按输出中标记为 `missing` 的项调整内核配置，重新编译后再烧写；`Optional Features` 下缺失的项属于可选能力（例如加密网络相关内容），不影响总体结论。
+
+## 容器配置
 
 ### Docker [step]
 
@@ -383,8 +300,7 @@ sudo systemctl is-active containerd
 active
 ```
 
-
-## 特殊情况 [step]
+## 特殊情况
 
 ### 限制 LightDM 实时调度权限 [step]
 
