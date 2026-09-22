@@ -45,7 +45,7 @@ K3s Server 负责运行 Kubernetes API、调度器以及其他集群管理组件
 
 正式安装 K3s 前，先逐台检查节点环境。
 
-### 1. 检查节点网络
+### 检查节点网络
 
 所有节点都必须使用静态 IP，并确保节点之间可以互相访问。K3s 使用节点 IP 作为集群内部地址，如果 IP 发生变化，节点可能会异常或无法加入集群。
 
@@ -80,7 +80,7 @@ ping -c 4 172.16.100.178
 
 如果节点之间无法通信，或者地址不是静态配置，请先参考[网络设置](https://community.t-firefly.com/docs/server/bmc-software/aBMC/subNetwork)完成配置。
 
-### 2. 检查防火墙端口
+### 检查防火墙端口
 
 确保防火墙以及其他安全策略不会拦截 K3s 所需的流量，同时确认这些端口没有被其他程序占用，也没有与其冲突的端口映射规则。
 
@@ -94,7 +94,7 @@ K3s 默认使用以下端口：
 | 80 / 443    | TCP | Traefik Ingress（启用 Traefik/ServiceLB 时） |
 | 30000-32767 | TCP | NodePort 服务端口                           |
 
-### 3. 检查系统时间
+### 检查系统时间
 
 所有节点的系统时间应保持同步。
 
@@ -108,7 +108,7 @@ date
 
 如果时间没有同步，请先参考[时间管理](https://community.t-firefly.com/docs/server/bmc-software/aBMC/timeManager)完成配置。
 
-### 4. 检查内核配置
+### 检查内核配置
 
 完成网络、端口和时间配置后，还需要确认当前 Linux 内核是否满足 K3s 的运行要求。
 
@@ -270,13 +270,13 @@ Docker 默认将数据存储在 `/var/lib/docker`，该目录位于 overlayfs �
 
 因此，需要将 Docker 的数据目录迁移到独立的 `/userdata` 分区，例如 `/userdata/docker`。
 
-#### 1. 创建 Docker 数据目录
+#### 创建 Docker 数据目录
 
 ```bash
 sudo mkdir -p /userdata/docker
 ```
 
-#### 2. 配置 Docker
+#### 配置 Docker
 
 编辑 `/etc/docker/daemon.json`：
 
@@ -318,7 +318,7 @@ EOF
 
 如果当前网络环境不需要 Docker Hub 镜像加速，也可以删除 `registry-mirrors` 配置。
 
-#### 3. 重启 Docker 并验证配置
+#### 重启 Docker 并验证配置
 
 配置完成后，重启 Docker：
 
@@ -345,14 +345,14 @@ Docker Root Dir: /userdata/docker
 * 禁止系统 containerd 的 CRI 插件。
 * 将 containerd 数据目录改到 `/userdata/containerd`，与 Docker 数据放在同一个数据分区。
 
-#### 1. 创建目录
+#### 创建目录
 
 ```bash
 sudo mkdir -p /etc/containerd
 sudo mkdir -p /userdata/containerd
 ```
 
-#### 2. 修改配置
+#### 修改配置
 
 ```bash
 sudo tee /etc/containerd/config.toml >/dev/null <<'EOF'
