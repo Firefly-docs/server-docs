@@ -2,7 +2,7 @@
 - [前言](preface.md)
 
 # 安装与部署
-- [系统需求](systemneed.md)
+- [系统环境](env.md)
 - [Server 部署](server.md)
 - [Agent 部署](agent.md)
 - [验证部署](verification.md)
@@ -13,10 +13,8 @@
 
 # 可选解决方案
 - [Longhorn](longhorn.md)
-- [KubeMacPool](kubeMacPool.md)
 
 # 部署案例
-
 
 # 其他
 - [Helm](helm.md)
