@@ -213,7 +213,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 
 上面是「按场景用」，下面是「完整手册」。日常其实只需记住三条命令（`fflog general` / `fflog manager` / `fflog system`）和几个常用参数。
 
-### 三类日志 [step]
+### 三类日志
 
 | 日志类型 | 简单理解 | 命令 | 别名 |
 | --- | --- | --- | --- |
@@ -223,7 +223,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 
 日志级别由低到高：`debug`（调试） < `info`（正常） < `warn`（警告） < `error`（错误）。不带参数时默认显示最新 10 条，并按时间从早到晚排列。
 
-### 常用选项 [step]
+### 常用选项
 
 | 选项 | 说明 |
 | --- | --- |
@@ -247,7 +247,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 
 `--all` 与 `-n/--limit` 互斥，`--level` 与 `--min-level` 互斥，`--fields` 与 `--exclude-fields` 互斥；`--follow` 不能与 `-n`、`--all`、`--reverse`、`--since`、`--until`、`--today` 同时使用。
 
-### 专用筛选项 [step]
+### 专用筛选项
 
 | 日志类型 | 专用选项（多个用逗号分隔） |
 | --- | --- |
@@ -255,7 +255,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 | manager | `--category`、`--user`、`--status`（状态码） |
 | system | `--core`（子板名） |
 
-### 时间筛选 [step]
+### 时间筛选
 
 `--since` 支持两类写法：
 
@@ -269,7 +269,7 @@ fflog general --since 30m
 fflog manager --since "2026-09-23 08:00" --until "2026-09-23 12:00" --all
 ```
 
-### 按字段筛选（--where）[step]
+### 按字段筛选（--where）
 
 格式为 `字段 操作符 值`，字段与操作符之间可以有空格。字符串字段支持 `=`、`!=`、`~`（包含）、`!~`（不包含）；数字字段支持 `=`、`!=`、`>`、`>=`、`<`、`<=`。多条 `--where` 始终按 AND 组合。
 
@@ -287,7 +287,7 @@ fflog manager --where "latency_ms>=30"
 
 > 字段值本身包含逗号时，请改用 `--where` 而非列表选项，例如 `--where "logger=machine,network"`。
 
-### 输出格式与字段 [step]
+### 输出格式与字段
 
 - `compact`（默认）：每条日志一行，字段之间用空格分开，适合直接看；空值显示为 `-`。
 - `jsonl`：一行一条 JSON，适合导出和程序分析。导出给技术支持时建议用它。
@@ -321,7 +321,7 @@ time | status_code | msg
 fflog general --fields time,level,msg
 ```
 
-### 常见问题 [step]
+### 常见问题
 
 **Q：查询结果什么都没有？**
 默认只显示最新 10 条，同时受筛选条件限制。可以先去掉筛选，或加上 `--all`，或把 `--since` 的时间范围放宽再试。

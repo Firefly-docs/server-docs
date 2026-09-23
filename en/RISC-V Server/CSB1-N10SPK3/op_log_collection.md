@@ -213,7 +213,7 @@ You can also retrieve the files through aBMC [File Sharing](/en/docs/server/bmc-
 
 The scenarios above are "how to use it by situation"; this appendix is the "complete manual". For daily use you really only need three commands (`fflog general` / `fflog manager` / `fflog system`) and a few options.
 
-### The three log types [step]
+### The three log types
 
 | Log type | In plain words | Command | Alias |
 | --- | --- | --- | --- |
@@ -223,7 +223,7 @@ The scenarios above are "how to use it by situation"; this appendix is the "comp
 
 Log levels, from low to high: `debug` < `info` < `warn` < `error`. With no options, the command shows the latest 10 logs, ordered from oldest to newest.
 
-### Common options [step]
+### Common options
 
 | Option | Description |
 | --- | --- |
@@ -247,7 +247,7 @@ Log levels, from low to high: `debug` < `info` < `warn` < `error`. With no optio
 
 `--all` is mutually exclusive with `-n/--limit`, `--level` with `--min-level`, and `--fields` with `--exclude-fields`. `--follow` cannot be combined with `-n`, `--all`, `--reverse`, `--since`, `--until`, or `--today`.
 
-### Dedicated filters [step]
+### Dedicated filters
 
 | Log type | Dedicated options (separate multiple values with commas) |
 | --- | --- |
@@ -255,7 +255,7 @@ Log levels, from low to high: `debug` < `info` < `warn` < `error`. With no optio
 | manager | `--category`, `--user`, `--status` (status code) |
 | system | `--core` (sub-board name) |
 
-### Time filtering [step]
+### Time filtering
 
 `--since` accepts two forms:
 
@@ -269,7 +269,7 @@ fflog general --since 30m
 fflog manager --since "2026-09-23 08:00" --until "2026-09-23 12:00" --all
 ```
 
-### Field filtering (--where) [step]
+### Field filtering (--where)
 
 The form is `field operator value`, with optional spaces around the field and operator. String fields support `=`, `!=`, `~` (contains), and `!~` (does not contain); number fields support `=`, `!=`, `>`, `>=`, `<`, and `<=`. Multiple `--where` conditions are always combined with AND.
 
@@ -287,7 +287,7 @@ fflog manager --where "latency_ms>=30"
 
 > If a field value itself contains a comma, use `--where` instead of a list option, for example `--where "logger=machine,network"`.
 
-### Output formats and fields [step]
+### Output formats and fields
 
 - `compact` (default): one log per line, fields separated by spaces, good for reading directly; an empty value is shown as `-`.
 - `jsonl`: one JSON object per line, good for export and program analysis. Use it when sending logs to technical support.
@@ -321,7 +321,7 @@ To keep only some fields or drop some, use `--fields` (keep only) or `--exclude-
 fflog general --fields time,level,msg
 ```
 
-### FAQ [step]
+### FAQ
 
 **Q: The result is empty?**
 By default only the latest 10 are shown, and the filters also limit the result. Remove the filters, add `--all`, or widen the `--since` time range and try again.
