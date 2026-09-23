@@ -239,23 +239,6 @@
     sudo chmod 600 /etc/rancher/k3s/registries.yaml
     ```
 
-    确认镜像站可以访问：
-
-    ```bash
-    curl -IL --connect-timeout 10 https://docker.m.daocloud.io/v2/
-    ```
-
-    ```shell
-    bmc@bmc:~$ curl -IL --connect-timeout 10 https://docker.m.daocloud.io/v2/
-    HTTP/2 401
-    server: nginx
-    date: Fri, 18 Sep 2026 07:17:34 GMT
-    content-type: application/json; charset=utf-8
-    content-length: 73
-    www-authenticate: Bearer realm="https://m.daocloud.io/auth/token",service="docker.m.daocloud.io"
-    docker-distribution-api-version: registry/2.0
-    ```
-
     ### 执行离线安装 [step]
 
     ```bash
@@ -523,6 +506,23 @@
 
     sudo chmod 600 /etc/rancher/k3s/registries.yaml
     ```
+  
+    确认镜像站可以访问：
+
+    ```bash
+    curl -IL --connect-timeout 10 https://docker.m.daocloud.io/v2/
+    ```
+
+    ```shell
+    bmc@bmc:~$ curl -IL --connect-timeout 10 https://docker.m.daocloud.io/v2/
+    HTTP/2 401
+    server: nginx
+    date: Fri, 18 Sep 2026 07:17:34 GMT
+    content-type: application/json; charset=utf-8
+    content-length: 73
+    www-authenticate: Bearer realm="https://m.daocloud.io/auth/token",service="docker.m.daocloud.io"
+    docker-distribution-api-version: registry/2.0
+    ```
 
     ### 安装 K3s Agent [step]
 
@@ -752,8 +752,23 @@
     sudo chmod 600 /etc/rancher/k3s/registries.yaml
     ```
 
-    容器内的 K3s 使用自带的 containerd 拉取镜像，该配置文件会挂载进容器，因此镜像源直接生效，不需要额外配置宿主机的 Docker。
+    确认镜像站可以访问：
 
+    ```bash
+    curl -IL --connect-timeout 10 https://docker.m.daocloud.io/v2/
+    ```
+
+    ```shell
+    bmc@bmc:~$ curl -IL --connect-timeout 10 https://docker.m.daocloud.io/v2/
+    HTTP/2 401
+    server: nginx
+    date: Fri, 18 Sep 2026 07:17:34 GMT
+    content-type: application/json; charset=utf-8
+    content-length: 73
+    www-authenticate: Bearer realm="https://m.daocloud.io/auth/token",service="docker.m.daocloud.io"
+    docker-distribution-api-version: registry/2.0
+    ```
+    
     ### 启动 K3s Agent [step]
 
     ```bash
