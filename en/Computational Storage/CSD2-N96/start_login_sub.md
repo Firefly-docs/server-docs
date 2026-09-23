@@ -1,18 +1,29 @@
 # Sub-node Login
 
-A compute sub-node (sub-board) has three connection channels: **Serial**, **ADB**, and **SSH**. Each channel can be started from any of the following three entries; choose one available path that fits your situation:
+A compute sub-node (sub-board) has three connection channels: **Serial**, **ADB**, and **SSH**. Each channel can be used through any of the following three options:
 
-| Entry | Serial | ADB | SSH | When to use it |
-| --- | --- | --- | --- | --- |
-| Web console | Supported | Supported | Supported | Graphical operation, debugging a single sub-node |
-| BMC CLI `bmc` | Supported | Supported | Supported | Batch or scripted operations, no browser |
-| Maintenance PC (direct) | — | — | Supported | Long debugging sessions; the sub-node needs a static IP first |
+| Option | Supported channels | When to use it |
+| --- | --- | --- |
+| Web console | Serial, ADB, SSH | Ad-hoc checks; point and click |
+| BMC CLI `bmc` | Serial, ADB, SSH | Batch or scripted operations, no browser |
+| Maintenance PC (direct) | SSH only | Long debugging sessions; the sub-node needs a static IP first |
 
-The **Debug Mode** in the Web page only lists the channels the sub-node reports, so an individual sub-node may not provide all of them. This section covers sub-nodes only; to log in to the BMC management controller, see [Access the BMC](start_login_bmc.md).
+All three options are built on the same network connection: complete the "Network Connection" section below first, then pick whichever fits your situation. The **Debug Mode** in the Web page only lists the channels the sub-node reports, so an individual sub-node may not provide all of them. This section covers sub-nodes only; to log in to the BMC management controller, see [Accessing the BMC](start_login_bmc.md).
 
-## Web Login [step]
+## Prerequisite: Network Connection [step]
 
-Open the sub-node terminal directly in the aBMC Web page; no extra network configuration is required.
+All three options require the same network connection; complete these two steps first:
+
+1. **Server cabling**: Connect the server to the switch as described in [Network Wiring](start_server_network.md); use either the out-of-band or the in-band method.
+2. **Connect the maintenance PC**: Connect the maintenance PC to the same switch, confirm that the PC port and the server port belong to the same switching network and VLAN, and make sure the PC can reach the aBMC management IP (for the default value and how to query it, see [Accessing the BMC](start_login_bmc.md)).
+
+![Shared network port connection](../../../servers_img/common/pc_switch_shared_network_topology_steps.png)
+
+After these two steps, "Option 1: Web Console" and "Option 2: BMC CLI" are ready to use; "Option 3: Direct Login from the Maintenance PC" needs one more step: assigning a static IP to the sub-node.
+
+## Option 1: Web Console
+
+Open the sub-node terminal directly in the aBMC Web page.
 
 ### Open the Sub-node Debug Window [step]
 
@@ -46,7 +57,7 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
     </CodeBlockTab>
 
     <CodeBlockTab value="ADB">
-      **ADB**: works for Android sub-nodes.
+      **ADB**: works for sub-nodes that support ADB; Android sub-nodes usually provide it by default, and some Linux sub-nodes do as well.
 
       1. Confirm that **Debug Mode** is **ADB** and click **Confirm**.
       2. In the new window, wait for the terminal to establish an ADB connection; if the terminal stays blank, click once in the black area and press **Enter** to refresh the prompt.
@@ -71,9 +82,9 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
   Serial and SSH log in to the sub-node's own operating system, so use that sub-node's system account and password; `admin/admin` only logs in to the aBMC page. ADB is a debugging channel and normally enters the Shell directly.
 </Callout>
 
-## CLI Command Tool Login [step]
+## Option 2: BMC CLI
 
-`bmc` is a CLI tool bundled with aBMC. Run it on the BMC to connect to sub-nodes; it is a good fit for batch or scripted operations. Pick the command for your connection channel:
+`bmc` is a CLI tool bundled with aBMC. Run it on the BMC to connect to sub-nodes; it is a good fit for batch or scripted operations. If you omit the aBMC connection parameters, the defaults are used: `https`, `127.0.0.1`, `443`, `admin`, `admin` (use `--protocol`, `--ip`, `--port`, `--user`, or `--password` to override them); to exit, press `Ctrl+A`, `Q`, `Enter`. Pick the command for your connection channel:
 
 <CodeBlockTabs defaultValue="ADB">
     <CodeBlockTabsList>
@@ -83,7 +94,7 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
     </CodeBlockTabsList>
 
     <CodeBlockTab value="ADB">
-      **ADB**: works for Android sub-nodes; put the target core board name after `--core`.
+      **ADB**: works for sub-nodes that support ADB; put the target core board name after `--core`.
 
       ```bash
       ./bmc terminal adb --core sub01
@@ -106,48 +117,39 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
       ```
 
       <Callout title="Tip" type="info">
-        If the sub-node already reaches your management network, you can skip the `bmc` tool and follow "Direct Login from the Maintenance PC" below to run `ssh <sub-node user>@<sub-node IP>` from a PC.
+        If the sub-node already reaches your management network, you can skip the `bmc` tool and follow "Option 3: Direct Login from the Maintenance PC" below to run `ssh <sub-node user>@<sub-node IP>` from a PC.
       </Callout>
     </CodeBlockTab>
 </CodeBlockTabs>
 
-### Command Parameters
-
-- `./bmc terminal <channel> [aBMC connection parameters] --core <core board name>`: parameters in `<>` are required; parameters in `[]` are optional.
-- If you omit the aBMC connection parameters, the defaults are used: `https`, `127.0.0.1`, `443`, `admin`, `admin`. Use `--protocol`, `--ip`, `--port`, `--user`, or `--password` to override them.
-- To exit: press `Ctrl+A`, then `Q`, then `Enter`.
-
-## Direct Login from the Maintenance PC [step]
+## Option 3: Direct Login from the Maintenance PC
 
 When the sub-node and the management network can reach each other, you can log in to the sub-node system over SSH directly from the maintenance PC, without the Web page or the `bmc` tool.
 
-This path relies on the sub-node NIC that connects to the server's **shared network port**: the server port that reuses a service NIC and carries both service traffic and management traffic (see [Accessing the BMC](start_login_bmc.md)). It reaches the sub-nodes through the internal switch. So first assign that NIC a static address in the same subnet as the maintenance PC, then connect the PC to the switching network the server uses.
+On top of "Network Connection", this path adds two steps: assigning a static IPv4 address to the sub-node, then verifying the connectivity between the PC and the sub-node. It relies on the sub-node NIC that connects to the server's **shared network port**: the server port that reuses a service NIC and carries both service traffic and management traffic (see [Accessing the BMC](start_login_bmc.md)), which reaches the sub-nodes through the internal switch.
 
 ### Configure a Static IPv4 Address for the Sub-node [step]
+
+<Callout title="NIC Selection" type="warn">
+  You must select the sub-node NIC that connects to the shared network port. Do not modify the `bmc/MGMT` management port or the NICs used for internal interconnection between sub-nodes; if you cannot tell them apart, check the product network port description, the NIC name, and the MAC address.
+</Callout>
 
 1. Select **Devices** → **Network** in the left navigation bar; you can also visit `https://172.16.100.172:443/#/deviceManage/boardNetManage` directly, replacing it with the management address and port of your device.
 2. Find the sub-node NIC that connects to the shared network port based on **Device Name**, **Net Card**, and **MAC Address**, then click **Configure** in that row.
 3. In the **IPv4 Configuration** tab, set **IPv4 Mode** to **Manual**, then fill in **Address** and **Subnet Mask**; fill in **Gateway** and **Gateway Priority** only if cross-subnet access is required.
 4. After checking that the address is not taken by another device, click **Confirm** to save, then return to the **Network** page and check that the **IPv4 Address** of the NIC has been updated. The sub-node's network connection may drop briefly while the change takes effect.
 
+Locate the target NIC on the **Network** page by **Device Name → Net Card → MAC Address**:
+
 ![Open the sub-node network configuration](../../../servers_img/common/abmc_configure_subboard_network_en.png)
+
+The **IPv4 Configuration** tab that **Configure** opens:
 
 ![Configure the sub-node static IPv4](../../../servers_img/common/abmc_set_subboard_static_ipv4_en.png)
 
-<Callout title="NIC Selection" type="warn">
-  You must select the sub-node NIC that connects to the shared network port. Do not modify the `bmc/MGMT` management port or the NICs used for internal interconnection between sub-nodes; if you cannot tell them apart, check the product network port description, the NIC name, and the MAC address.
-</Callout>
+In the example above, `Address` is `192.168.10.10` and `Subnet Mask` is `255.255.255.0` (that is `/24`). Replace them with the addresses planned for your site; `Gateway` can be left empty when the PC and the sub-node are on the same Layer 2 network.
 
-The screenshots above are examples: set `Address` to `192.168.10.10` and `Subnet Mask` to `255.255.255.0` (that is `/24`). Replace them with the addresses planned for your site; `Gateway` can be left empty when the PC and the sub-node are on the same Layer 2 network.
-
-### Connect the Maintenance PC to the Switch [step]
-
-For the cable connection between the server and the switch, refer to [Network Wiring](start_server_network.md) and complete either the out-of-band or the in-band method; then connect the maintenance PC to the same switch:
-
-1. Use a network cable to connect the maintenance PC to the switch.
-2. Confirm that the PC port and the server port belong to the same switching network and VLAN.
-
-![Shared network port connection](../../../servers_img/common/pc_switch_shared_network_topology_steps.png)
+### Verify the Connectivity Between the PC and the Sub-node [step]
 
 Set the maintenance PC to the same subnet as the sub-node's static IP, and make sure the address does not clash (if the sub-node is `192.168.10.10/24`, the PC can be set to `192.168.10.100/24`), then test the connectivity:
 
@@ -174,7 +176,7 @@ ssh -p <SSH_PORT> <SUBBOARD_USER>@192.168.10.10   # non-default SSH port
   SSH uses the sub-node operating system account and password, not the aBMC Web `admin/admin`. Before logging in, confirm that the sub-node has the SSH service enabled, the target account is allowed to log in remotely, and the firewall permits the corresponding SSH port.
 </Callout>
 
-## FAQ [step]
+## FAQ
 ### Q: Where can I get the user manual? [step]
 For full feature descriptions, refer to [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface).
 
