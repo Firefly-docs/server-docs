@@ -116,7 +116,8 @@ spec:
 sudo k3s kubectl apply -f demo-app.yaml
 ```
 
-```text
+```shell
+sudo k3s kubectl apply -f demo-app.yaml
 namespace/demo created
 deployment.apps/demo-app created
 service/demo-svc created
@@ -129,7 +130,8 @@ ingress.networking.k8s.io/demo-ingress created
 sudo k3s kubectl -n demo get all,ingress -o wide
 ```
 
-```text
+```shell
+sudo k3s kubectl -n demo get all,ingress -o wide
 NAME                           READY   STATUS    RESTARTS   AGE   IP           NODE    NOMINATED NODE   READINESS GATES
 pod/demo-app-8f47c9767-2jq88   1/1     Running   0          3s    10.42.1.58   sub11   <none>           <none>
 
@@ -177,7 +179,8 @@ Service 使用 `30080` 作为 NodePort，因此可以通过节点 IP 和端口�
 curl http://172.16.100.177:30080/
 ```
 
-```text
+```bash
+curl http://172.16.100.177:30080/
 hello-from-hostpath
 ```
 
@@ -187,21 +190,21 @@ NodePort 会在每台节点上监听，因此用 `bmc` 的地址访问也能到�
 curl http://172.16.100.176:30080/
 ```
 
+```bash
+curl http://172.16.100.176:30080/
+hello-from-hostpath
+```
+
 ### 通过 Ingress 访问 [step]
-
-Ingress 配置的访问域名为 `demo.local`。
-
-在没有配置 DNS 的情况下，可以通过 HTTP 请求头中的 `Host` 字段进行测试：
 
 ```bash
 curl -H 'Host: demo.local' http://172.16.100.177/
 ```
 
-```text
+```shell
+curl -H 'Host: demo.local' http://172.16.100.177/
 hello-from-hostpath
 ```
-
-实际部署时，可以将 `demo.local` 解析到对应的节点 IP，然后直接通过域名访问。
 
 ### 从集群内部访问 [step]
 
@@ -216,35 +219,57 @@ sudo k3s kubectl -n demo exec deploy/demo-app -- \
 hello-from-hostpath
 ```
 
-## 清单说明
+## 清单说明 [step]
 
-```mermaid
-flowchart TD
-    client["客户端（集群外）"]
-
-    subgraph k3s["K3s 集群"]
-        nodeport["节点端口 30080<br/>每台节点都监听"]
-        ingress["Ingress 规则<br/>Host: demo.local → demo-svc:80<br/>由 Traefik 实现，每台节点 80 端口"]
-        inside["集群内其它 Pod"]
-        svc["Service demo-svc<br/>ClusterIP:80<br/>Endpoints → Pod IP"]
-        pod["Pod（调度到 sub11）<br/>nginx 容器，监听 80 端口"]
-
-        nodeport -->|"kube-proxy 转发"| svc
-        ingress -->|"Traefik 按规则转发"| svc
-        inside -->|"wget -qO- http://demo-svc.demo.svc.cluster.local/"| svc
-        svc -->|"转发到容器 80 端口"| pod
-    end
-
-    subgraph hostfs["sub11 宿主机目录"]
-        data["/userdata/container/nginx_data/data_0<br/>网页文件"]
-        cfg["/userdata/container/nginx_data/config_0<br/>Nginx 配置文件"]
-    end
-
-    client -->|"curl http://172.16.100.176:30080/<br/>curl http://172.16.100.177:30080/"| nodeport
-    client -->|"curl -H 'Host: demo.local' http://172.16.100.176/<br/>curl -H 'Host: demo.local' http://172.16.100.177/"| ingress
-    pod -.->|"挂载 /usr/share/nginx/html"| data
-    pod -.->|"挂载 /etc/nginx/conf.d"| cfg
-```
+<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '8px', padding: '16px', fontSize: '14px', lineHeight: 1.8 }}>
+<div style={{ textAlign: 'center', fontWeight: 600 }}>客户端（集群外）</div>
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '12px', marginTop: '12px' }}>
+<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
+  <div style={{ fontWeight: 600 }}>节点端口 30080</div>
+  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>每台节点都监听，由 kube-proxy 转发</div>
+  <div style={{ marginTop: '6px', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>
+    curl http://172.16.100.176:30080/<br/>
+    curl http://172.16.100.177:30080/
+  </div>
+</div>
+<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
+  <div style={{ fontWeight: 600 }}>Ingress 规则</div>
+  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>Host: demo.local → demo-svc:80，由 Traefik 实现，每台节点 80 端口</div>
+  <div style={{ marginTop: '6px', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>
+    curl -H 'Host: demo.local' http://172.16.100.176/<br/>
+    curl -H 'Host: demo.local' http://172.16.100.177/
+  </div>
+</div>
+<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
+  <div style={{ fontWeight: 600 }}>集群内其它 Pod</div>
+  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>通过 Service DNS 访问，不经过节点端口与 Ingress</div>
+  <div style={{ marginTop: '6px', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>
+    wget -qO- http://demo-svc.demo.svc.cluster.local/
+  </div>
+</div>
+</div>
+<div style={{ textAlign: 'center', color: 'var(--color-fd-muted-foreground,#6b7280)', margin: '12px 0' }}>↓ 三种入口最终都转发到 Service 的后端 Pod</div>
+<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px', textAlign: 'center' }}>
+  <span style={{ fontWeight: 600 }}>Service demo-svc</span>
+  <span style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>　ClusterIP:80，Endpoints → Pod IP</span>
+</div>
+<div style={{ textAlign: 'center', color: 'var(--color-fd-muted-foreground,#6b7280)', margin: '8px 0' }}>↓ 转发到容器 80 端口</div>
+<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px', textAlign: 'center' }}>
+  <span style={{ fontWeight: 600 }}>Pod（调度到 sub11）</span>
+  <span style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>　nginx 容器，监听 80 端口</span>
+</div>
+<div style={{ textAlign: 'center', color: 'var(--color-fd-muted-foreground,#6b7280)', margin: '8px 0' }}>↓ hostPath 挂载（sub11 宿主机目录）</div>
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '12px' }}>
+<div style={{ border: '1px dashed var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
+  <div style={{ fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>/userdata/container/nginx_data/data_0</div>
+  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>网页文件 → /usr/share/nginx/html</div>
+</div>
+<div style={{ border: '1px dashed var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
+  <div style={{ fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>/userdata/container/nginx_data/config_0</div>
+  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>Nginx 配置文件 → /etc/nginx/conf.d</div>
+</div>
+</div>
+</div>
 
 | 资源 | 关键配置 | 作用 |
 |---|---|---|
