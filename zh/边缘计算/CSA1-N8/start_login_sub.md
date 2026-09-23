@@ -105,7 +105,7 @@
       **Serial**：网络不通或系统尚未启动时也能用，`--core` 后填目标核心板名称。
 
       ```bash
-      ./bmc terminal serial --core sub01
+      ./bmc terminal serial open --core sub01
       ```
     </CodeBlockTab>
 

@@ -105,7 +105,7 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
       **Serial**: also works when the network is down or the system has not started; put the target core board name after `--core`.
 
       ```bash
-      ./bmc terminal serial --core sub01
+      ./bmc terminal serial open --core sub01
       ```
     </CodeBlockTab>
 

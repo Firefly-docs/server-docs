@@ -20,4 +20,5 @@
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
 # 运营维护
+- [日志收集](op_log_collection.md)
 - [异常排查](op_issues_troubleshooting.md)

@@ -18,4 +18,5 @@
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
 # Maintenance
+- [Log Collection](op_log_collection.md)
 - [Troubleshooting](op_issues_troubleshooting.md)
