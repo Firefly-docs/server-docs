@@ -4,6 +4,10 @@ While it runs, the device keeps a diary of what happens, and that diary is the *
 
 This document is **scenario-driven**: it first walks through the most common situations using "what went wrong", and for each one tells you which log to collect, how to collect it, and how to read the result. **At the end** it provides the complete `fflog` command reference for when you need to look something up. You do not need any programming knowledge, all commands can be copied directly, and the sample outputs come from a real device; the actual content depends on your device.
 
+The image below shows the real result of running `fflog general --core sub05 --min-level warn` on the BMC: a single command reveals the errors on the `sub05` sub-board. Each log includes the time, level, failing module (such as service-manager / network), sub-board (sub05), code location (such as transaction/job.go:176), and the reason, so you can tell at a glance which sub-board and module went wrong.
+
+![Real result of collecting one sub-board's logs with fflog](../../../servers_img/common/fflog_general_example.png)
+
 ## Log In to the BMC First [step]
 
 Every scenario starts with logging in to the BMC command line (the logs are stored on the BMC). Choose either method:
@@ -209,7 +213,7 @@ You can also retrieve the files through aBMC [File Sharing](/en/docs/server/bmc-
 
 The scenarios above are "how to use it by situation"; this appendix is the "complete manual". For daily use you really only need three commands (`fflog general` / `fflog manager` / `fflog system`) and a few options.
 
-### The three log types
+### The three log types [step]
 
 | Log type | In plain words | Command | Alias |
 | --- | --- | --- | --- |
@@ -219,7 +223,7 @@ The scenarios above are "how to use it by situation"; this appendix is the "comp
 
 Log levels, from low to high: `debug` < `info` < `warn` < `error`. With no options, the command shows the latest 10 logs, ordered from oldest to newest.
 
-### Common options
+### Common options [step]
 
 | Option | Description |
 | --- | --- |
@@ -243,7 +247,7 @@ Log levels, from low to high: `debug` < `info` < `warn` < `error`. With no optio
 
 `--all` is mutually exclusive with `-n/--limit`, `--level` with `--min-level`, and `--fields` with `--exclude-fields`. `--follow` cannot be combined with `-n`, `--all`, `--reverse`, `--since`, `--until`, or `--today`.
 
-### Dedicated filters
+### Dedicated filters [step]
 
 | Log type | Dedicated options (separate multiple values with commas) |
 | --- | --- |
@@ -251,7 +255,7 @@ Log levels, from low to high: `debug` < `info` < `warn` < `error`. With no optio
 | manager | `--category`, `--user`, `--status` (status code) |
 | system | `--core` (sub-board name) |
 
-### Time filtering
+### Time filtering [step]
 
 `--since` accepts two forms:
 
@@ -265,7 +269,7 @@ fflog general --since 30m
 fflog manager --since "2026-09-23 08:00" --until "2026-09-23 12:00" --all
 ```
 
-### Field filtering (--where)
+### Field filtering (--where) [step]
 
 The form is `field operator value`, with optional spaces around the field and operator. String fields support `=`, `!=`, `~` (contains), and `!~` (does not contain); number fields support `=`, `!=`, `>`, `>=`, `<`, and `<=`. Multiple `--where` conditions are always combined with AND.
 
@@ -283,7 +287,7 @@ fflog manager --where "latency_ms>=30"
 
 > If a field value itself contains a comma, use `--where` instead of a list option, for example `--where "logger=machine,network"`.
 
-### Output formats and fields
+### Output formats and fields [step]
 
 - `compact` (default): one log per line, fields separated by spaces, good for reading directly; an empty value is shown as `-`.
 - `jsonl`: one JSON object per line, good for export and program analysis. Use it when sending logs to technical support.
@@ -317,7 +321,7 @@ To keep only some fields or drop some, use `--fields` (keep only) or `--exclude-
 fflog general --fields time,level,msg
 ```
 
-### FAQ
+### FAQ [step]
 
 **Q: The result is empty?**
 By default only the latest 10 are shown, and the filters also limit the result. Remove the filters, add `--all`, or widen the `--since` time range and try again.

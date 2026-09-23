@@ -4,6 +4,10 @@
 
 本文**先按「出了什么问题」讲几个最常见的场景**，告诉你每种情况该抓哪类日志、怎么抓、结果怎么看；**最后**再附上 `fflog` 的完整命令速查，供需要时查阅。跟随场景操作不需要懂编程，命令都可以直接复制，示例输出来自一台真实设备，实际内容以你的设备为准。
 
+下图是在 BMC 上执行 `fflog general --core sub05 --min-level warn` 的真实效果：一条命令就能看到 `sub05` 这块子板上的错误日志。每条日志都包含时间、级别、出错模块（如 service-manager / network）、所属子板（sub05）、代码位置（如 transaction/job.go:176）和具体原因，看一眼就能判断是哪块子板、哪个模块出了问题。
+
+![fflog 抓取某块子板日志的真实效果](../../../servers_img/common/fflog_general_example.png)
+
 ## 先登录 BMC [step]
 
 所有场景都从登录 BMC 命令行开始（日志保存在 BMC 里）。两种方式任选其一：
@@ -209,7 +213,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 
 上面是「按场景用」，下面是「完整手册」。日常其实只需记住三条命令（`fflog general` / `fflog manager` / `fflog system`）和几个常用参数。
 
-### 三类日志
+### 三类日志 [step]
 
 | 日志类型 | 简单理解 | 命令 | 别名 |
 | --- | --- | --- | --- |
@@ -219,7 +223,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 
 日志级别由低到高：`debug`（调试） < `info`（正常） < `warn`（警告） < `error`（错误）。不带参数时默认显示最新 10 条，并按时间从早到晚排列。
 
-### 常用选项
+### 常用选项 [step]
 
 | 选项 | 说明 |
 | --- | --- |
@@ -243,7 +247,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 
 `--all` 与 `-n/--limit` 互斥，`--level` 与 `--min-level` 互斥，`--fields` 与 `--exclude-fields` 互斥；`--follow` 不能与 `-n`、`--all`、`--reverse`、`--since`、`--until`、`--today` 同时使用。
 
-### 专用筛选项
+### 专用筛选项 [step]
 
 | 日志类型 | 专用选项（多个用逗号分隔） |
 | --- | --- |
@@ -251,7 +255,7 @@ scp bmc@<aBMC 管理 IP>:/tmp/general.jsonl .
 | manager | `--category`、`--user`、`--status`（状态码） |
 | system | `--core`（子板名） |
 
-### 时间筛选
+### 时间筛选 [step]
 
 `--since` 支持两类写法：
 
@@ -265,7 +269,7 @@ fflog general --since 30m
 fflog manager --since "2026-09-23 08:00" --until "2026-09-23 12:00" --all
 ```
 
-### 按字段筛选（--where）
+### 按字段筛选（--where）[step]
 
 格式为 `字段 操作符 值`，字段与操作符之间可以有空格。字符串字段支持 `=`、`!=`、`~`（包含）、`!~`（不包含）；数字字段支持 `=`、`!=`、`>`、`>=`、`<`、`<=`。多条 `--where` 始终按 AND 组合。
 
@@ -283,7 +287,7 @@ fflog manager --where "latency_ms>=30"
 
 > 字段值本身包含逗号时，请改用 `--where` 而非列表选项，例如 `--where "logger=machine,network"`。
 
-### 输出格式与字段
+### 输出格式与字段 [step]
 
 - `compact`（默认）：每条日志一行，字段之间用空格分开，适合直接看；空值显示为 `-`。
 - `jsonl`：一行一条 JSON，适合导出和程序分析。导出给技术支持时建议用它。
@@ -317,7 +321,7 @@ time | status_code | msg
 fflog general --fields time,level,msg
 ```
 
-### 常见问题
+### 常见问题 [step]
 
 **Q：查询结果什么都没有？**
 默认只显示最新 10 条，同时受筛选条件限制。可以先去掉筛选，或加上 `--all`，或把 `--since` 的时间范围放宽再试。
