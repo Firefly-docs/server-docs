@@ -32,6 +32,14 @@ fflog --version
 fflog general --core sub05 --min-level warn
 ```
 
+Sample output:
+
+```text
+2026-09-22 15:00:15.204 warn node-service sub05 OS/node_deploy.go:306 nodeService recovery failed: failed to push nodeService: exit status 1
+2026-09-22 15:00:48.220 error service-manager sub05 transaction/job.go:176 failed to start ssh-terminal: core sub05 is not a Linux device
+2026-09-22 15:00:48.221 error service-manager sub05 transaction/job.go:176 failed to start file-sharing: sub05 is not a Linux device
+```
+
 If you are not sure which sub-boards exist, list them first:
 
 ```bash
@@ -39,10 +47,27 @@ If you are not sure which sub-boards exist, list them first:
 fflog general --all --fields core_name | sort | uniq -c
 ```
 
+```text
+    535 -
+    188 bmc
+    135 machine
+      9 sub01
+      9 sub02
+      9 sub03
+      9 sub04
+    646 sub05
+      9 sub06
+      9 sub07
+     96 sub08
+      9 sub09
+      9 sub10
+```
+
 **How to read it**:
 
-- Has output: locate the module by time and content. For example, `error network sub05 ...` means the network module failed on this sub-board;
-- Empty: the sub-board itself recorded no error, so the cause is likely external (network, power). Continue with [Troubleshooting](op_issues_troubleshooting.md).
+- Has output: locate the module by time and content. In the sample above, the first line is `node-service` reporting that nodeService recovery failed on `sub05`, and the next two show `ssh-terminal` and `file-sharing` failing to start on `sub05` because it is "not a Linux device";
+- Empty: the sub-board itself recorded no error, so the cause is likely external (network, power). Continue with [Troubleshooting](op_issues_troubleshooting.md);
+- In the list, `-` means a BMC-side log not tied to a specific sub-board, `bmc` is the management controller itself, and `machine` is the whole machine.
 
 > Only the **general log** and the **system log** can be filtered by sub-board (`--core`); the manager log has no sub-board dimension and cannot be filtered this way.
 
@@ -155,6 +180,19 @@ fflog manager --all --format jsonl > /tmp/manager.jsonl
 fflog system --all --format jsonl > /tmp/system.jsonl
 ```
 
+After exporting, you can use `wc -l` to check how many records each file has:
+
+```bash
+wc -l /tmp/general.jsonl
+# 1672 /tmp/general.jsonl
+```
+
+A file looks like this (one JSON object per line):
+
+```text
+{"time":"2026-09-20T17:47:58.972+08:00","level":"info","logger":"node-service","core_name":"sub05","caller":"OS/node_deploy.go:128","msg":"部署成功: 127.0.0.1:5005"}
+```
+
 Then copy the files back to your computer (replace `<aBMC management IP>` with the real address):
 
 ```bash
@@ -252,6 +290,17 @@ fflog manager --where "latency_ms>=30"
 
 ```text
 {"time":"2026-09-23T09:28:22.771+08:00","level":"info","logger":"service-manager","core_name":"sub05","caller":"transaction/job.go:172","msg":"started vnc"}
+```
+
+To add a header for easier reading, set a custom delimiter and enable the header:
+
+```bash
+fflog manager --header --fields time,status_code,msg --delimiter " | "
+```
+
+```text
+time | status_code | msg
+2026-09-23 10:24:17.685 | 200 | Successfully obtained date and time
 ```
 
 Default fields of each log type:

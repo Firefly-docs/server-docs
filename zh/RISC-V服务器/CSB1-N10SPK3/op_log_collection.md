@@ -32,6 +32,14 @@ fflog --version
 fflog general --core sub05 --min-level warn
 ```
 
+示例输出：
+
+```text
+2026-09-22 15:00:15.204 warn node-service sub05 OS/node_deploy.go:306 nodeService recovery failed: failed to push nodeService: exit status 1
+2026-09-22 15:00:48.220 error service-manager sub05 transaction/job.go:176 failed to start ssh-terminal: core sub05 is not a Linux device
+2026-09-22 15:00:48.221 error service-manager sub05 transaction/job.go:176 failed to start file-sharing: sub05 is not a Linux device
+```
+
 不确定有哪些子板时，可以先列出来：
 
 ```bash
@@ -39,10 +47,27 @@ fflog general --core sub05 --min-level warn
 fflog general --all --fields core_name | sort | uniq -c
 ```
 
+```text
+    535 -
+    188 bmc
+    135 machine
+      9 sub01
+      9 sub02
+      9 sub03
+      9 sub04
+    646 sub05
+      9 sub06
+      9 sub07
+     96 sub08
+      9 sub09
+      9 sub10
+```
+
 **怎么看**：
 
-- 有输出：按时间和内容定位模块，例如出现 `error network sub05 ...`，说明是网络模块在这块子板上出错；
-- 没有输出：说明这块子板本身没记录到错误，问题可能在网络、供电等外部因素，可结合[异常排查](op_issues_troubleshooting.md)继续排查。
+- 有输出：按时间和内容定位模块。例如上面第一条是 `node-service` 报告 `sub05` 的 nodeService 恢复失败，后两条说明 `ssh-terminal`、`file-sharing` 在 `sub05` 上因「不是 Linux 设备」启动失败；
+- 没有输出：说明这块子板本身没记录到错误，问题可能在网络、供电等外部因素，可结合[异常排查](op_issues_troubleshooting.md)继续排查；
+- 列表中的 `-` 表示 BMC 侧未归属到具体子板的日志，`bmc` 是管理控制器本身，`machine` 是整机相关。
 
 > 只有**通用日志**和**系统日志**能按子板抓（`--core`）；管理日志没有子板维度，不能这样筛。
 
@@ -155,6 +180,19 @@ fflog manager --all --format jsonl > /tmp/manager.jsonl
 fflog system --all --format jsonl > /tmp/system.jsonl
 ```
 
+导出后可以用 `wc -l` 确认每个文件有多少条：
+
+```bash
+wc -l /tmp/general.jsonl
+# 1672 /tmp/general.jsonl
+```
+
+文件内容长这样（一行一条 JSON）：
+
+```text
+{"time":"2026-09-20T17:47:58.972+08:00","level":"info","logger":"node-service","core_name":"sub05","caller":"OS/node_deploy.go:128","msg":"部署成功: 127.0.0.1:5005"}
+```
+
 再用电脑把文件拷回来（把 `<aBMC 管理 IP>` 换成实际地址）：
 
 ```bash
@@ -252,6 +290,17 @@ fflog manager --where "latency_ms>=30"
 
 ```text
 {"time":"2026-09-23T09:28:22.771+08:00","level":"info","logger":"service-manager","core_name":"sub05","caller":"transaction/job.go:172","msg":"started vnc"}
+```
+
+想自己加个表头方便对照，可以自定义分隔符并开启表头：
+
+```bash
+fflog manager --header --fields time,status_code,msg --delimiter " | "
+```
+
+```text
+time | status_code | msg
+2026-09-23 10:24:17.685 | 200 | Successfully obtained date and time
 ```
 
 三类日志的默认字段：
