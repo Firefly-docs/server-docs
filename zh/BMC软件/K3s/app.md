@@ -220,8 +220,6 @@ sudo k3s kubectl delete namespace demo
 
 **在 sub11 节点删除宿主机数据**
 
-数据在删除命名空间后仍然保留，确认确实不需要后再删除；需要保留时先备份：
-
 ```bash
 sudo ls -l /userdata/container/nginx_data/data_0/
 

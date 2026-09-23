@@ -5,7 +5,7 @@
 - [系统环境](env.md)
 - [K3s部署](install.md)
 - [部署应用](app.md)
-- [升级与卸载](upgrade.md)
+- [K3s卸载](uninstall.md)
 
 # 卷与存储
 - [longhorn](longhorn.md)
