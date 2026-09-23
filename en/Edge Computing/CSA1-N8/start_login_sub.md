@@ -21,11 +21,11 @@ All three options require the same network connection; complete these two steps 
 
 After these two steps, "Option 1: Web Console" and "Option 2: BMC CLI" are ready to use; "Option 3: Direct Login from the Maintenance PC" needs one more step: assigning a static IP to the sub-node.
 
-## Option 1: Web Console
+## Option 1: Web Console [step]
 
 Open the sub-node terminal directly in the aBMC Web page.
 
-### Open the Sub-node Debug Window [step]
+### Open the Sub-node Debug Window
 
 1. Select **Devices** in the left navigation bar.
 2. Select **General** in the device menu, then find the sub-node you need in the device list; prefer a node whose status is **Online** or **Ready**.
@@ -33,7 +33,7 @@ Open the sub-node terminal directly in the aBMC Web page.
 
 ![Open the sub-node debug window](../../../servers_img/common/abmc_open_subnode_debug_en.png)
 
-### Select the Connection Channel and Connect [step]
+### Select the Connection Channel and Connect
 
 In the **Open Debugging** window, select the connection channel in **Debug Mode** and click **Confirm**; the terminal of the sub-node opens in a new browser window.
 
@@ -82,7 +82,7 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
   Serial and SSH log in to the sub-node's own operating system, so use that sub-node's system account and password; `admin/admin` only logs in to the aBMC page. ADB is a debugging channel and normally enters the Shell directly.
 </Callout>
 
-## Option 2: BMC CLI
+## Option 2: BMC CLI [step]
 
 `bmc` is a CLI tool bundled with aBMC. Run it on the BMC to connect to sub-nodes; it is a good fit for batch or scripted operations. If you omit the aBMC connection parameters, the defaults are used: `https`, `127.0.0.1`, `443`, `admin`, `admin` (use `--protocol`, `--ip`, `--port`, `--user`, or `--password` to override them); to exit, press `Ctrl+A`, `Q`, `Enter`. Pick the command for your connection channel:
 
@@ -122,13 +122,13 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
     </CodeBlockTab>
 </CodeBlockTabs>
 
-## Option 3: Direct Login from the Maintenance PC
+## Option 3: Direct Login from the Maintenance PC [step]
 
 When the sub-node and the management network can reach each other, you can log in to the sub-node system over SSH directly from the maintenance PC, without the Web page or the `bmc` tool.
 
 On top of "Network Connection", this path adds two steps: assigning a static IPv4 address to the sub-node, then verifying the connectivity between the PC and the sub-node. It relies on the sub-node NIC that connects to the server's **shared network port**: the server port that reuses a service NIC and carries both service traffic and management traffic (see [Accessing the BMC](start_login_bmc.md)), which reaches the sub-nodes through the internal switch.
 
-### Configure a Static IPv4 Address for the Sub-node [step]
+### Configure a Static IPv4 Address for the Sub-node
 
 <Callout title="NIC Selection" type="warn">
   You must select the sub-node NIC that connects to the shared network port. Do not modify the `bmc/MGMT` management port or the NICs used for internal interconnection between sub-nodes; if you cannot tell them apart, check the product network port description, the NIC name, and the MAC address.
@@ -149,7 +149,7 @@ The **IPv4 Configuration** tab that **Configure** opens:
 
 In the example above, `Address` is `192.168.10.10` and `Subnet Mask` is `255.255.255.0` (that is `/24`). Replace them with the addresses planned for your site; `Gateway` can be left empty when the PC and the sub-node are on the same Layer 2 network.
 
-### Verify the Connectivity Between the PC and the Sub-node [step]
+### Verify the Connectivity Between the PC and the Sub-node
 
 Set the maintenance PC to the same subnet as the sub-node's static IP, and make sure the address does not clash (if the sub-node is `192.168.10.10/24`, the PC can be set to `192.168.10.100/24`), then test the connectivity:
 
@@ -159,7 +159,7 @@ ping 192.168.10.10
 
 Once the sub-node replies, go ahead with the SSH login. If it does not respond, check in this order: shared network port cabling, switch VLAN, PC IP, sub-node static IP, firewall settings.
 
-### Perform SSH Login on the PC [step]
+### Perform SSH Login on the PC
 
 1. Open the PC's terminal, PowerShell, or another SSH client, and run `ssh <sub-node user>@<sub-node static IP>` (the default port is `22`; use `-p` for a non-default port).
 2. On the first connection, verify the host fingerprint, enter `yes` after confirming it is correct, and then enter the sub-node operating system password.
@@ -176,9 +176,9 @@ ssh -p <SSH_PORT> <SUBBOARD_USER>@192.168.10.10   # non-default SSH port
   SSH uses the sub-node operating system account and password, not the aBMC Web `admin/admin`. Before logging in, confirm that the sub-node has the SSH service enabled, the target account is allowed to log in remotely, and the firewall permits the corresponding SSH port.
 </Callout>
 
-## FAQ
-### Q: Where can I get the user manual? [step]
+## FAQ [step]
+### 1.Where can I get the user manual?
 For full feature descriptions, refer to [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface).
 
-### Q: What should I do if none of the login methods works? [step]
+### 2.What should I do if none of the login methods works?
 Refer to [Troubleshooting](/docs/server/bmc-software/aBMC/op_issues_troubleshooting).
