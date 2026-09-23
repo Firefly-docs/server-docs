@@ -119,6 +119,21 @@ The steps for each login method are described below.
           - Firmware upgrade page: Batch update the firmware of each compute unit;
           ![Add Firmware Upgrade Popup Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_popup.png)
           ![Firmware Upgrade Task Monitoring Page Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_monitor_page.png)
+
+      #### Open the BMC Shell Terminal
+      To run commands directly on the BMC, open the BMC Shell from the aBMC Web page:
+      1. After logging in to the aBMC Web page, select **Home** in the left navigation bar.
+      2. Find **Remote console** in the **Quick access** area, confirm that the console type shows **BMC SHELL**, and click **Launch**.
+          ![Open Remote console on the home page](../../../servers_img/common/abmc_home_remote_console_en.png)
+      3. In the **Open Debugging** window, select **Shell** in **Debug Mode** and click **Confirm** to open the BMC terminal in a new browser window.
+          ![Select the Shell debug mode](../../../servers_img/common/abmc_open_bmc_shell_en.png)
+      4. When the terminal shows a prompt similar to `root@bmc:~#`, you are connected to the BMC management controller.
+
+          ![aBMC Shell terminal](../../../servers_img/common/abmc_bmc_shell_terminal_en.png)
+
+      <Callout title="Target of the Operations" type="warn">
+        The BMC Shell operates on the BMC management controller, not the compute sub-nodes. Commands here change the BMC system directly, so confirm what a command does before running it; for sub-node login, see [Sub-node Login](start_login_sub.md).
+      </Callout>
     </CodeBlockTab>
 
     <CodeBlockTab value="Console_login">

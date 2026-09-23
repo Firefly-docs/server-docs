@@ -119,6 +119,21 @@ Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中�
           - 固件升级页面：批量更新各计算单元固件；
           ![Add Firmware Upgrade Popup Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_popup.png)
           ![Firmware Upgrade Task Monitoring Page Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_monitor_page.png)
+
+      #### 打开 BMC Shell 终端
+      需要在 BMC 上直接执行命令时，可以从 aBMC Web 打开 BMC Shell：
+      1. 登录 aBMC Web 页面后，在左侧导航栏中选择 **Home**。
+      2. 在右侧 **Quick access** 区域找到 **Remote console**，确认控制台类型显示为 **BMC SHELL**，单击 **Launch**。
+          ![打开首页 Remote console](../../../servers_img/common/abmc_home_remote_console_en.png)
+      3. 在 **Open Debugging** 窗口的 **Debug Mode** 中选择 **Shell**，单击 **Confirm**，在新浏览器窗口中打开 BMC 终端。
+          ![选择 Shell 调试模式](../../../servers_img/common/abmc_open_bmc_shell_en.png)
+      4. 终端出现类似 `root@bmc:~#` 的提示符，说明已经连上 BMC 管理控制器。
+
+          ![aBMC Shell 终端](../../../servers_img/common/abmc_bmc_shell_terminal_en.png)
+
+      <Callout title="操作对象说明" type="warn">
+        BMC Shell 操作的是 BMC 管理控制器，不是计算子节点。命令会直接改动 BMC 系统，执行前请确认它的作用；子节点登录请参考[子节点登录](start_login_sub.md)。
+      </Callout>
     </CodeBlockTab>
 
     <CodeBlockTab value="Console_login">

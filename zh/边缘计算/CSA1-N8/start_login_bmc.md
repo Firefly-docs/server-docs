@@ -1,6 +1,6 @@
 # 访问 BMC
 ## 登录须知
-aBMC 出厂预置了一套默认参数，便于初次调试，下表汇总默认的登录、网络与串口配置。
+aBMC 出厂预置了一套默认参数，便于初次调试，下表汇总默认的登录与网络配置。
 
 
 <table border="1" cellPadding="8" cellSpacing="0" width="100%">
@@ -22,21 +22,12 @@ aBMC 出厂预置了一套默认参数，便于初次调试，下表汇总默认
       <td>admin</td>
     </tr>
     <tr>
-      <td rowSpan="2">aBMC 管理网口 IPv4 地址<br/>● MGMT 或 GM 网口</td>
+      <td rowSpan="2">aBMC 管理网口 IPv4 地址<br/>● GEM 网口</td>
       <td rowSpan="2">管理网口 IP 与子网掩码</td>
       <td>默认 IP 地址： 192.168.100.100</td>
     </tr>
     <tr>
       <td>默认子网掩码：255.255.255.0</td>
-    </tr>
-    <tr>
-      <td rowSpan="2">BMC Console 串口</td>
-      <td>波特率</td>
-      <td>115200</td>
-    </tr>
-    <tr>
-      <td>登录凭据</td>
-      <td>无需账号密码，按 Enter 键即可进入 BMC Linux 系统</td>
     </tr>
     <tr>
       <td rowSpan="2">BMC Linux 用户数据<br/>● 用于 SSH 登录</td>
@@ -56,13 +47,12 @@ Web 与 SSH 使用相同的默认账号密码，首次登录请立即修改，�
 
 ## 登录方式 [step]
 
-三种方式各有适用场景，日常运维推荐优先使用 Web，其余两种作为兜底：
+本机型未提供 Console 调试串口，Web 与 SSH 两种方式各有适用场景，日常运维推荐优先使用 Web：
 
 - **Web**：管理网口与操作 PC 网络互通后，用浏览器完成整机监控、固件升级等操作；
-- **Console**：网络不通、系统尚未启动或显示无输出时，用串口查看底层启动日志；
 - **SSH**：习惯命令行，或需要批量、脚本化运维时。
 
-Web 与 SSH 登录依赖 aBMC 管理 IP，请先完成下方「登录前准备」；Console 登录无需网络，可直接查看对应标签页。
+Web 与 SSH 登录依赖 aBMC 管理 IP，请先完成下方「登录前准备」。
 
 ### 登录前准备
 #### 服务器网络接线
@@ -71,13 +61,11 @@ Web 与 SSH 登录依赖 aBMC 管理 IP，请先完成下方「登录前准备�
 
 支持两类管理网口，按需选用：
 - **共享网口**：复用服务器业务网卡，同时承载业务流量与 BMC 管理流量；
-- **专用 MGMT 网口**：独立硬件网口，仅传输 BMC 管理指令，隔离业务网络。
-
-![MGMT Management Port Wiring Diagram](../../../servers_img/common/mgmt_port_cable_connection.png)
+- **专用 GEM 网口**：独立硬件网口，仅传输 BMC 管理指令，隔离业务网络。
 
 #### 查询 aBMC 管理 IP
-Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中执行 `ip` / `ifconfig` 命令，即可读取 MGMT 网口的 IP 地址。
-![MGMT Port IP Query Command Output Screenshot](../../../servers_img/common/mgnt_ip_query_terminal_screenshot.png)
+Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中执行 `ip` / `ifconfig` 命令，即可读取 GEM 网口的 IP 地址。
+![GEM Port IP Query Command Output Screenshot](../../../servers_img/CSA1-N8/CSA1-Nx/eth0_ip_query_terminal_screenshot.png)
 
 若暂时无法进入服务器系统查询，可先按《登录须知》表中的默认 IP 访问，登录后再核对或修改。
 
@@ -86,7 +74,6 @@ Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中�
 <CodeBlockTabs defaultValue="Web_login">
     <CodeBlockTabsList>
         <CodeBlockTabsTrigger value="Web_login">Web</CodeBlockTabsTrigger>
-        <CodeBlockTabsTrigger value="Console_login">Console</CodeBlockTabsTrigger>
         <CodeBlockTabsTrigger value="Ssh_login">SSH</CodeBlockTabsTrigger>
     </CodeBlockTabsList>
 
@@ -119,22 +106,23 @@ Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中�
           - 固件升级页面：批量更新各计算单元固件；
           ![Add Firmware Upgrade Popup Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_popup.png)
           ![Firmware Upgrade Task Monitoring Page Schematic Diagram](../../../servers_img/common/abmc_fw_upgrade_monitor_page.png)
+
+      #### 打开 BMC Shell 终端
+      需要在 BMC 上直接执行命令时，可以从 aBMC Web 打开 BMC Shell：
+      1. 登录 aBMC Web 页面后，在左侧导航栏中选择 **Home**。
+      2. 在右侧 **Quick access** 区域找到 **Remote console**，确认控制台类型显示为 **BMC SHELL**，单击 **Launch**。
+          ![打开首页 Remote console](../../../servers_img/common/abmc_home_remote_console_en.png)
+      3. 在 **Open Debugging** 窗口的 **Debug Mode** 中选择 **Shell**，单击 **Confirm**，在新浏览器窗口中打开 BMC 终端。
+          ![选择 Shell 调试模式](../../../servers_img/common/abmc_open_bmc_shell_en.png)
+      4. 终端出现类似 `root@bmc:~#` 的提示符，说明已经连上 BMC 管理控制器。
+
+          ![aBMC Shell 终端](../../../servers_img/common/abmc_bmc_shell_terminal_en.png)
+
+      <Callout title="操作对象说明" type="warn">
+        BMC Shell 操作的是 BMC 管理控制器，不是计算子节点。命令会直接改动 BMC 系统，执行前请确认它的作用；子节点登录请参考[子节点登录](start_login_sub.md)。
+      </Callout>
     </CodeBlockTab>
 
-    <CodeBlockTab value="Console_login">
-      ### Console 串口登录
-      串口线选型与终端连接方法详见[串口使用](start_server_serial.md)。
-      1. 使用 RJ45 串口线连接服务器的 Console 口（调试串口）与调试终端；
-      2. 终端软件参数设置如下：
-          - 波特率：115200
-          - 数据位：8
-          - 奇偶校验：无
-          - 停止位：1
-          - 流控：无
-      3. 连接建立后按 **Enter** 键唤醒终端，即可登录 BMC Linux 系统（串口登录无需账号密码）；
-      4. 登录完成后即可执行底层系统查询命令。
-        ![BMC OS Release Query Command Line Schematic Diagram](../../../servers_img/common/cmd_os_release_info.png)
-    </CodeBlockTab>
 
     <CodeBlockTab value="Ssh_login">
       ### SSH 远程登录
