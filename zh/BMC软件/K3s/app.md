@@ -117,7 +117,7 @@ sudo k3s kubectl -n demo get all,ingress -o wide
 
 确认 Pod 的 `STATUS` 为 `Running`、`NODE` 为 `sub11`。
 
-## 访问应用 [step]
+## 写入页面与配置 [step]
 
 **在 sub11 节点写入配置与网页文件**
 
@@ -139,7 +139,9 @@ echo hello-from-hostpath | sudo tee /userdata/container/nginx_data/data_0/index.
 sudo k3s kubectl -n demo exec deploy/demo-app -- nginx -s reload
 ```
 
-应用部署完成后，可以用以下三种方式访问：
+## 访问应用 [step]
+
+部署完成后，可以通过以下方式访问应用：
 
 <CodeBlockTabs defaultValue="NodePort 访问">
   <CodeBlockTabsList>
@@ -178,8 +180,7 @@ sudo k3s kubectl -n demo exec deploy/demo-app -- nginx -s reload
     ```text
     hello-from-hostpath
     ```
-
-    实际部署时，可以将 `demo.local` 解析到节点 IP，直接通过域名访问。
+    
   </CodeBlockTab>
   <CodeBlockTab value="集群内部访问">
     在集群内部，直接通过 Service 的 DNS 名称访问。
@@ -197,7 +198,7 @@ sudo k3s kubectl -n demo exec deploy/demo-app -- nginx -s reload
 
 ## 清单说明 [step]
 
-![K3s 部署应用架构图：三种访问入口（节点端口 / Ingress / 集群内部）与 hostPath 数据目录](../../../servers_img/K3s/deploy-app-architecture.svg)
+![K3s 部署应用架构图：三种访问入口（节点端口 / Ingress / 集群内部）与 hostPath 数据目录](../../../servers_img/K3s/deploy-app-architecture.png)
 
 | 资源 | 关键配置 | 作用 |
 |---|---|---|
