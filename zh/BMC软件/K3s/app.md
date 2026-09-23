@@ -2,7 +2,7 @@
 
 本章以 Nginx 为例，在已完成[在线部署](install.md)的 K3s 集群上部署一个简单应用，涉及宿主机目录挂载（`hostPath`）、Service 与 Ingress 等常用资源。
 
-* **部署内容**：通过一个 YAML 文件创建 `Namespace`、`Deployment`、`Service` 和 `Ingress` 四类资源，并用 `hostPath` 把宿主机目录挂载给容器。
+* **部署内容**：通过一个 YAML 文件创建 `Namespace`、`Deployment`、`Service` 和 `Ingress` 四类资源，并用 `hostPath` 把宿主机的目录挂载给Pod使用。
 * **访问方式**：通过 NodePort 和 Ingress 两种方式访问 Nginx 应用。
 * **前置条件**：集群中至少有一个 `Ready` 节点，且该节点能够拉取 Nginx 镜像（离线环境需要提前导入）。
 
@@ -12,13 +12,6 @@
 
 ```bash
 sudo k3s kubectl get nodes
-```
-
-```text
-NAME    STATUS     ROLES           AGE     VERSION
-bmc     Ready      control-plane   5d18h   v1.36.4+k3s1
-sub11   Ready      <none>          5d15h   v1.36.4+k3s1
-sub12   NotReady   <none>          47h     v1.36.4+k3s1
 ```
 
 ## 创建应用清单 [step]
@@ -116,40 +109,15 @@ spec:
 sudo k3s kubectl apply -f demo-app.yaml
 ```
 
-```shell
-sudo k3s kubectl apply -f demo-app.yaml
-namespace/demo created
-deployment.apps/demo-app created
-service/demo-svc created
-ingress.networking.k8s.io/demo-ingress created
-```
-
 查看创建的资源：
 
 ```bash
 sudo k3s kubectl -n demo get all,ingress -o wide
 ```
 
-```shell
-sudo k3s kubectl -n demo get all,ingress -o wide
-NAME                           READY   STATUS    RESTARTS   AGE   IP           NODE    NOMINATED NODE   READINESS GATES
-pod/demo-app-8f47c9767-2jq88   1/1     Running   0          3s    10.42.1.58   sub11   <none>           <none>
-
-NAME               TYPE       CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE   SELECTOR
-service/demo-svc   NodePort   10.43.99.4   <none>        80:30080/TCP   4s    app=demo-app
-
-NAME                       READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES              SELECTOR
-deployment.apps/demo-app   1/1     1            1           4s    nginx        nginx:1.27-alpine   app=demo-app
-
-NAME                                     CLASS     HOSTS        ADDRESS                         PORTS   AGE
-ingress.networking.k8s.io/demo-ingress   traefik   demo.local   172.16.100.176,172.16.100.177   80      5s
-```
-
 确认 Pod 的 `STATUS` 为 `Running`、`NODE` 为 `sub11`。
 
 ## 访问应用 [step]
-
-`hostPath` 只在 Pod 所在节点上有效：写入文件需要在 `sub11` 上执行，重新加载配置可以在 `bmc` 上执行。
 
 **在 sub11 节点写入配置与网页文件**
 
@@ -171,105 +139,65 @@ echo hello-from-hostpath | sudo tee /userdata/container/nginx_data/data_0/index.
 sudo k3s kubectl -n demo exec deploy/demo-app -- nginx -s reload
 ```
 
-### 通过 NodePort 访问 [step]
+应用部署完成后，可以用以下三种方式访问：
 
-Service 使用 `30080` 作为 NodePort，因此可以通过节点 IP 和端口访问 Nginx：
+<CodeBlockTabs defaultValue="NodePort 访问">
+  <CodeBlockTabsList>
+    <CodeBlockTabsTrigger value="NodePort 访问">NodePort 访问</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Ingress 访问">Ingress 访问</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="集群内部访问">集群内部访问</CodeBlockTabsTrigger>
+  </CodeBlockTabsList>
+  <CodeBlockTab value="NodePort 访问">
+    Service 使用 `30080` 作为 NodePort，通过任一节点 IP 都可以访问：
 
-```bash
-curl http://172.16.100.177:30080/
-```
+    ```bash
+    curl http://172.16.100.177:30080/
+    ```
 
-```bash
-curl http://172.16.100.177:30080/
-hello-from-hostpath
-```
+    ```text
+    hello-from-hostpath
+    ```
 
-NodePort 会在每台节点上监听，因此用 `bmc` 的地址访问也能到达 `sub11` 上的这个 Pod：
+    NodePort 会在每台节点上监听，因此用 `bmc` 的地址访问也能到达 `sub11` 上的这个 Pod：
 
-```bash
-curl http://172.16.100.176:30080/
-```
+    ```bash
+    curl http://172.16.100.176:30080/
+    ```
 
-```bash
-curl http://172.16.100.176:30080/
-hello-from-hostpath
-```
+    ```text
+    hello-from-hostpath
+    ```
+  </CodeBlockTab>
+  <CodeBlockTab value="Ingress 访问">
+    Ingress 配置的访问域名为 `demo.local`；在没有配置 DNS 的情况下，通过请求头 `Host` 模拟域名：
 
-### 通过 Ingress 访问 [step]
+    ```bash
+    curl -H 'Host: demo.local' http://172.16.100.177/
+    ```
 
-```bash
-curl -H 'Host: demo.local' http://172.16.100.177/
-```
+    ```text
+    hello-from-hostpath
+    ```
 
-```shell
-curl -H 'Host: demo.local' http://172.16.100.177/
-hello-from-hostpath
-```
+    实际部署时，可以将 `demo.local` 解析到节点 IP，直接通过域名访问。
+  </CodeBlockTab>
+  <CodeBlockTab value="集群内部访问">
+    在集群内部，直接通过 Service 的 DNS 名称访问。
 
-### 从集群内部访问 [step]
+    ```bash
+    sudo k3s kubectl -n demo exec deploy/demo-app -- \
+      sh -c 'wget -qO- http://demo-svc.demo.svc.cluster.local/'
+    ```
 
-在集群内部，可以通过 Service 的 DNS 名称访问 Nginx：
-
-```bash
-sudo k3s kubectl -n demo exec deploy/demo-app -- \
-  sh -c 'wget -qO- http://demo-svc.demo.svc.cluster.local/'
-```
-
-```text
-hello-from-hostpath
-```
+    ```text
+    hello-from-hostpath
+    ```
+  </CodeBlockTab>
+</CodeBlockTabs>
 
 ## 清单说明 [step]
 
-<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '8px', padding: '16px', fontSize: '14px', lineHeight: 1.8 }}>
-<div style={{ textAlign: 'center', fontWeight: 600 }}>客户端（集群外）</div>
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '12px', marginTop: '12px' }}>
-<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
-  <div style={{ fontWeight: 600 }}>节点端口 30080</div>
-  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>每台节点都监听，由 kube-proxy 转发</div>
-  <div style={{ marginTop: '6px', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>
-    curl http://172.16.100.176:30080/<br/>
-    curl http://172.16.100.177:30080/
-  </div>
-</div>
-<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
-  <div style={{ fontWeight: 600 }}>Ingress 规则</div>
-  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>Host: demo.local → demo-svc:80，由 Traefik 实现，每台节点 80 端口</div>
-  <div style={{ marginTop: '6px', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>
-    curl -H 'Host: demo.local' http://172.16.100.176/<br/>
-    curl -H 'Host: demo.local' http://172.16.100.177/
-  </div>
-</div>
-<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
-  <div style={{ fontWeight: 600 }}>集群内其它 Pod</div>
-  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>通过 Service DNS 访问，不经过节点端口与 Ingress</div>
-  <div style={{ marginTop: '6px', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>
-    wget -qO- http://demo-svc.demo.svc.cluster.local/
-  </div>
-</div>
-</div>
-<div style={{ textAlign: 'center', color: 'var(--color-fd-muted-foreground,#6b7280)', margin: '12px 0' }}>↓ 三种入口最终都转发到 Service 的后端 Pod</div>
-<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px', textAlign: 'center' }}>
-  <span style={{ fontWeight: 600 }}>Service demo-svc</span>
-  <span style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>　ClusterIP:80，Endpoints → Pod IP</span>
-</div>
-<div style={{ textAlign: 'center', color: 'var(--color-fd-muted-foreground,#6b7280)', margin: '8px 0' }}>↓ 转发到容器 80 端口</div>
-<div style={{ border: '1px solid var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px', textAlign: 'center' }}>
-  <span style={{ fontWeight: 600 }}>Pod（调度到 sub11）</span>
-  <span style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>　nginx 容器，监听 80 端口</span>
-</div>
-<div style={{ textAlign: 'center', color: 'var(--color-fd-muted-foreground,#6b7280)', margin: '8px 0' }}>↓ hostPath 挂载（sub11 宿主机目录）</div>
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '12px' }}>
-<div style={{ border: '1px dashed var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
-  <div style={{ fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>/userdata/container/nginx_data/data_0</div>
-  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>网页文件 → /usr/share/nginx/html</div>
-</div>
-<div style={{ border: '1px dashed var(--color-fd-border,#d1d5db)', borderRadius: '6px', padding: '10px' }}>
-  <div style={{ fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: '12px' }}>/userdata/container/nginx_data/config_0</div>
-  <div style={{ color: 'var(--color-fd-muted-foreground,#6b7280)' }}>Nginx 配置文件 → /etc/nginx/conf.d</div>
-</div>
-</div>
-</div>
+![K3s 部署应用架构图：三种访问入口（节点端口 / Ingress / 集群内部）与 hostPath 数据目录](../../../servers_img/K3s/deploy-app-architecture.svg)
 
 | 资源 | 关键配置 | 作用 |
 |---|---|---|
@@ -287,10 +215,6 @@ hello-from-hostpath
 
 ```bash
 sudo k3s kubectl delete namespace demo
-```
-
-```text
-namespace "demo" deleted
 ```
 
 **在 sub11 节点删除宿主机数据**
