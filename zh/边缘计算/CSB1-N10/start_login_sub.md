@@ -121,10 +121,12 @@ Web 的 **Debug Mode** 只列出子节点上报支持的通道，个别子节点
 
 子节点与管理网络互通时，可以不经过 Web 或 `bmc` 工具，直接从维护电脑 SSH 登录子节点系统。
 
+这条路径依赖子节点上与服务器**共享网口**连通的那块网卡。共享网口是服务器复用业务网卡、同时承载业务流量与管理流量的网口（详见[访问 BMC](start_login_bmc.md)），它经内部交换机与各子节点相连。因此需要先给该网卡配置一个与维护电脑同网段的静态地址，再把电脑接入服务器所在的交换网络。
+
 ### 配置子节点静态 IPv4 地址 [step]
 
 1. 在左侧导航栏中选择 **Devices** → **Network**；也可以直接访问 `https://172.16.100.172:443/#/deviceManage/boardNetManage`，实际使用时请替换为设备的管理地址和端口。
-2. 根据 **Device Name**、**Net Card** 和 **MAC Address** 找到目标子节点共享网口对应的网卡，单击该行的 **Configure**。
+2. 根据 **Device Name**、**Net Card** 和 **MAC Address** 找到子节点上连通共享网口的那块网卡，单击该行的 **Configure**。
 3. 在 **IPv4 Configuration** 页签中，将 **IPv4 Mode** 设置为 **Manual**，填写 **Address** 和 **Subnet Mask**；需要跨网段访问时，再填写 **Gateway** 和 **Gateway Priority**。
 4. 确认该地址没有被其他设备占用后，单击 **Confirm** 保存，再返回 **Network** 页面确认网卡的 **IPv4 Address** 已更新。配置生效期间，该子节点的网络连接可能会短暂中断。
 
@@ -133,16 +135,17 @@ Web 的 **Debug Mode** 只列出子节点上报支持的通道，个别子节点
 ![配置子节点静态 IPv4](../../../servers_img/common/abmc_set_subboard_static_ipv4_en.png)
 
 <Callout title="网卡选择" type="warn">
-  必须选择与服务器共享网口对应的子节点网卡。不要修改 `bmc/MGMT` 管理口或子节点内部互联使用的网卡；无法确认时，请对照产品网口说明、网卡名称和 MAC 地址核对。
+  必须选择子节点上连通共享网口的那块网卡。不要修改 `bmc/MGMT` 管理口或子节点内部互联使用的网卡；无法确认时，请对照产品网口说明、网卡名称和 MAC 地址核对。
 </Callout>
 
 上图为示例：`Address` 填 `192.168.10.10`，`Subnet Mask` 填 `255.255.255.0`（即 `/24`）。实际部署请替换为现场规划的地址；电脑与子节点在同一二层网络时可以不填 `Gateway`。
 
-### 接入服务器共享网口 [step]
+### 把维护电脑接入交换机 [step]
+
+服务器到交换机的网线连接请参考[网络接线方式](start_server_network.md)，按带外管理或带内管理任选一种完成；之后把维护电脑接入同一台交换机：
 
 1. 用网线把维护电脑接入交换机。
 2. 确认电脑端口与服务器端口属于同一交换网络和 VLAN。
-3. 用网线把服务器共享网口接入同一交换机。
 
 ![共享网口网络连接](../../../servers_img/common/pc_switch_shared_network_topology_steps.png)
 

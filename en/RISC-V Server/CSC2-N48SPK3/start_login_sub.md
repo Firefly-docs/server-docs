@@ -121,10 +121,12 @@ In the **Open Debugging** window, select the connection channel in **Debug Mode*
 
 When the sub-node and the management network can reach each other, you can log in to the sub-node system over SSH directly from the maintenance PC, without the Web page or the `bmc` tool.
 
+This path relies on the sub-node NIC that connects to the server's **shared network port**: the server port that reuses a service NIC and carries both service traffic and management traffic (see [Accessing the BMC](start_login_bmc.md)). It reaches the sub-nodes through the internal switch. So first assign that NIC a static address in the same subnet as the maintenance PC, then connect the PC to the switching network the server uses.
+
 ### Configure a Static IPv4 Address for the Sub-node [step]
 
 1. Select **Devices** → **Network** in the left navigation bar; you can also visit `https://172.16.100.172:443/#/deviceManage/boardNetManage` directly, replacing it with the management address and port of your device.
-2. Find the NIC for the shared network port of the target sub-node based on **Device Name**, **Net Card**, and **MAC Address**, then click **Configure** in that row.
+2. Find the sub-node NIC that connects to the shared network port based on **Device Name**, **Net Card**, and **MAC Address**, then click **Configure** in that row.
 3. In the **IPv4 Configuration** tab, set **IPv4 Mode** to **Manual**, then fill in **Address** and **Subnet Mask**; fill in **Gateway** and **Gateway Priority** only if cross-subnet access is required.
 4. After checking that the address is not taken by another device, click **Confirm** to save, then return to the **Network** page and check that the **IPv4 Address** of the NIC has been updated. The sub-node's network connection may drop briefly while the change takes effect.
 
@@ -133,16 +135,17 @@ When the sub-node and the management network can reach each other, you can log i
 ![Configure the sub-node static IPv4](../../../servers_img/common/abmc_set_subboard_static_ipv4_en.png)
 
 <Callout title="NIC Selection" type="warn">
-  You must select the sub-node NIC that matches the server's shared network port. Do not modify the `bmc/MGMT` management port or the NICs used for internal interconnection between sub-nodes; if you cannot tell them apart, check the product network port description, the NIC name, and the MAC address.
+  You must select the sub-node NIC that connects to the shared network port. Do not modify the `bmc/MGMT` management port or the NICs used for internal interconnection between sub-nodes; if you cannot tell them apart, check the product network port description, the NIC name, and the MAC address.
 </Callout>
 
 The screenshots above are examples: set `Address` to `192.168.10.10` and `Subnet Mask` to `255.255.255.0` (that is `/24`). Replace them with the addresses planned for your site; `Gateway` can be left empty when the PC and the sub-node are on the same Layer 2 network.
 
-### Connect to the Server's Shared Network Port [step]
+### Connect the Maintenance PC to the Switch [step]
+
+For the cable connection between the server and the switch, refer to [Network Wiring](start_server_network.md) and complete either the out-of-band or the in-band method; then connect the maintenance PC to the same switch:
 
 1. Use a network cable to connect the maintenance PC to the switch.
 2. Confirm that the PC port and the server port belong to the same switching network and VLAN.
-3. Use a network cable to connect the server's shared network port to the same switch.
 
 ![Shared network port connection](../../../servers_img/common/pc_switch_shared_network_topology_steps.png)
 
