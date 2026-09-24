@@ -16,7 +16,6 @@
 
     ### 执行卸载脚本 [step]
 
-
     ```bash
     sudo K3S_DATA_DIR=/userdata/k3s /usr/local/bin/k3s-agent-uninstall.sh
     ```
@@ -98,11 +97,16 @@
     sudo docker rm -f k3s-server
     ```
 
-    ### 清理网络与规则 [step]
+    ### 清理衍生网卡 [step]
 
     ```bash
     sudo ip link delete cni0
     sudo ip link delete flannel.1
+    ```
+
+    ## 清除规则
+
+    ```shell
     sudo iptables-save | grep -v KUBE- | grep -v CNI- | grep -iv flannel | sudo iptables-restore
     ```
 
