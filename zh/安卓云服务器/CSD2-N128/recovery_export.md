@@ -2,48 +2,33 @@
 
 > 版本：正式版
 >
-> 本手册配套：
-> - 基础固件：客户当前烧录的基础镜像
+> 本教程所需工具：
+> - 基础固件：客户当前烧录的基础镜像（目前指的是 BMC 固件，后期可能也会支持在子板固件内）
 > - recovery 内置 `exportctl`（位于 `/usr/bin/exportctl`）
 > - PC 工具：`firmware-kits`
 >
-> 本文用于完成以下工作：
-> 1. 使用提供的固件烧录设备
-> 2. 在设备上部署环境
-> 3. 进入 recovery 导出当前 rootfs
+> 本教程用于完成的工作：
+> 1. 使用提供的固件烧录对设备进行固件更新
+> 2. 在设备上部署软件环境，添加客户的第三方应用
+> 3. 进入 recovery 导出当前 rootfs（这个 rootfs 就包含了您在设备上部署的软件环境以及第三方应用）
 > 4. 回到 PC，用 `firmware-kits` 重新打包固件
 
 ---
 
 ## 目录
 
-1. [总体流程](#一总体流程)
-2. [烧录固件](#二烧录固件)
-3. [设备端部署环境](#三设备端部署环境)
-4. [进入 recovery 并导出 rootfs](#四进入-recovery-并导出-rootfs)
-5. [PC 端：用 firmware-kits 重新打包固件](#五pc-端用-firmware-kits-重新打包固件)
-6. [FAQ](#六faq)
-7. [附录：exportctl 参数速查](#七附录exportctl-参数速查)
+1. [烧录固件](#一烧录固件)
+2. [部署环境](#二设备端部署环境)
+3. [进入 recovery 导出 rootfs](#三进入-recovery-并导出-rootfs)
+4. [用 firmware-kits 重新打包](#四pc-端用-firmware-kits-重新打包固件)
+5. [FAQ](#五faq)
+6. [附录：exportctl 速查](#六附录exportctl-参数速查)
 
 ---
 
-## 一、总体流程
+## 一、烧录固件
 
-```text
-1. 烧录基础固件（recovery 分区已内置 exportctl）
-2. 在正常系统中部署软件、文件和配置
-3. 进入 recovery，执行 exportctl 导出 rootfs
-4. 将导出的 rootfs.img 拷贝到 PC
-5. PC 使用 firmware-kits 解包基础固件
-6. 在 rootfs 步骤覆盖导出的 rootfs / 调整分区大小 / 放入内容
-7. 打包生成新固件并烧录验证
-```
-
----
-
-## 二、烧录固件
-
-使用客户侧已有的烧录工具完成基础固件烧录。
+使用客户侧已有的烧录工具完成基础固件烧录，可以参考 BMC 固件烧录章节
 
 ```text
 <基础固件>.img
@@ -54,7 +39,7 @@
 
 ---
 
-## 三、设备端部署环境
+## 二、设备端部署环境
 
 在设备正常系统中完成你的部署工作，例如：
 
@@ -67,23 +52,17 @@ sudo cp <你的文件> /opt/
 
 ---
 
-## 四、进入 recovery 并导出 rootfs
+## 三、进入 recovery 并导出 rootfs
 
-### 4.1 进入 recovery
+### 3.1 进入 recovery
 
-在设备正常系统中执行：
+在设备正常系统中执行（最好是通过串口）：
 
 ```bash
 sudo reboot recovery
 ```
 
-进入后可通过串口或 SSH 登录设备，确认处于 recovery：
-
-```bash
-uname -a
-```
-
-### 4.2 查看可导出平台
+### 3.2 查看可导出平台
 
 ```bash
 exportctl list
@@ -96,7 +75,7 @@ rk3588-firefly
 bm1684
 ```
 
-### 4.3 导出 rootfs
+### 3.3 导出 rootfs
 
 导出完整合并 rootfs：
 
@@ -123,7 +102,7 @@ umount /mnt/usb
 
 > 导出目标只支持 ext4 格式分区，正式交付请按 ext4 使用。
 
-### 4.4 导出结果
+### 3.4 导出结果
 
 产物目录格式：
 
@@ -139,7 +118,7 @@ rootfs.img
 
 如果需要目录树，可加 `--no-img`。
 
-### 4.5 其他可选参数
+### 3.5 其他可选参数
 
 | 参数 | 说明 |
 | ---- | ---- |
@@ -149,7 +128,7 @@ rootfs.img
 | `--no-img` | 只导出目录树，不打包 img |
 | `--keep-identity` | 保留 machine-id / SSH 主机密钥 |
 
-### 4.6 常见报错
+### 3.6 常见报错
 
 | 报错 | 处理 |
 | ---- | ---- |
@@ -159,15 +138,15 @@ rootfs.img
 
 ---
 
-## 五、PC 端：用 firmware-kits 重新打包固件
+## 四、PC 端：用 firmware-kits 重新打包固件
 
-### 5.1 准备
+### 4.1 准备
 
 - 基础固件包
-- 第 4 步导出的 `rootfs.img`
+- 第 3 步导出的 `rootfs.img`
 - PC 环境：Ubuntu 20.04/22.04 x86_64，已安装依赖
 
-### 5.2 启动流程
+### 4.2 启动流程
 
 在 `firmware-kits` 目录执行：
 
@@ -183,7 +162,7 @@ sudo ./firmware-kits run -l flow/rk3588.yaml -f ./<基础固件>.img
 3. 随后按提示调整分区大小
 4. 再进入 rootfs 完成文件放入或配置修改
 
-### 5.3 分区调整
+### 4.3 分区调整
 
 如果不需要修改分区大小，按提示直接继续：
 
@@ -193,7 +172,7 @@ sudo ./firmware-kits resume
 
 如果需要修改，按流程提示在暂停点完成后再继续。
 
-### 5.4 内容替换
+### 4.4 内容替换
 
 分区调整完成后，进入 rootfs 执行文件放入或配置修改；完成后继续：
 
@@ -201,13 +180,13 @@ sudo ./firmware-kits resume
 sudo ./firmware-kits resume
 ```
 
-### 5.5 打包与产物
+### 4.5 打包与产物
 
 流程完成后会生成新的固件包。
 
 ---
 
-## 六、FAQ
+## 五、FAQ
 
 **Q1：导出一定要进 recovery 吗？**
 是。recovery 下更适合导出一致、干净的 rootfs。
@@ -241,7 +220,7 @@ sudo ./firmware-kits resume
 
 ---
 
-## 七、附录：exportctl 参数速查
+## 六、附录：exportctl 参数速查
 
 ```text
 exportctl [-p <平台>] -o <目标> [-m 模式] [--no-img] [--keep-identity]
