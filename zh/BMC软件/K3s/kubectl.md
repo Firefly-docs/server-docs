@@ -1,33 +1,27 @@
-# kubectl 常用命令
-
-以下命令均在运行 K3s Server 的 `bmc` 节点上执行。由于 K3s Server 运行在 Docker 容器中，命令统一使用以下前缀：
-
-```bash
-sudo docker exec k3s-server kubectl
-```
+# 常用命令
 
 ## 集群信息
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl cluster-info` | 查看集群 API Server 和核心组件信息 |
-| `sudo docker exec k3s-server kubectl get nodes` | 查看节点列表、状态、角色和版本 |
-| `sudo docker exec k3s-server kubectl get nodes -o wide` | 查看节点 IP、操作系统和容器运行时等详细信息 |
-| `sudo docker exec k3s-server kubectl describe node <节点名称>` | 查看节点资源、标签、污点和事件 |
+| `kubectl cluster-info` | 查看集群 API Server 和核心组件信息 |
+| `kubectl get nodes` | 查看节点列表、状态、角色和版本 |
+| `kubectl get nodes -o wide` | 查看节点 IP、操作系统和容器运行时等详细信息 |
+| `kubectl describe node <节点名称>` | 查看节点资源、标签、污点和事件 |
 
 ## Pod 管理
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl get pods` | 查看当前命名空间中的 Pod |
-| `sudo docker exec k3s-server kubectl get pods -n <命名空间>` | 查看指定命名空间中的 Pod |
-| `sudo docker exec k3s-server kubectl get pods -A` | 查看所有命名空间中的 Pod |
-| `sudo docker exec k3s-server kubectl get pods -o wide` | 查看 Pod 的 IP 和所在节点 |
-| `sudo docker exec k3s-server kubectl describe pod <Pod 名称>` | 查看 Pod 详情、事件和容器配置 |
-| `sudo docker exec k3s-server kubectl logs <Pod 名称>` | 查看 Pod 日志 |
-| `sudo docker exec k3s-server kubectl logs <Pod 名称> -f` | 持续跟踪 Pod 日志 |
-| `sudo docker exec k3s-server kubectl logs <Pod 名称> -c <容器名称>` | 查看指定容器的日志 |
-| `sudo docker exec k3s-server kubectl delete pod <Pod 名称>` | 删除指定 Pod；由 Deployment 管理的 Pod 会自动重建 |
+| `kubectl get pods` | 查看当前命名空间中的 Pod |
+| `kubectl get pods -n <命名空间>` | 查看指定命名空间中的 Pod |
+| `kubectl get pods -A` | 查看所有命名空间中的 Pod |
+| `kubectl get pods -o wide` | 查看 Pod 的 IP 和所在节点 |
+| `kubectl describe pod <Pod 名称>` | 查看 Pod 详情、事件和容器配置 |
+| `kubectl logs <Pod 名称>` | 查看 Pod 日志 |
+| `kubectl logs <Pod 名称> -f` | 持续跟踪 Pod 日志 |
+| `kubectl logs <Pod 名称> -c <容器名称>` | 查看指定容器的日志 |
+| `kubectl delete pod <Pod 名称>` | 删除指定 Pod；由 Deployment 管理的 Pod 会自动重建 |
 
 ## Service 管理
 
@@ -51,11 +45,11 @@ Service 用于为一组 Pod 提供稳定的访问入口。Pod 创建、删除或
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl get svc` | 查看当前命名空间中的 Service |
-| `sudo docker exec k3s-server kubectl get svc -n <命名空间>` | 查看指定命名空间中的 Service |
-| `sudo docker exec k3s-server kubectl get svc -A` | 查看所有命名空间中的 Service |
-| `sudo docker exec k3s-server kubectl describe svc <Service 名称>` | 查看 Service 端口映射和后端 Pod |
-| `sudo docker exec k3s-server kubectl expose deployment <部署名称> --type=NodePort --port=80 --target-port=80 --name=<Service 名称>` | 根据 Deployment 创建 NodePort Service |
+| `kubectl get svc` | 查看当前命名空间中的 Service |
+| `kubectl get svc -n <命名空间>` | 查看指定命名空间中的 Service |
+| `kubectl get svc -A` | 查看所有命名空间中的 Service |
+| `kubectl describe svc <Service 名称>` | 查看 Service 端口映射和后端 Pod |
+| `kubectl expose deployment <部署名称> --type=NodePort --port=80 --target-port=80 --name=<Service 名称>` | 根据 Deployment 创建 NodePort Service |
 
 ## Deployment 管理
 
@@ -69,13 +63,13 @@ Service 用于为一组 Pod 提供稳定的访问入口。Pod 创建、删除或
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl get deploy` | 查看当前命名空间中的 Deployment |
-| `sudo docker exec k3s-server kubectl get deploy -n <命名空间>` | 查看指定命名空间中的 Deployment |
-| `sudo docker exec k3s-server kubectl apply -f <YAML 文件>` | 根据 YAML 文件创建或更新资源 |
-| `sudo docker exec k3s-server kubectl delete -f <YAML 文件>` | 根据 YAML 文件删除资源 |
-| `sudo docker exec k3s-server kubectl scale deploy <部署名称> --replicas=<数量>` | 调整 Deployment 的 Pod 副本数量 |
-| `sudo docker exec k3s-server kubectl rollout status deploy/<部署名称>` | 查看 Deployment 更新状态 |
-| `sudo docker exec k3s-server kubectl rollout restart deploy/<部署名称>` | 重启 Deployment 管理的 Pod |
+| `kubectl get deploy` | 查看当前命名空间中的 Deployment |
+| `kubectl get deploy -n <命名空间>` | 查看指定命名空间中的 Deployment |
+| `kubectl apply -f <YAML 文件>` | 根据 YAML 文件创建或更新资源 |
+| `kubectl delete -f <YAML 文件>` | 根据 YAML 文件删除资源 |
+| `kubectl scale deploy <部署名称> --replicas=<数量>` | 调整 Deployment 的 Pod 副本数量 |
+| `kubectl rollout status deploy/<部署名称>` | 查看 Deployment 更新状态 |
+| `kubectl rollout restart deploy/<部署名称>` | 重启 Deployment 管理的 Pod |
 
 ## Job 管理
 
@@ -90,14 +84,14 @@ Service 用于为一组 Pod 提供稳定的访问入口。Pod 创建、删除或
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl create job <Job 名称> --image=<镜像名称>` | 创建一次性 Job |
-| `sudo docker exec k3s-server kubectl get jobs` | 查看当前命名空间中的 Job |
-| `sudo docker exec k3s-server kubectl get jobs -A` | 查看所有命名空间中的 Job |
-| `sudo docker exec k3s-server kubectl describe job <Job 名称>` | 查看 Job 状态、Pod 和事件 |
-| `sudo docker exec k3s-server kubectl wait --for=condition=complete job/<Job 名称> --timeout=180s` | 等待 Job 执行完成 |
-| `sudo docker exec k3s-server kubectl logs job/<Job 名称>` | 查看 Job 生成的 Pod 日志 |
-| `sudo docker exec k3s-server kubectl delete job <Job 名称>` | 删除 Job 及其关联的 Pod |
-| `sudo docker exec k3s-server kubectl apply -f <Job YAML 文件>` | 根据 YAML 文件创建或更新 Job |
+| `kubectl create job <Job 名称> --image=<镜像名称>` | 创建一次性 Job |
+| `kubectl get jobs` | 查看当前命名空间中的 Job |
+| `kubectl get jobs -A` | 查看所有命名空间中的 Job |
+| `kubectl describe job <Job 名称>` | 查看 Job 状态、Pod 和事件 |
+| `kubectl wait --for=condition=complete job/<Job 名称> --timeout=180s` | 等待 Job 执行完成 |
+| `kubectl logs job/<Job 名称>` | 查看 Job 生成的 Pod 日志 |
+| `kubectl delete job <Job 名称>` | 删除 Job 及其关联的 Pod |
+| `kubectl apply -f <Job YAML 文件>` | 根据 YAML 文件创建或更新 Job |
 
 ## CronJob 管理
 
@@ -114,16 +108,16 @@ Service 用于为一组 Pod 提供稳定的访问入口。Pod 创建、删除或
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl create cronjob <CronJob 名称> --image=<镜像名称> --schedule="*/5 * * * *"` | 创建按计划执行的 CronJob |
-| `sudo docker exec k3s-server kubectl get cronjobs` | 查看当前命名空间中的 CronJob |
-| `sudo docker exec k3s-server kubectl get cronjobs -A` | 查看所有命名空间中的 CronJob |
-| `sudo docker exec k3s-server kubectl describe cronjob <CronJob 名称>` | 查看 CronJob 的调度计划、状态和事件 |
-| `sudo docker exec k3s-server kubectl get jobs --sort-by=.metadata.creationTimestamp` | 查看 CronJob 创建的 Job |
-| `sudo docker exec k3s-server kubectl get pods --sort-by=.metadata.creationTimestamp` | 查看 CronJob 创建的 Pod |
-| `sudo docker exec k3s-server kubectl patch cronjob <CronJob 名称> -p '{"spec":{"suspend":true}}'` | 暂停 CronJob 的后续调度 |
-| `sudo docker exec k3s-server kubectl patch cronjob <CronJob 名称> -p '{"spec":{"suspend":false}}'` | 恢复 CronJob 的调度 |
-| `sudo docker exec k3s-server kubectl delete cronjob <CronJob 名称>` | 删除 CronJob 及其后续调度 |
-| `sudo docker exec k3s-server kubectl apply -f <CronJob YAML 文件>` | 根据 YAML 文件创建或更新 CronJob |
+| `kubectl create cronjob <CronJob 名称> --image=<镜像名称> --schedule="*/5 * * * *"` | 创建按计划执行的 CronJob |
+| `kubectl get cronjobs` | 查看当前命名空间中的 CronJob |
+| `kubectl get cronjobs -A` | 查看所有命名空间中的 CronJob |
+| `kubectl describe cronjob <CronJob 名称>` | 查看 CronJob 的调度计划、状态和事件 |
+| `kubectl get jobs --sort-by=.metadata.creationTimestamp` | 查看 CronJob 创建的 Job |
+| `kubectl get pods --sort-by=.metadata.creationTimestamp` | 查看 CronJob 创建的 Pod |
+| `kubectl patch cronjob <CronJob 名称> -p '{"spec":{"suspend":true}}'` | 暂停 CronJob 的后续调度 |
+| `kubectl patch cronjob <CronJob 名称> -p '{"spec":{"suspend":false}}'` | 恢复 CronJob 的调度 |
+| `kubectl delete cronjob <CronJob 名称>` | 删除 CronJob 及其后续调度 |
+| `kubectl apply -f <CronJob YAML 文件>` | 根据 YAML 文件创建或更新 CronJob |
 
 ## 命名空间和配置
 
@@ -138,18 +132,17 @@ ConfigMap 和 Secret 用于保存应用运行所需的配置：
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl get ns` | 查看所有命名空间 |
-| `sudo docker exec k3s-server kubectl create ns <命名空间名称>` | 创建命名空间 |
-| `sudo docker exec k3s-server kubectl get configmap` | 查看当前命名空间中的 ConfigMap |
-| `sudo docker exec k3s-server kubectl get secret` | 查看当前命名空间中的 Secret |
-| `sudo docker exec k3s-server kubectl get events -A --sort-by=.lastTimestamp` | 按时间顺序查看所有命名空间的事件 |
+| `kubectl get ns` | 查看所有命名空间 |
+| `kubectl create ns <命名空间名称>` | 创建命名空间 |
+| `kubectl get configmap` | 查看当前命名空间中的 ConfigMap |
+| `kubectl get secret` | 查看当前命名空间中的 Secret |
+| `kubectl get events -A --sort-by=.lastTimestamp` | 按时间顺序查看所有命名空间的事件 |
 
 ## 资源和故障排查
 
 | 命令 | 用途 |
 |---|---|
-| `sudo docker exec k3s-server kubectl top nodes` | 查看节点 CPU 和内存使用情况 |
-| `sudo docker exec k3s-server kubectl top pods -A` | 查看所有 Pod 的 CPU 和内存使用情况 |
-| `sudo docker exec k3s-server kubectl get pods -A -o wide` | 查看所有 Pod 的状态、IP 和所在节点 |
-| `sudo docker exec k3s-server kubectl describe pod <Pod 名称> -n <命名空间>` | 查看 Pod 的详细信息和异常事件 |
-| `sudo docker logs --tail=200 k3s-server` | 查看 K3s Server 容器日志 |
+| `kubectl top nodes` | 查看节点 CPU 和内存使用情况 |
+| `kubectl top pods -A` | 查看所有 Pod 的 CPU 和内存使用情况 |
+| `kubectl get pods -A -o wide` | 查看所有 Pod 的状态、IP 和所在节点 |
+| `kubectl describe pod <Pod 名称> -n <命名空间>` | 查看 Pod 的详细信息和异常事件 |

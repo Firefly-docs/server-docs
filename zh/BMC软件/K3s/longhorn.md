@@ -1,4 +1,4 @@
-# longhorn
+# Longhorn
 
 本章介绍 [Longhorn](https://docs.rancher.cn/docs/k3s/storage/#%E8%AE%BE%E7%BD%AE-longhorn) 的用法，示例环境为[K3s部署](install.md)中在线部署完成的集群，当前使用的版本为 `v1.5.1`。
 
@@ -38,6 +38,8 @@ curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/v1.5.3/scripts/en
 
 ## 部署 Longhorn
 
+### Longhorn 安装 [step]
+
 ```bash
 # 安装存储服务
 sudo k3s kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.5.1/deploy/longhorn.yaml
@@ -46,7 +48,7 @@ sudo k3s kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1
 sudo k3s kubectl -n longhorn-system get pods --watch
 ```
 
-## 部署验证 [step]
+### Longhorn 验证 [step]
 
 ```bash
 # 1) 组件是否就绪
@@ -66,7 +68,7 @@ sudo k3s kubectl -n longhorn-system get replicas.longhorn.io -o wide
 * StorageClass：列表中出现 `longhorn`，`ALLOWVOLUMEEXPANSION` 为 `true`；
 * 卷：还没有业务卷时列表为空属于正常；有卷时 `STATE` 为 `attached`、`ROBUSTNESS` 为 `healthy`。
 
-## 访问 Longhorn UI [step]
+## Longhorn UI
 
 Longhorn 自带 Web 界面。默认的 `longhorn-frontend` 是 `ClusterIP`，只能在集群内访问；要从外部打开，需要再建一个 NodePort Service，把请求转发到 UI Pod 的 `8000` 端口：
 
