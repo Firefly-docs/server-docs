@@ -1,45 +1,22 @@
 # rootfs 导出与打包
 
-> 版本：正式版
->
-> 本教程所需工具：
-> - 基础固件：客户当前烧录的基础镜像（目前指的是 BMC 固件，后期可能也会支持在子板固件内）
-> - recovery 内置 `exportctl`（位于 `/usr/bin/exportctl`）
-> - PC 工具：`firmware-kits`
->
-> 本教程用于完成的工作：
-> 1. 使用提供的固件烧录对设备进行固件更新
-> 2. 在设备上部署软件环境，添加客户的第三方应用
-> 3. 进入 recovery 导出当前 rootfs（这个 rootfs 就包含了您在设备上部署的软件环境以及第三方应用）
-> 4. 回到 PC，用 `firmware-kits` 重新打包固件
+该工具的作用是可以让客户在 Recovery 模式下，导出当前设备中的 rootfs。
 
----
+使用该工具的原因有以下两点：
+1. 客户在设备上部署了自己的第三方软件，需要对设备的内容进行固化导出，得到的这个 rootfs 固件可以配合 '固件打包工具'，生成完整的烧录固件，以方便后续设备的批量升级。
+2. 在 Recovery 模式下进行导出比之前在 normal 环境（正常跑系统的时候）下导出更加干净，不会存在一些临时变量/软件环境不包含的问题。
 
-## 目录
+该教程涉及到的软件工具有两个：
+1. `exportctl` 导出工具
+2. `firmware-kits` 打包工具
 
-1. [烧录固件](#一烧录固件)
-2. [部署环境](#二设备端部署环境)
-3. [进入 recovery 导出 rootfs](#三进入-recovery-并导出-rootfs)
-4. [用 firmware-kits 重新打包](#四pc-端用-firmware-kits-重新打包固件)
-5. [FAQ](#五faq)
-6. [附录：exportctl 速查](#六附录exportctl-参数速查)
+生成产物如下：
+1. `rootfs.img` 分区镜像
+2. `update.img` 系统固件
 
----
+具体请参考下述操作。
 
-## 一、烧录固件
-
-使用客户侧已有的烧录工具完成基础固件烧录，可以参考 BMC 固件烧录章节
-
-```text
-<基础固件>.img
-```
-
-- recovery 分区已内置 `exportctl`，无需额外安装；
-- 烧录完成后正常启动进入系统。
-
----
-
-## 二、设备端部署环境
+## 1. 设备端环境部署
 
 在设备正常系统中完成你的部署工作，例如：
 
@@ -48,25 +25,23 @@ sudo apt-get install -y <你的软件>
 sudo cp <你的文件> /opt/
 ```
 
-说明：部署产生的修改会保留在可写层，后续导出时会一起带走。
+这些第三方的客户内容一般会保存在系统的 rootfs-rw 分区，该部分内容之后会被 `exportctl` 一起打包进 `rootfs.img` 里面
 
----
+## 2. recovery 模式
 
-## 三、进入 recovery 并导出 rootfs
-
-### 3.1 进入 recovery
-
-在设备正常系统中执行（最好是通过串口）：
-
+在设备正常系统中执行：
 ```bash
 sudo reboot recovery
 ```
 
-### 3.2 查看可导出平台
+此时设备会重启并且进入 recovery 模式（此时主机与设备的通讯方式只有串口以及 ADB 的方式），为了方便，最好使用串口的方式。
+
+### 2.1 查看可导出平台
 
 ```bash
 exportctl list
 ```
+
 
 预期会看到类似：
 
@@ -75,34 +50,27 @@ rk3588-firefly
 bm1684
 ```
 
-### 3.3 导出 rootfs
+![exportctl1](../../../servers_img/common/bmc_firmware/exportctl_1.png)
 
-导出完整合并 rootfs：
+### 2.2 导出 rootfs
 
 ```bash
 exportctl -o /dev/mmcblk0p7 -m merged
 ```
 
-`-o` 也可以直接指定 ext4 分区，例如 `/dev/sda1`。如果希望导出到目录，则使用已挂载目录：
+![exportctl2](../../../servers_img/common/bmc_firmware/exportctl_2.png)
 
-```bash
-exportctl -o /dev/sda1 -m merged
+参数说明：
 
-mkdir -p /mnt/usb
-mount /dev/sda1 /mnt/usb
-exportctl -o /mnt/usb -m merged
-umount /mnt/usb
-```
+- `-o` 可以直接指定 ext4 块设备
+    - 示例中的 `/dev/mmcblk0p7` 指的就是设备的 `userdata` 分区。换句话，就是最后导出的 rootfs.img 直接保存在了设备的 `userdata` 分区了
+    - 假如你接入了 U 盘，那么也可以直接指定为 U 盘的块设备，例如 `-o /dev/sda1`。最后会导入到 U 盘里面
+    - 也可以直接指定已挂载的目录，例如 `-o /mnt/usb`。 最后会导入到目录里面
+    - 需要**注意的是,使用的块设备必须是 `EXT4`的分区格式，其他格式暂时不支持。所以如果是常规的 `FAT` 格式的 U 盘需要先格式化为 `EXT4` 格式才行**
+- `-m merged` 表示导出完整 rootfs，是默认这么写就行了；
 
-说明：
 
-- `-o` 可以直接指定 ext4 块设备，也可以指定已挂载目录；
-- `-m merged` 导出完整 rootfs，是默认推荐模式；
-- 命令会自动识别平台、挂载、导入并生成 `rootfs.img`。
-
-> 导出目标只支持 ext4 格式分区，正式交付请按 ext4 使用。
-
-### 3.4 导出结果
+### 2.3 导出结果
 
 产物目录格式：
 
@@ -110,25 +78,27 @@ umount /mnt/usb
 <输出目录>/<平台>-<系统>-<版本>-<时间戳>/
 ```
 
+![exportctl3](../../../servers_img/common/bmc_firmware/exportctl_3.png)
+
 默认生成：
 
 ```text
 rootfs.img
 ```
 
-如果需要目录树，可加 `--no-img`。
+如果是按照上述指令 `exportctl -o /dev/mmcblk0p7 -m merged` 生成的，那么最终生成的路径为：`userdata/<平台>-<系统>-<版本>-<时间戳>/rootfs.img`
+其他块设备如 U 盘的也是一样，也是类似的 `/sdaMountPath/<平台>-<系统>-<版本>-<时间戳>/rootfs.img`
 
-### 3.5 其他可选参数
+### 2.4 其他可选参数
 
 | 参数 | 说明 |
 | ---- | ---- |
 | `-m ro` | 只导出只读基础层 |
 | `-m rw` | 只导出可写层 |
-| `-m userdata` | 只导出数据分区 |
 | `--no-img` | 只导出目录树，不打包 img |
 | `--keep-identity` | 保留 machine-id / SSH 主机密钥 |
 
-### 3.6 常见报错
+### 2.5 常见报错
 
 | 报错 | 处理 |
 | ---- | ---- |
@@ -136,102 +106,45 @@ rootfs.img
 | `输出设备已被挂载` | 先卸载其它挂载点，或改用目录方式 |
 | `输出空间不足` | 清理空间或换更大存储 |
 
----
 
-## 四、PC 端：用 firmware-kits 重新打包固件
+## 3. 使用 rootfs 重新打包固件
 
-### 4.1 准备
+在得到 `rootfs.img` 之后，就可以重新进行设备固件的打包。
 
-- 基础固件包
-- 第 3 步导出的 `rootfs.img`
-- PC 环境：Ubuntu 20.04/22.04 x86_64，已安装依赖
+首先需要了解 `firmware-kits` 工具的使用，可参考[定制固件](dev_sub_firmware.md)。
 
-### 4.2 启动流程
+在重新打包固件流程中，有关键的一个阶段便是进行 `rootfs.img` 的替换阶段，会先询问是否使用 recovery 导出的 `rootfs.img` 覆盖解包出的 rootfs：
 
-在 `firmware-kits` 目录执行：
-
-```bash
-cd firmware-kits
-sudo ./firmware-kits run -l flow/rk3588.yaml -f ./<基础固件>.img
-```
-
-流程会在需要人工处理的位置暂停。通常会先询问是否使用 recovery 导出的 `rootfs.img` 覆盖解包出的 rootfs：
+![exportctl4](../../../servers_img/common/bmc_firmware/exportctl_4.png)
 
 1. 选择 `y` 时，按提示提供导出的 `rootfs.img` 路径
 2. 选择 `N` 时，继续使用基础固件中解包出来的 rootfs
 3. 随后按提示调整分区大小
-4. 再进入 rootfs 完成文件放入或配置修改
+4. 再进入 rootfs 完成文件放入或软件修改
 
-### 4.3 分区调整
 
-如果不需要修改分区大小，按提示直接继续：
+## FAQ [step]
 
-```bash
-sudo ./firmware-kits resume
-```
-
-如果需要修改，按流程提示在暂停点完成后再继续。
-
-### 4.4 内容替换
-
-分区调整完成后，进入 rootfs 执行文件放入或配置修改；完成后继续：
-
-```bash
-sudo ./firmware-kits resume
-```
-
-### 4.5 打包与产物
-
-流程完成后会生成新的固件包。
-
----
-
-## 五、FAQ
-
-**Q1：导出一定要进 recovery 吗？**
+### Q：导出一定要进 recovery 吗？[step]
 是。recovery 下更适合导出一致、干净的 rootfs。
 
-**Q2：导出的 rootfs.img 为什么比系统分区小？**
+### Q：recovery 模式下没有 exportctl 命令怎么办？[step]
+请参考 [BMC 固件升级](bmc_firmware_upgrade.md)，烧录最新的固件才支持。
+
+### Q：导出的 rootfs.img 为什么比系统分区小？[step]
 因为导出后会做收缩处理，属于正常现象。
 
-**Q3：默认会不会把每台机器做成一样？**
-不会。默认会重置 machine-id 和 SSH host keys。
-
-**Q4：recovery 里 /tmp 能放导出文件吗？**
+### Q：recovery 里 /tmp 能放导出文件吗？[step]
 可以临时使用，但不建议作为正式导出目标。优先使用 ext4 块设备或已挂载目录。
 
-**Q5：U 盘提示不是 ext4 怎么办？**
-把 U 盘分区格式化成 ext4 再试。
-
-**Q6：导出途中中断了怎么办？**
+### Q：导出途中中断了怎么办？[step]
 重新执行 `exportctl` 即可，输出目录会按新的时间戳重新生成。
 
-**Q7：默认导出只有 rootfs.img 吗？**
+### Q：默认导出只有 rootfs.img 吗？[step]
 是，默认直接生成 `rootfs.img`。
 
-**Q8：导出会不会占用设备 userdata 空间？**
+### Q：导出会不会占用设备 userdata 空间？[step]
 会。导出到设备分区时，请提前确认目标分区空间充足。
 
-**Q9：如何确认新固件升级成功？**
-烧录后确认系统正常启动，且部署内容存在。
 
-**Q10：如何确认新固件里包含我部署的内容？**
-烧录后检查对应路径即可，例如 `/opt/` 下的文件。
 
----
-
-## 六、附录：exportctl 参数速查
-
-```text
-exportctl [-p <平台>] -o <目标> [-m 模式] [--no-img] [--keep-identity]
-exportctl list
-exportctl pack -i <树目录> -o <img路径> [-l 标签]
-
--o <目标>   ext4 块设备或已挂载目录
--p <平台>   手动指定平台（rk3588-firefly / bm1684）
--m <模式>   merged(默认) | ro | rw | userdata
---no-img    只出目录树，不打包 img
---keep-identity  不重置机器身份
-```
-
----
