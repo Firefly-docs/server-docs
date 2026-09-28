@@ -171,4 +171,4 @@ The steps for each login method are described below.
 For full feature descriptions, refer to [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface).
 
 ### Q: What should I do if I cannot log in to the aBMC Web UI? [step]
-If the access fails, refer to [Troubleshooting](/docs/server/bmc-software/aBMC/op_issues_troubleshooting).
+If the access fails, refer to [Troubleshooting](op_issues_troubleshooting).

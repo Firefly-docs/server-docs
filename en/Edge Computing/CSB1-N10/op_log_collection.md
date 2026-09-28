@@ -70,7 +70,7 @@ fflog general --all --fields core_name | sort | uniq -c
 **How to read it**:
 
 - Has output: locate the module by time and content. In the sample above, the first line is `node-service` reporting that nodeService recovery failed on `sub05`, and the next two show `ssh-terminal` and `file-sharing` failing to start on `sub05` because it is "not a Linux device";
-- Empty: the sub-board itself recorded no error, so the cause is likely external (network, power). Continue with [Troubleshooting](op_issues_troubleshooting.md);
+- Empty: the sub-board itself recorded no error, so the cause is likely external (network, power). Continue with [Troubleshooting](op_issues_troubleshooting);
 - In the list, `-` means a BMC-side log not tied to a specific sub-board, `bmc` is the management controller itself, and `machine` is the whole machine.
 
 > Only the **general log** and the **system log** can be filtered by sub-board (`--core`); the manager log has no sub-board dimension and cannot be filtered this way.

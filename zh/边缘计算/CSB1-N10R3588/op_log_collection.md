@@ -70,7 +70,7 @@ fflog general --all --fields core_name | sort | uniq -c
 **怎么看**：
 
 - 有输出：按时间和内容定位模块。例如上面第一条是 `node-service` 报告 `sub05` 的 nodeService 恢复失败，后两条说明 `ssh-terminal`、`file-sharing` 在 `sub05` 上因「不是 Linux 设备」启动失败；
-- 没有输出：说明这块子板本身没记录到错误，问题可能在网络、供电等外部因素，可结合[异常排查](op_issues_troubleshooting.md)继续排查；
+- 没有输出：说明这块子板本身没记录到错误，问题可能在网络、供电等外部因素，可结合[异常排查](op_issues_troubleshooting)继续排查；
 - 列表中的 `-` 表示 BMC 侧未归属到具体子板的日志，`bmc` 是管理控制器本身，`machine` 是整机相关。
 
 > 只有**通用日志**和**系统日志**能按子板抓（`--core`）；管理日志没有子板维度，不能这样筛。

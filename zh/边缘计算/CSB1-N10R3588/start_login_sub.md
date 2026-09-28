@@ -181,4 +181,4 @@ ssh -p <SSH_PORT> <SUBBOARD_USER>@192.168.10.10   # SSH 服务使用非默认端
 完整功能说明参考 [《aBMC Web 使用手册》](/docs/server/bmc-software/aBMC/preface)。
 
 ### 2.所有登录方式都无法登录该怎么处理？
-请参考 [异常排查](/docs/server/bmc-software/aBMC/op_issues_troubleshooting)。
+请参考 [异常排查](op_issues_troubleshooting)。

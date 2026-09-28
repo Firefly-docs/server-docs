@@ -181,4 +181,4 @@ ssh -p <SSH_PORT> <SUBBOARD_USER>@192.168.10.10   # non-default SSH port
 For full feature descriptions, refer to [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface).
 
 ### 2.What should I do if none of the login methods works?
-Refer to [Troubleshooting](/docs/server/bmc-software/aBMC/op_issues_troubleshooting).
+Refer to [Troubleshooting](op_issues_troubleshooting).

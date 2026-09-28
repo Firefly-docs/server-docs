@@ -29,4 +29,4 @@ The debug serial port is on the front panel, the RJ45 connector labeled **CONSOL
 3. Open a serial terminal tool (such as PuTTY, MobaXterm, or minicom) and connect to the serial port with **115200-8-N-1** (baud rate 115200, 8 data bits, no parity bit, 1 stop bit).
 4. Press **Enter** to wake up the terminal. When a command-line prompt appears, the connection is successful; you can then view boot logs or log in to the command-line system.
 
-> If the terminal output is garbled, first check whether the baud rate is 115200. For problems that still cannot be located after logging in through the serial port, refer to [Troubleshooting](op_issues_troubleshooting.md).
+> If the terminal output is garbled, first check whether the baud rate is 115200. For problems that still cannot be located after logging in through the serial port, refer to [Troubleshooting](op_issues_troubleshooting).

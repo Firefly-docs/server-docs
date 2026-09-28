@@ -171,4 +171,4 @@ Web 与 SSH 登录都需要 aBMC 管理 IP。在服务器本地 Linux 系统中�
 完整功能说明参考 [《aBMC Web 使用手册》](/docs/server/bmc-software/aBMC/preface)。
 
 ### Q：aBMC Web无法登录该怎么处理？[step]
-访问失败时，请参考 [异常排查](/docs/server/bmc-software/aBMC/op_issues_troubleshooting)。
+访问失败时，请参考 [异常排查](op_issues_troubleshooting)。
