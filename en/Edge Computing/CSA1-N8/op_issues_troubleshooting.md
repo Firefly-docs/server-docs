@@ -143,8 +143,12 @@ A: First use the serial console to confirm whether the sub-board's system is sti
     3. Sophgo platforms
 
         This is mostly caused by a network interruption. On the sub-board, ping the aBMC management IP to check connectivity:
+
         3.1 If the ping fails and the network settings are wrong, correct the network configuration to restore the connection;
-        3.2 If the network settings are correct but the ping still fails, the NIC is most likely faulty; restart the device and try again. If it still fails after the restart, contact Firefly technical support.
+
+        3.2 If the network settings are correct but the ping still fails, run `df -h` to check disk usage: a full disk can also break the SSH service and cause the connection failure. If the disk is 100% used, clean up files to free disk space (keep at least 10% of the system disk free), then check whether it reconnects;
+
+        3.3 If the disk usage is normal but the ping still fails, the NIC is most likely faulty; restart the device and try again. If it still fails after the restart, contact Firefly technical support.
 
 * Scenario 2: Pressing Enter in the serial terminal gets no response (the sub-board system is suspected to be down)
 
@@ -153,7 +157,9 @@ A: First use the serial console to confirm whether the sub-board's system is sti
     1. There is log output, and the system can be operated
 
         Check whether aBMC has reconnected:
+
         1.1 If it has, the sub-board previously went down for an unknown reason. It is recommended to enable serial log capture for this sub-board and keep tracking its serial logs; when the problem recurs, send the logs to Firefly technical support for analysis.
+
         1.2 If it has not, contact Firefly technical support.
 
     2. There is no log output at all
