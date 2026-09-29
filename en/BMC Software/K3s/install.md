@@ -10,9 +10,9 @@ This chapter describes three deployment methods. All of them use K3s `v1.36.4+k3
 
 <CodeBlockTabs defaultValue="Online Deployment">
   <CodeBlockTabsList>
-    <CodeBlockTabsTrigger value="Online Deployment">Online Deployment</CodeBlockTabsTrigger>
-    <CodeBlockTabsTrigger value="Offline Deployment">Offline Deployment</CodeBlockTabsTrigger>
-    <CodeBlockTabsTrigger value="Docker Deployment">Docker Deployment</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Online Deployment">Online</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Offline Deployment">Offline</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Docker Deployment">Docker</CodeBlockTabsTrigger>
   </CodeBlockTabsList>
   <CodeBlockTab value="Online Deployment">
 
@@ -425,9 +425,9 @@ This chapter describes three deployment methods. All of them use K3s `v1.36.4+k3
 
 <CodeBlockTabs defaultValue="Online Deployment">
   <CodeBlockTabsList>
-    <CodeBlockTabsTrigger value="Online Deployment">Online Deployment</CodeBlockTabsTrigger>
-    <CodeBlockTabsTrigger value="Offline Deployment">Offline Deployment</CodeBlockTabsTrigger>
-    <CodeBlockTabsTrigger value="Docker Deployment">Docker Deployment</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Online Deployment">Online</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Offline Deployment">Offline</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="Docker Deployment">Docker</CodeBlockTabsTrigger>
   </CodeBlockTabsList>
   <CodeBlockTab value="Online Deployment">
 

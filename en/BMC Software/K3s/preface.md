@@ -18,13 +18,13 @@ Readers are expected to have basic experience with Linux operations and containe
 
 ## Why K3s
 
-### Docker: A Unified Runtime Environment for Customer Applications
+### Docker: A Unified Runtime Environment for Customer Applications [step]
 
 Customers need to run their applications on different types of platforms, such as embedded platforms from Rockchip and Allwinner. Different platforms usually differ in processor architecture, system components, and file systems. Adapting an application separately for each platform incurs high development and maintenance costs.
 
 With Docker, customers can package their applications together with their runtime dependencies into images and use a unified delivery and startup method across platforms. Customers do not need to adapt their business applications to each vendor's file system, and DevOS can also leverage Docker to provide a consistent runtime environment for applications.
 
-### Docker Compose and K3s: For Different Deployment Scales
+### Docker Compose and K3s: For Different Deployment Scales [step]
 
 The deployment method should be chosen according to the number of devices and the scale of the system:
 
@@ -32,7 +32,7 @@ The deployment method should be chosen according to the number of devices and th
 - **Multi-node cluster systems**: Use Kubernetes to manage containerized applications. This is suitable for scenarios that require service orchestration, service discovery, load balancing, fault recovery, and rolling updates.
 - **Embedded device clusters**: Use K3s. K3s retains the core capabilities of Kubernetes while reducing resource consumption and deployment complexity, making it better suited for embedded devices with limited CPU, memory, and storage resources.
 
-### K3s: Kubernetes for Embedded Clusters
+### K3s: Kubernetes for Embedded Clusters [step]
 
 K3s helps users to:
 
@@ -43,7 +43,7 @@ K3s helps users to:
 - Persist application data using storage volumes
 - Perform day-to-day operations using standard Kubernetes tools and resource models
 
-### Multi-Cluster Management
+### Multi-Cluster Management [step]
 
 For data center administrators, multiple Kubernetes or K3s clusters may coexist in a real-world environment. Each cluster can independently host a set of services, but logging in to and maintaining each cluster separately increases operational costs.
 
