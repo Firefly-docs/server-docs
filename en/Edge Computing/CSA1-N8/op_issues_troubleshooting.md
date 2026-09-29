@@ -63,7 +63,6 @@ To customize the Redis port, database number, or access password:
     Tip: Do not manually install and start additional Redis processes separately, to prevent system anomalies such as port conflicts and resource contention.
 </Callout>
 
-
 ## Q: How to change the LOGO displayed after a session login? [step]
 
 A: By default, after a user logs in to aBMC through SSH, the serial console, or another method, the terminal displays the default system LOGO.
@@ -115,3 +114,48 @@ A: **No.**
 
         For the exact steps, see: [Firmware Upgrade](/docs/server/bmc-software/aBMC/upgrade)
 
+
+
+## Q: How to troubleshoot a sub-board shown as disconnected on the aBMC web page?
+
+A: First use the serial console to confirm whether the sub-board's system is still running (if the sub-board system itself is abnormal, it certainly cannot connect to aBMC), then take corresponding measures based on the sub-board's platform and running state.
+
+* Scenario 1: Pressing Enter in the serial terminal gets a response (the sub-board system is still running)
+
+    If the sub-board system is running normally but disconnected, the fault mostly lies in the connection channel. Handle it according to the sub-board's platform:
+
+    1. Rockchip Linux platforms (Ubuntu, Debian, etc.)
+
+        Restart the USB device service:
+
+        `systemctl restart usbdevice.service`
+
+        If it fails three times in a row, run `df -h` to check disk usage: if the disk is 100% used, clean up files to free disk space (keep at least 10% of the system disk free), then restart the sub-board; it should reconnect afterwards.
+
+    2. Rockchip Android platforms
+
+        Restart the adbd service:
+
+        `setprop ctl.restart adbd`
+
+        After the restart, check whether aBMC has reconnected. If it has, the fault is that adbd's functionfs transfer got stuck after a USB disconnection/re-enumeration, and restarting the adbd service restores the connection; for a permanent fix, contact Firefly technical support for a firmware update.
+
+    3. Sophgo platforms
+
+        This is mostly caused by a network interruption. On the sub-board, ping the aBMC management IP to check connectivity:
+        3.1 If the ping fails and the network settings are wrong, correct the network configuration to restore the connection;
+        3.2 If the network settings are correct but the ping still fails, the NIC is most likely faulty; restart the device and try again. If it still fails after the restart, contact Firefly technical support.
+
+* Scenario 2: Pressing Enter in the serial terminal gets no response (the sub-board system is suspected to be down)
+
+    Keep the serial connection open, restart the sub-board, and watch for log output:
+
+    1. There is log output, and the system can be operated
+
+        Check whether aBMC has reconnected:
+        1.1 If it has, the sub-board previously went down for an unknown reason. It is recommended to enable serial log capture for this sub-board and keep tracking its serial logs; when the problem recurs, send the logs to Firefly technical support for analysis.
+        1.2 If it has not, contact Firefly technical support.
+
+    2. There is no log output at all
+
+        Contact Firefly technical support.
