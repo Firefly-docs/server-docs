@@ -1,7 +1,5 @@
 # AIC 部署
 
-# 部署 AIC
-
 本章基于 [K3s 部署](install.md) 中已经完成在线部署的 K3s 集群，介绍如何在 K3s 上部署 AIC（Android in Container），实现 Android 实例的容器化运行与统一管理。
 
 - **AIC 是什么**：AIC（Android in Container）是一种在 Linux 容器中运行 Android 的方案。在 Linux 上，可以使用 Docker 启动 Android，并支持同时运行多个 Android 实例。
