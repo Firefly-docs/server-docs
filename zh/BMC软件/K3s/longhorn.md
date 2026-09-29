@@ -1,10 +1,9 @@
 # Longhorn
 
-本章介绍 [Longhorn](https://docs.rancher.cn/docs/k3s/storage/#%E8%AE%BE%E7%BD%AE-longhorn) 的用法，示例环境为[K3s部署](install.md)中在线部署完成的集群，当前使用的版本为 `v1.5.1`。
+本章介绍 [Longhorn](https://docs.rancher.cn/docs/k3s/storage/#%E8%AE%BE%E7%BD%AE-longhorn) 的用法，示例环境为[在线部署](install.md)完成的集群，当前使用的版本为 `v1.5.1`。
 
 * **Longhorn 是什么**：Rancher 开源的云原生分布式块存储，以 CSI 驱动的方式为 Kubernetes 提供卷。一个卷可以有多份副本，分布在不同节点上，并支持在线扩容、快照和备份。
 * **与 local-path 的区别**：`local-path` 把卷放在 Pod 所在节点的本地目录，Longhorn 则自行决定卷的位置，副本可以跨节点，也支持在线扩容。
-* **经典使用案例**：从申请卷、挂载给应用，到查看卷与副本状态、在线扩容，最后清理，完整走一遍。
 
 
 ## 准备环境
@@ -99,11 +98,11 @@ curl -I http://127.0.0.1:30880
 
 ## 使用案例
 
-本案例通过一个 YAML 文件创建两个 Longhorn 存储池，并分别在两个节点上创建存储卷。通过将 `Pod` 的运行节点与 PVC 的存储节点交叉配置，验证 **Pod 运行位置与数据存储位置可以独立指定**。
+本案例使用一个 YAML 文件（`lh-pool.yaml`）创建两个独立的 Longhorn 存储池，并将两份数据分别存储在不同的节点上。
+通过将 **Pod 的运行节点** 与 **卷副本所在的存储节点** 分开，验证 Pod 可以在一个节点上运行，而其数据可以存储在另一个节点上，从而说明 **Pod 的运行位置与数据存储位置可以相互独立**。
 
-* **配方内容**：创建 2 个 `StorageClass`、2 个 `PersistentVolumeClaim` 和 2 个 `Pod`，分别将 `bmc` 和 `sub11` 配置为独立的存储池。
-* **数据落点**：PVC 通过 `storageClassName` 选择存储池，Pod 通过 `nodeName` 指定运行节点，两者可以配置为不同节点。
-* **前置条件**：作为存储节点的 Longhorn 节点必须允许调度，并配置对应的节点标签和存储目录；同时，运行 Pod 的节点需要能够拉取 `busybox` 镜像。
+* **清单内容**：1 个 `Namespace`、2 个 `StorageClass`、2 个 `PersistentVolumeClaim` 和 2 个 `Pod`；两个 `StorageClass` 分别以 `bmc`、`sub11` 作为存储节点。
+* **前置条件**：作为存储节点的 Longhorn 节点需要开启**节点级与磁盘级** `allowScheduling`、配置对应的存储池标签和存储目录；运行 Pod 的节点需要能够拉取 `busybox:1.36` 镜像。
 
 ### 确认存储池 [step]
 
@@ -366,8 +365,6 @@ spec:
         claimName: data-sub11-write-bmc
 ```
 
-> `busybox:1.36` 需要与节点 CPU 架构匹配。本环境节点为 `arm64`。
-
 ### 应用清单 [step]
 
 执行以下命令创建资源：
@@ -440,7 +437,7 @@ pvc-97787f2b-e255-4d78-b7dc-63fcf2dccf2b-r-5a6a5c3f  sub11
 
 ![Longhorn 存储池配方：两个存储池与两个 Pod 交叉写入](../../../servers_img/K3s/longhorn-pool-recipe.png)
 
-如果 `StorageClass` 中的 `nodeSelector` 与 Longhorn 节点标签不匹配，Longhorn 找不到符合条件的存储节点，PVC 可能会一直处于 `Pending` 状态。
+如果 `StorageClass` 中的 `nodeSelector` 与 Longhorn 节点标签不匹配，Longhorn 会找不到符合条件的存储节点，PVC 可能会一直处于 `Pending` 状态。
 
 ### 清除应用 [step]
 

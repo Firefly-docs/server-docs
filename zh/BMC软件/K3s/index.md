@@ -9,6 +9,7 @@
 - [K3s卸载](uninstall.md)
 
 # 卷与存储
-- [longhorn](longhorn.md)
+- [Longhorn](longhorn.md)
 
 # 部署案例
+- [AIC](aic.md)
