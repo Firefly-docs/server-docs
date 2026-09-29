@@ -1,11 +1,14 @@
 # AIC 部署
 
-本章基于 [K3s部署](install.md) 中在线部署完成的集群，介绍如何在 K3s 上部署 AIC。
+# 部署 AIC
 
-* **AIC 是什么**：AIC（Android in Container）指在 Linux 系统中用容器运行安卓。RK3588 Linux 上可以用 Docker 运行安卓，并支持多开。
-* **在集群里的价值**：集群服务器搭配 AIC 可以提高安卓实例的密度，在云手机、云游戏等场景尤其适用。
-* **K3s 部署的好处**：实例以 `Deployment` 声明，调度、重启与故障恢复都交给集群；多节点时可用 `nodeSelector` 把实例固定到指定节点，扩容只需复制一份清单。
+本章基于 [K3s 部署](install.md) 中已经完成在线部署的 K3s 集群，介绍如何在 K3s 上部署 AIC（Android in Container），实现 Android 实例的容器化运行与统一管理。
 
+- **AIC 是什么**：AIC（Android in Container）是一种在 Linux 容器中运行 Android 的方案。在 Linux 上，可以使用 Docker 启动 Android，并支持同时运行多个 Android 实例。
+
+- **为什么使用 K3s**：将 AIC 实例作为 Kubernetes 的 `Deployment` 进行管理，可以利用 K3s 提供的调度、重启和故障恢复能力。多节点部署时，还可以通过 `nodeSelector` 将实例调度到指定节点。
+
+- **适用场景**：通过 K3s 统一管理多个节点上的 AIC 实例，可以提高 Android 实例的部署密度，适用于云手机、云游戏等场景。
 
 | 操作位置 | 机器 | 地址 | 本页要做什么 |
 |---|---|---|---|
@@ -458,39 +461,78 @@ adb -s 172.16.100.176:1100 shell
 * `container_common.conf` 中的 `container_id` 会被各实例私有配置覆盖，改动公共配置前先确认影响范围；
 * `nodeSelector` 把实例运行到指定节点上，节点不可用时实例不会漂移 —— 目标节点处于 `NotReady` 时 Pod 会一直停在 `Pending`；
 
-## 扩展
+## 实例数据存储优化
 
-### 频繁装卸应用与 eMMC 老化
+### 频繁装卸应用与 eMMC 老化 [step]
 
-安卓实例的 `/data` 是一个 Longhorn 卷（清单中每个实例 5Gi，`storageClassName: longhorn`），卷副本默认落在节点的 `/var/lib/longhorn`，目录挂载在 eMMC 上。安装、卸载、启动应用会产生大量随机写，长期高频操作会明显消耗 eMMC 寿命。
+AIC 的每个 Android 实例都会使用一个 Longhorn 卷保存 `/data` 数据。当前配置中，每个实例使用 5Gi 的 Longhorn 卷，卷副本默认存放在节点的 `/var/lib/longhorn` 目录，而该目录位于 eMMC 上。
 
-系统分区与容器可写层的写入无法完全避免，但占比最大的应用数据可以挪到更耐写的盘上。思路与 [longhorn](longhorn.md) 的存储池案例相同：**实例仍然运行在子板节点上，数据卷落到指定的存储盘**，区别只是把存储盘从 eMMC 换成了 SATA 或 NVMe。
+Android 应用的安装、卸载、更新以及运行过程中都会产生磁盘写入。对于频繁创建和销毁实例、安装和卸载应用的场景，长期的大量写入可能增加 eMMC 的损耗。
 
-*** 方案一：数据集中到 Server 节点的 SATA 盘 ***
+系统分区和容器本身仍会产生一定写入，无法完全避免。为了减少实例数据对 eMMC 的写入，可以将 Longhorn 的存储目录迁移到 SATA 或 NVMe 等更适合高频读写的存储设备。
 
-`bmc` 的 SATA 盘位容量大、成本低，适合把多个节点的实例数据集中存放：
+整体思路是：**Android 实例仍然运行在子板节点上，但实例的 `/data` 卷改为存放在指定的 SATA 或 NVMe 存储盘上。**
 
-1. 在 `bmc` 上挂载 SATA 盘并创建目录，例如 `/sata/longhorn`；
-2. 把该目录登记为 Longhorn 磁盘（`path` 指向 `/sata/longhorn`，`allowScheduling` 设为 `true`），并给节点打上存储池标签，例如 `pool-sata`；
-3. 新建一个只使用该存储池的 `StorageClass`（`nodeSelector` 指向 `pool-sata`）；
-4. 把 AIC 清单中 `my-dataN` 的 `storageClassName` 改为这个 `StorageClass`。
+常见有以下两种部署方式。
 
-*** 方案二：每三个节点共用一块 NVMe ***
+### 方案一：集中使用 Server 节点的 SATA 存储 [step]
 
-子板数量较多、又不希望数据全部集中到一台机器时，可以每 3 个节点配一块 NVMe，插在其中一台节点上作为该组的共用存储：
+如果子板数量较多，但对存储性能要求不高，可以将一块容量较大的 SATA 盘接入 `bmc`，由 `bmc` 统一提供 Longhorn 存储。
 
-1. 在该节点上挂载 NVMe 并创建目录，例如 `/nvme/longhorn`；
-2. 同样登记为 Longhorn 磁盘并打上存储池标签，例如 `pool-nvme-1`；
-3. 这一组节点上的实例，PVC 都指向该存储池的 `StorageClass`。
+数据路径可以理解为：
 
-两种方案都只需在 Longhorn 上做一次磁盘与标签配置，之后的部署流程与本页完全相同。查看磁盘名、修改存储目录、创建存储池的具体命令见 [longhorn](longhorn.md) 的「配置存储目录」与「使用案例」。
+`子板节点上的 Android 实例 → Longhorn → 网络 → bmc 的 SATA 盘`
 
-*** 取舍与注意事项 ***
+这种方式可以集中管理存储容量，也方便后续扩容，适合实例数量较少或更关注存储成本的场景。
 
-| 对比项 | 集中到 `bmc` 的 SATA | 每 3 节点一块 NVMe |
+配置步骤如下：
+
+1. 在 `bmc` 上挂载 SATA 盘，并创建 Longhorn 数据目录，例如 `/sata/longhorn`。
+2. 将该目录配置为 Longhorn 磁盘，并开启 `allowScheduling`。
+3. 为该磁盘添加存储池标签，例如 `pool-sata`。
+4. 创建一个 `StorageClass`，通过 `nodeSelector` 指定 `pool-sata`。
+5. 在 AIC 清单中，将实例 `my-dataN` 的 `storageClassName` 设置为该 `StorageClass`。
+
+这样，使用该 `StorageClass` 创建的实例数据卷就会调度到 `bmc` 的 SATA 存储上，而不是使用子板节点上的 eMMC。
+
+### 方案二：多个子板节点共用一块 NVMe [step]
+
+如果子板数量较多，或者希望降低单个存储节点故障对所有实例的影响，可以按照节点分组，为每组节点配置一块 NVMe。
+
+例如，每 3 个子板节点组成一个存储组，其中一台节点安装 NVMe，并将该 NVMe 配置为该组节点的 Longhorn 存储池。
+
+数据路径可以理解为：
+
+`子板节点上的 Android 实例 → Longhorn → 网络 → 同组节点的 NVMe`
+
+例如：
+
+- `sub1`、`sub2`、`sub3` 使用 `pool-nvme-1`
+- `sub4`、`sub5`、`sub6` 使用 `pool-nvme-2`
+
+配置步骤与 SATA 方案基本一致：
+
+1. 在存储节点上挂载 NVMe，并创建 Longhorn 数据目录，例如 `/nvme/longhorn`。
+2. 将该目录配置为 Longhorn 磁盘，并开启 `allowScheduling`。
+3. 为磁盘添加对应的存储池标签，例如 `pool-nvme-1`。
+4. 为该存储池创建对应的 `StorageClass`。
+5. 将该组节点上的 AIC 实例配置为使用对应的 `StorageClass`。
+
+这种方式可以将存储负载分散到多个节点，同时避免所有实例的数据都集中在 `bmc` 上。
+
+### 两种方案的区别 [step]
+
+| 对比项 | Server 节点 SATA | 每 3 个节点一块 NVMe |
 |---|---|---|
-| 成本 | 低，一块大盘覆盖全部节点 | 较高，按组配盘 |
-| 容量 | 最大，便于统一扩容 | 受单块 NVMe 容量限制 |
-| 写性能 | 数据经网络（iSCSI）写到 `bmc`，延迟略高 | 就近访问，性能更好 |
-| 故障影响 | `bmc` 故障时所有实例的数据卷不可用 | 只影响该组的 3 个节点 |
-| 适用场景 | 实例数量不多、追求成本 | 实例密度高、对性能与故障域有要求 |
+| 存储位置 | 集中在 `bmc` | 分散在各存储组 |
+| 存储容量 | 可使用大容量 SATA 盘 | 取决于每组 NVMe 容量 |
+| 存储成本 | 较低 | 较高 |
+| 网络访问 | 实例通过网络访问 `bmc` 上的存储 | 实例通过网络访问组内 NVMe |
+| 存储性能 | 受网络和 SATA 性能影响 | 通常具有更高的存储性能 |
+| 故障影响范围 | `bmc` 存储故障可能影响全部实例 | 单个存储节点故障主要影响对应分组 |
+| 管理方式 | 存储集中，管理简单 | 存储分散，需要按组管理 |
+| 适用场景 | 实例数量较少、注重容量和成本 | 实例数量较多、需要分散存储负载 |
+
+无论采用哪种方式，**AIC 实例本身的运行节点不需要改变，只需要调整实例 PVC 使用的 `StorageClass`**。Longhorn 会根据 `StorageClass` 的存储池选择规则，将实例数据卷放置到指定的 SATA 或 NVMe 存储上。
+
+具体的磁盘配置、存储目录和 `StorageClass` 创建方法，请参考 [longhorn](longhorn.md) 中的「配置存储目录」和「使用案例」。
