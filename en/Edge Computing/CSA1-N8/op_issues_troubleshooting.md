@@ -1,9 +1,6 @@
 # Troubleshooting
 
-
-# Access
-
-## Q: Can aBMC be accessed remotely?
+## Q: Can aBMC be accessed remotely? [step]
 
 A: Yes. aBMC is an independent out-of-band management unit. When the device is powered on and the management network port is connected, it supports remote access to the Web management interface and the Redfish/IPMI interfaces, enabling remote power on/off, KVM console, hardware monitoring, virtual media, and other operations and maintenance tasks.
 Local LAN access: In the same intranet environment, the computer and the aBMC management network are interconnected; enter the aBMC intranet IP to access it directly;
@@ -14,7 +11,7 @@ Local LAN access: In the same intranet environment, the computer and the aBMC ma
       It is forbidden to open aBMC service ports directly to the public network, as this poses a high-privilege security risk; for remote operations and maintenance across external networks, prefer VPN or cloud proxy solutions.
 </Callout>
 
-## Q: aBMC becomes inaccessible while the server is running?
+## Q: aBMC becomes inaccessible while the server is running? [step]
 
 A: First distinguish between the two fault scenarios and troubleshoot:
 
@@ -55,7 +52,7 @@ A: First distinguish between the two fault scenarios and troubleshoot:
             3.3.3 Device naming drift: Mounting that depends on device paths (such as `/dev/sda1`) becomes invalid because the kernel enumeration order changes after a system restart.
             3.3.4 Unprepared storage media: The newly added disk was not formatted or partitioned, so the system cannot recognize a valid file system structure when mounting.
 
-## Q: How to use Redis on aBMC?
+## Q: How to use Redis on aBMC? [step]
 
 A: Redis 7.2 is built into the aBMC system by default. If a business service requires Redis, it can directly use the instance shipped with the system; no reinstallation or deployment is needed.
 To customize the Redis port, database number, or access password:
@@ -65,3 +62,56 @@ To customize the Redis port, database number, or access password:
 <Callout title="Tip" type="info">
     Tip: Do not manually install and start additional Redis processes separately, to prevent system anomalies such as port conflicts and resource contention.
 </Callout>
+
+
+## Q: How to change the LOGO displayed after a session login? [step]
+
+A: By default, after a user logs in to aBMC through SSH, the serial console, or another method, the terminal displays the default system LOGO.
+![Session login logo](../../../servers_img/common/session_login_logo.png)
+To change the LOGO displayed after a session login, edit the following file
+
+```bash
+/etc/update-motd.d/00-header
+```
+
+After saving the file, **establish a new session** to see the changed display.
+
+<Callout title="Forbidden" type="error">
+  Do not change the LOGO displayed after a session login by editing files in the `/etc/profile.d/` directory.
+</Callout>
+
+
+
+## Q: May IP addresses be changed or added on the BMC usb_net network card and the sub-board eth0 network card? [step]
+
+A: **No.**
+
+* **What it is**
+
+    The `usb_net` network card of the BMC (192.168.150.100/24) and the `eth0` network card of the sub-board (192.168.150.xx/24) form the SSH communication link between the BMC and the sub-board.
+
+    This link is the private communication link defined by [aBMC](/docs/server/bmc-software/aBMC/preface), and it is used for internal communication between the BMC and the sub-board.
+
+* **Why it is not allowed**
+
+    [aBMC](/docs/server/bmc-software/aBMC/preface) relies on this link for communication between the BMC and the sub-board. Adding, changing, or deleting the IP addresses of the network cards on this link prevents the BMC and the sub-board from communicating normally, which makes the sub-board unreachable and affects the normal use of [aBMC](/docs/server/bmc-software/aBMC/preface).
+
+* **What to do if communication fails after a change**
+
+    If the related network configuration was changed by mistake and the BMC can no longer communicate with the sub-board, restore it as follows:
+
+    1. **BMC**
+
+        Run the following commands to clear the Netplan network configuration and reboot the BMC:
+
+        ```bash
+        rm -rf /etc/netplan/*
+        reboot
+        ```
+
+    2. **Sub-board**
+
+        Open the aBMC firmware upgrade page and run the firmware upgrade again.
+
+        For the exact steps, see: [Firmware Upgrade](/docs/server/bmc-software/aBMC/upgrade)
+
