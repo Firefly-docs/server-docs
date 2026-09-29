@@ -435,7 +435,7 @@ Two concepts have to be distinguished here:
 
 The example therefore forms a crossed relationship:
 
-![Longhorn storage pool recipe: two storage pools and two Pods writing across them](../../../servers_img/K3s/longhorn-pool-recipe.png)
+![Longhorn storage pool recipe: two storage pools and two Pods writing across them](../../../servers_img/K3s/longhorn-pool-recipe-en.png)
 
 If the `nodeSelector` in the `StorageClass` does not match the Longhorn node tags, Longhorn cannot find a suitable storage node and the PVC may stay in the `Pending` state.
 

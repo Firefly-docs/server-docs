@@ -198,7 +198,7 @@ After deployment, the application can be accessed in the following ways:
 
 ## Manifest Description [step]
 
-![K3s application deployment architecture: three access entry points (NodePort / Ingress / in-cluster) and the hostPath data directories](../../../servers_img/K3s/deploy-app-architecture.png)
+![K3s application deployment architecture: three access entry points (NodePort / Ingress / in-cluster) and the hostPath data directories](../../../servers_img/K3s/deploy-app-architecture-en.png)
 
 | Resource | Key Settings | Purpose |
 |---|---|---|
