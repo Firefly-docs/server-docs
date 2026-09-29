@@ -19,7 +19,7 @@ This chapter builds on the K3s cluster deployed online in [K3s Deployment](insta
 
 ### Prepare the Package [step]
 
-After extracting the package there are two directories: `container/` holds the scripts, configuration, and image for the Android containers and must be placed under `/userdata/` on the Agent node; `host_fw/` holds the firmware flashed to the Agent node and is used in the next step.
+After extracting the package there are two directories: `container/` contains the scripts, configuration, and images related to the Android containers, and must be placed under `/userdata/` on the Agent node; `host_fw/` holds the firmware flashed to the Agent node and is used in the next step.
 
 ```text
 AIC/

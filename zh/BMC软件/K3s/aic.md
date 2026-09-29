@@ -19,7 +19,7 @@
 
 ### 准备资料 [step]
 
-资料包解压后有两个目录：`container/` 是关于安卓容器的脚本，配置与镜像，最终要放到 Agent 节点的 `/userdata/` 下；`host_fw/` 是 Agent 节点所烧录固件，下一步会用到。
+资料包解压后有两个目录：`container/` 包含关于安卓容器的脚本，配置与镜像，最终要放到 Agent 节点的 `/userdata/` 下；`host_fw/` 是 Agent 节点所烧录固件，下一步会用到。
 
 ```text
 AIC/
