@@ -41,7 +41,7 @@ AIC/
     └── ROC-RK3588S-PC_Ubuntu20.04-Minimal-r3104_v1.3.0c_241107.7z
 ```
 
-资料包下载地址：<https://pan.baidu.com/s/1sbZwOc4peZfn0HDX9O0lsg>（提取码：`1234`）
+资料包[下载地址](https://pan.baidu.com/s/1sbZwOc4peZfn0HDX9O0lsg)（提取码：`1234`）
 
 ### 烧录 Agent 固件 [step]
 
