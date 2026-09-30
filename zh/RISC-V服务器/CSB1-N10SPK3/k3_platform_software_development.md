@@ -1,8 +1,8 @@
 # K3平台软件开发
 
-本文汇总 **K3 平台软件开发**相关的进迭时空（SpacemiT）官方文档链接，涵盖 SDK 获取、内核 / U-Boot / OpenSBI 编译、根文件系统（ROOTFS）制作、镜像下载与刷机，以及「x86 训练模型 → K3 部署」的完整教程。
+本文汇总 **K3 平台软件开发**相关的进迭时空（SpacemiT）官方文档链接，涵盖 SDK 获取、内核 / U-Boot / OpenSBI 编译、根文件系统（ROOTFS）制作、镜像下载与刷机。
 
-下表中，**中文**列为中文文档，**English**列为对应的英文文档（同一文档的两种语言版本）。
+下表中，**中文**列为中文文档，**English**列为对应的英文文档。
 
 ## 官方入口
 
@@ -55,10 +55,7 @@ https://archive.spacemit.com/bianbu-base/bianbu-base-26.04-base-riscv64.tar.gz
 | [刷机工具使用手册](https://www.spacemit.com/community/document/info?lang=zh&nodepath=tools/user_guide/flasher_user_guide.md) | [Flashing Tool Manual](https://www.spacemit.com/community/document/info?lang=en&nodepath=tools/user_guide/flasher_user_guide.md) |
 | [K3 Pico-ITX 用户指南](https://www.spacemit.com/community/document/info?lang=zh&nodepath=hardware/eco/k3_pico/pico_user_guide.md) | [K3 Pico-ITX User Guide](https://www.spacemit.com/community/document/info?lang=en&nodepath=hardware/eco/k3_pico/pico_user_guide.md) |
 
-## AI 模型部署（x86 训练 → K3）
-
-整体流程：x86 + CUDA 训练 → 导出 ONNX → XSlim 量化 → K3 上使用 SpacemiT-ONNXRuntime 推理。
-说明：K3 为 RISC-V AI CPU，不支持 CUDA；CUDA 仅用于 x86 训练端。
+## AI 模型部署
 
 | 中文 | English |
 | :--- | :--- |
@@ -70,7 +67,7 @@ https://archive.spacemit.com/bianbu-base/bianbu-base-26.04-base-riscv64.tar.gz
 
 ## 官方源码仓库
 
-以下为中英文共用的代码仓库（无语言区分）。
+以下为中英文共用的代码仓库。
 
 - [SDK 清单 manifests](https://github.com/spacemit-com/manifests)
 - [Linux 内核 linux-6.18（分支 k3-br-v1.0.y）](https://github.com/spacemit-com/linux-6.18)
