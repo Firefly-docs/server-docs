@@ -50,3 +50,8 @@ For data center administrators, multiple Kubernetes or K3s clusters may coexist 
 A multi-cluster management platform such as Rancher can be used to bring multiple Kubernetes and K3s clusters into a unified management interface. Administrators can view cluster status, nodes, and workloads from a single entry point; manage namespaces, applications, user permissions, and cluster configurations; and switch between clusters to perform operations as needed.
 
 In summary, Docker is suitable for providing a unified application runtime environment, Docker Compose is suitable for managing containers on single-node devices, K3s is suitable for resource-constrained embedded clusters, and platforms such as Rancher are suitable for data center administrators to centrally manage multiple Kubernetes or K3s clusters.
+
+
+## Detailed Documentation
+
+For the complete deployment, configuration, application release, and daily operations procedures of K3s, see the [K3s User Manual](/en/docs/server/bmc-software/K3s/preface).
