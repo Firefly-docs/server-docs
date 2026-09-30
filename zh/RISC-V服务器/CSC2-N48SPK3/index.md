@@ -19,6 +19,7 @@
 - [aBMC](aBMC.md)
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
+- [K3平台软件开发](k3_platform_software_development.md)
 # 运营维护
 - [日志收集](op_log_collection.md)
 - [异常排查](op_issues_troubleshooting.md)
