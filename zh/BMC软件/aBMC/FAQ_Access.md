@@ -61,3 +61,17 @@ A：aBMC 系统默认已内置 Redis 7.2。业务服务如有 Redis 使用需求
 <Callout title="提示" type="info">
     提示：请勿手动独立安装、启动额外 Redis 进程，防止出现端口冲突、资源抢占等系统异常。
 </Callout>
+
+## Q：如何恢复 aBMC 的登录密码？
+
+A：aBMC 的密码是经过随机数加密存储的，无法直接读出明文，只能通过重置的方式恢复。使用 SSH、Console 串口线或本地显示器登录 bmc 后，执行以下命令：
+
+```shell
+sudo rm /var/firefly-aBMC/resources/database/firefly_bmc.db && sudo systemctl restart aBMC
+```
+
+等待服务重启完成，密码即恢复为默认值，默认密码查看[登录指南](guide.md)。
+
+<Callout title="注意" type="warn">
+    该命令会删除 aBMC 的数据库文件（账号等数据均存放其中），重启后按默认状态重建，执行前请先备份。
+</Callout>
