@@ -2,7 +2,7 @@
 # Preface
 
 ## Overview
-This document describes the appearance, structure, components, and specifications of the CSB1-N10R3588XXX series server (hereinafter referred to as CSB1-N10R3588), and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSB1-N10R3588.
+This document describes the appearance, structure, components, and specifications of the CSB1-N10R3588 series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSB1-N10R3588.
 ## Intended Audience
 This document is intended for:
 - Enterprise administrators

@@ -1,6 +1,6 @@
 # BMC Upgrade
 
-This document describes the BMC firmware upgrade procedure for the CSD2-N96. There are two main upgrade methods:
+This document describes the BMC firmware upgrade procedure for the CSD2-N96-S3. There are two main upgrade methods:
 
 - When the system is accessible normally, enter **Loader** mode and then upgrade.
 - When the BMC fails to start normally, enter **MaskRom** mode to perform a recovery upgrade.
@@ -14,7 +14,7 @@ This document describes the BMC firmware upgrade procedure for the CSD2-N96. The
 - A good-quality USB-A data cable.
 - The official Rockchip upgrade tool.
 - A Windows or Linux host.
-- Firmware that matches the CSD2-N96 BMC, for example `update.img`.
+- Firmware that matches the CSD2-N96-S3 BMC, for example `update.img`.
 
 ## Install the Upgrade Tool [step]
 

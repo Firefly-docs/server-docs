@@ -2,7 +2,7 @@
 # Preface
 
 ## Overview
-This document describes the appearance, structure, components, and specifications of the CSC2-N48XXX series server (hereinafter referred to as CSC2-N48), and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSC2-N48.
+This document describes the appearance, structure, components, and specifications of the CSC2-N48 series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSC2-N48.
 ## Intended Audience
 This document is intended for:
 - Enterprise administrators

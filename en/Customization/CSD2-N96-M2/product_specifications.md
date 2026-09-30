@@ -5,13 +5,14 @@
 | Item | Specification |
 | :--- | :--- |
 | **Server Form Factor** | 2U rack-mount computing server |
-| **Number of Nodes** | 16 compute blades (128 distributed compute nodes in total) and 1 control node; each compute blade contains 8 compute nodes |
+| **Number of Nodes** | 16 compute blades (96 distributed compute nodes in total) and 1 control node; each compute blade contains 6 compute nodes |
 | **Control Node** | Octa-core 64-bit Rockchip RK3588 processor, up to 2.4 GHz, up to 6 TOPS |
 | **Display Interface** | 1 VGA interface, up to 1080P, used for BMC management display |
 | **USB** | - 3 USB 3.0 ports<br/>- 1 Type-C OTG port |
 | **Network Interfaces** | - 8 × 10 Gbps SFP+ ports, with an aggregated peak bandwidth of up to 80 Gbps<br/>- 1 × 10/100/1000 Mbps RJ45 management network port for the BMC management network |
 | **Console Interface** | 1 × RJ45 Console interface for BMC debugging, baud rate 115200 |
 | **Buttons** | 1 power button, 1 UID button, 1 Recovery button, 1 Reset button |
+| **Expansion Hard Drive** | 1 additional NVMe drive per compute node, 96 in total |
 | **Fans** | 14 high-speed cooling fans |
 | **System Management** | Integrated BMC management system based on a Web management interface, supporting Redfish, VNC, NTP, advanced monitoring, and virtual media, and supporting secondary development |
 | **Network Management** | Supports dynamic network isolation between compute nodes, network traffic control, bandwidth scheduling, and Layer 3 network policy configuration |
@@ -58,7 +59,7 @@ The maximum storage times are determined based on the powered-off storage time s
 
 
 
-![perspective view](../../../servers_img/CSD2-N128/hw_logical_topology.png)
+![perspective view](../../../servers_img/CSD2-N96-M2/hw_logical_topology.png)
 
 According to the hardware logical topology diagram, the ARM core boards integrated in the array server are interconnected with the BMC at high speed through a Layer 3 switch. This Layer 3 switch supports VLAN division and link aggregation, which allows users to flexibly configure network isolation policies according to actual business needs. **Contact an engineer to obtain the specific network topology diagram.**
 

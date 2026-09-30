@@ -2,16 +2,16 @@
 # 前言
 
 ## 概述
-本文档介绍了 CSD2-N128 系列服务器的产品外观、结构、组件和规格，指导用户完成 CSD2-N128 的安装、连线、上电下电、基本配置、操作系统安装及故障处理等操作。
+本文档介绍了 CSD2-N96-S3 系列服务器的产品外观、结构、组件和规格，指导用户完成 CSD2-N96-S3 的安装、连线、上电下电、基本配置、操作系统安装及故障处理等操作。
 ## 读者对象
 本文档主要面向以下人员：
 - 企业管理员
 - 企业终端用户
 
 # 简介
-CSD2-N128 是一款2U机架式的ARM准系统高密度阵列式服务器。该服务器面向互联网、AI边缘计算、云计算、大数据和视频边缘计算等领域，具有高性能计算、低能耗、易管理和易部署等优点。
+CSD2-N96-S3 是一款2U机架式的ARM准系统高密度阵列式服务器。该服务器面向互联网、AI边缘计算、云计算、大数据和视频边缘计算等领域，具有高性能计算、低能耗、易管理和易部署等优点。
 
-![perspective view](../../../servers_img/CSD2-N128/perspective_view.png)
+![perspective view](../../../servers_img/CSD2-N96/perspective_view.png)
 
 
 功能亮点
@@ -27,8 +27,8 @@ CSD2-N128 是一款2U机架式的ARM准系统高密度阵列式服务器。该�
 ## 物理视图
 
 ### 正面图
-![Front view](../../../servers_img/CSD2-N128/front_view.png)
+![Front view](../../../servers_img/CSD2-N96/front_view.png)
 ### 背面图
 ![Rear view](../../../servers_img/CSD2-Nx/rear_view.png)
 ### 透视图
-![Perspective view](../../../servers_img/CSD2-N128/perspective_view.png)
+![Perspective view](../../../servers_img/CSD2-N96/perspective_view.png)

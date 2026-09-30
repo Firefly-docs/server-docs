@@ -2,14 +2,14 @@
 # Preface
 
 ## Overview
-This document describes the appearance, structure, components, and specifications of the CSD2-N96XXX series server (hereinafter referred to as CSD2-N96), and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSD2-N96.
+This document describes the appearance, structure, components, and specifications of the CSD2-N96-S3 series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSD2-N96-S3.
 ## Intended Audience
 This document is intended for:
 - Enterprise administrators
 - Enterprise end users
 
 # Introduction
-The CSD2-N96 is a 2U rack-mount ARM barebone high-density array server. Targeting the Internet, AI edge computing, cloud computing, big data, and video edge computing markets, it delivers high-performance computing, low power consumption, and easy management and deployment.
+The CSD2-N96-S3 is a 2U rack-mount ARM barebone high-density array server. Targeting the Internet, AI edge computing, cloud computing, big data, and video edge computing markets, it delivers high-performance computing, low power consumption, and easy management and deployment.
 
 ![perspective view](../../../servers_img/CSD2-N96/perspective_view.png)
 

@@ -12,7 +12,7 @@
 | **网络接口** | - 8 个 10 Gbps SFP+ 万兆网口，聚合峰值带宽可达 80 Gbps<br/>- 1 个 10/100/1000 Mbps RJ45 管理网口，用于 BMC 管理网络 |
 | **Console 接口** | 1 个用于 BMC 调试的 RJ45 Console 接口，波特率为 115200 |
 | **按键** | 1 个电源键、1 个 UID 键、1 个 Recovery 键、1 个 Reset 键 |
-| **扩展硬盘** | 3.5 英寸/2.5英寸 SATA3.0 SSD 硬盘位 × 3（支持热插拔；BMC可直接操作硬盘，计算子节点可通过BMC提供的网络共享方式，间接访问硬盘） |
+| **扩展硬盘** | 3.5 英寸 / 2.5 英寸 SATA3.0 SSD 硬盘位 × 3（支持热插拔；BMC 可直接操作硬盘，计算子节点可通过 BMC 提供的网络共享方式间接访问） |
 | **风扇** | 14 个高速散热风扇 |
 | **系统管理** | 集成基于 Web 管理界面的 BMC 管理系统，支持 Redfish、VNC、NTP、高级监控及虚拟媒体，并支持二次开发 |
 | **网络管理** | 支持计算节点间动态网络隔离、网络流量控制、带宽调度及三层网络策略配置 |
@@ -59,7 +59,7 @@
 
 
 
-![perspective view](../../../servers_img/CSD2-N96/hw_logical_topology.png)
+![perspective view](../../../servers_img/CSD2-N96-S3/hw_logical_topology.png)
 
 根据硬件结构逻辑图可知，阵列式服务器中集成的ARM核心板与BMC是通过一个三层交换机实现告诉网络互联的，该三层交换机支持VLAN划分和网络聚合，这就可以方便用户根据实际业务需求灵活配置网络隔离策略，**具体的网络拓扑图联系工程师获取**。
 
@@ -204,7 +204,7 @@
 ### 硬盘及指示灯
 
 #### 硬盘位置
-![perspective view](../../../servers_img/CSD2-N96/harddisk_location.png)
+![perspective view](../../../servers_img/CSD2-N96-S3/harddisk_location.png)
 #### 硬盘配置
 
 <table border="1" cellPadding="8" cellSpacing="0" width="100%">
@@ -236,7 +236,7 @@
 
 #### SATA硬盘指示灯
 
-![SATA Hard Disk Indicator Location Diagram](../../../servers_img/CSD2-N96/sata_hdd_indicator.png)
+![SATA Hard Disk Indicator Location Diagram](../../../servers_img/CSD2-N96-S3/sata_hdd_indicator.png)
 
 <table border="1" cellPadding="8" cellSpacing="0" width="100%">
   <thead>

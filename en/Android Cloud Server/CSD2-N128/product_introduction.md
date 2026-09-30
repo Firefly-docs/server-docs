@@ -2,7 +2,7 @@
 # Preface
 
 ## Overview
-This document describes the appearance, structure, components, and specifications of the CSD2-N128XXX series server (hereinafter referred to as CSD2-N128), and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSD2-N128.
+This document describes the appearance, structure, components, and specifications of the CSD2-N128 series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSD2-N128.
 ## Intended Audience
 This document is intended for:
 - Enterprise administrators

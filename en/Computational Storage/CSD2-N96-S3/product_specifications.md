@@ -59,7 +59,7 @@ The maximum storage times are determined based on the powered-off storage time s
 
 
 
-![perspective view](../../../servers_img/CSD2-N96/hw_logical_topology.png)
+![perspective view](../../../servers_img/CSD2-N96-S3/hw_logical_topology.png)
 
 According to the hardware logical topology diagram, the ARM core boards integrated in the array server are interconnected with the BMC at high speed through a Layer 3 switch. This Layer 3 switch supports VLAN division and link aggregation, which allows users to flexibly configure network isolation policies according to actual business needs. **Contact an engineer to obtain the specific network topology diagram.**
 
@@ -204,7 +204,7 @@ According to the hardware logical topology diagram, the ARM core boards integrat
 ### Hard Drives and Indicators
 
 #### Hard Drive Location
-![perspective view](../../../servers_img/CSD2-N96/harddisk_location.png)
+![perspective view](../../../servers_img/CSD2-N96-S3/harddisk_location.png)
 #### Hard Drive Configuration
 
 <table border="1" cellPadding="8" cellSpacing="0" width="100%">
@@ -236,7 +236,7 @@ According to the hardware logical topology diagram, the ARM core boards integrat
 
 #### SATA Hard Drive Indicators
 
-![SATA Hard Disk Indicator Location Diagram](../../../servers_img/CSD2-N96/sata_hdd_indicator.png)
+![SATA Hard Disk Indicator Location Diagram](../../../servers_img/CSD2-N96-S3/sata_hdd_indicator.png)
 
 <table border="1" cellPadding="8" cellSpacing="0" width="100%">
   <thead>

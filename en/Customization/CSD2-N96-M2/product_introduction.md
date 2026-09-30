@@ -2,16 +2,16 @@
 # Preface
 
 ## Overview
-This document describes the appearance, structure, components, and specifications of the CSB1-N10NOrinNX series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSB1-N10NOrinNX.
+This document describes the appearance, structure, components, and specifications of the CSD2-N96-M2 series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSD2-N96-M2.
 ## Intended Audience
 This document is intended for:
 - Enterprise administrators
 - Enterprise end users
 
 # Introduction
-The CSB1-N10NOrinNX is a 1U rack-mount ARM barebone high-density array server. Targeting the Internet, AI edge computing, cloud computing, big data, and video edge computing markets, it delivers high-performance computing, low power consumption, and easy management and deployment.
+The CSD2-N96-M2 is a 2U rack-mount ARM barebone high-density array server. Targeting the Internet, AI edge computing, cloud computing, big data, and video edge computing markets, it delivers high-performance computing, low power consumption, and easy management and deployment.
 
-![perspective view](../../../servers_img/CSB1-N10/perspective_view.png)
+![perspective view](../../../servers_img/CSD2-N128/perspective_view.png)
 
 Key Features
 - Barebone Server aBMC
@@ -26,8 +26,8 @@ Key Features
 ## Physical View
 
 ### Front View
-![Front view](../../../servers_img/CSB1-N10/front_view.png)
+![Front view](../../../servers_img/CSD2-N128/front_view.png)
 ### Rear View
-![Rear view](../../../servers_img/CSB1-N10/rear_view.png)
+![Rear view](../../../servers_img/CSD2-Nx/rear_view.png)
 ### Perspective View
-![Perspective view](../../../servers_img/CSB1-N10/perspective_view.png)
+![Perspective view](../../../servers_img/CSD2-N128/perspective_view.png)

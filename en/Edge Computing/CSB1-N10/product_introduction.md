@@ -2,7 +2,7 @@
 # Preface
 
 ## Overview
-This document describes the appearance, structure, components, and specifications of the CSB1-N10XXX series server (hereinafter referred to as CSB1-N10), and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSB1-N10.
+This document describes the appearance, structure, components, and specifications of the CSB1-N10 series server, and guides users through the installation, cabling, power-on/power-off, basic configuration, operating system installation, and troubleshooting of the CSB1-N10.
 ## Intended Audience
 This document is intended for:
 - Enterprise administrators
