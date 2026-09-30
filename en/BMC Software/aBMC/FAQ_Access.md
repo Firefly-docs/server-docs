@@ -61,3 +61,17 @@ To customize the Redis port, database number, or access password:
 <Callout title="Note" type="info">
     Note: Do not manually install or start additional Redis processes, to avoid system issues such as port conflicts and resource contention.
 </Callout>
+
+## Q: How do I recover the aBMC login password?
+
+A: The aBMC password is stored with random-number encryption, so the plaintext cannot be read out directly; it can only be restored by resetting. Log in to aBMC over SSH, a console serial cable, or a local monitor, and run the following command:
+
+```shell
+sudo rm /var/firefly-aBMC/resources/database/firefly_bmc.db && sudo systemctl restart aBMC
+```
+
+Wait for the service to finish restarting; the password is then restored to its default value. For the default password, see the [Login Guide](guide.md).
+
+<Callout title="Note" type="warn">
+    This command deletes the aBMC database file, which stores accounts and other data. The service rebuilds it with default settings after the restart, so back up your data before running it.
+</Callout>

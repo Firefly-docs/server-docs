@@ -70,7 +70,7 @@ A：aBMC 的密码是经过随机数加密存储的，无法直接读出明文�
 sudo rm /var/firefly-aBMC/resources/database/firefly_bmc.db && sudo systemctl restart aBMC
 ```
 
-等待服务重启完成，密码即恢复为默认值，默认密码查看[登录指南](guide.md)。
+等待服务重启完成，密码即恢复为默认值，默认密码见[登录指南](guide.md)。
 
 <Callout title="注意" type="warn">
     该命令会删除 aBMC 的数据库文件（账号等数据均存放其中），重启后按默认状态重建，执行前请先备份。
