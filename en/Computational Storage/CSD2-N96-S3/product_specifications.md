@@ -43,7 +43,7 @@ The maximum storage times are determined based on the powered-off storage time s
 
 | Item | Specification |
 | :--- | :--- |
-| **Dimensions (H×W×D)** | Chassis: 88.80mm (2U) × 495.60 × 928.51mm |
+| **Dimensions (H×W×D)** | Chassis: 88.80mm (2U) × 449.00 × 923.40mm |
 | **Installation Dimension Requirements** | Can be installed in a general-purpose cabinet that complies with the IEC 297 standard:<br/>- Width 19 inches<br/>- Depth 800 mm or more<br/><br/>The rail installation requirements are as follows:<br/>- Telescopic rails: the distance between the front and rear square-hole rails of the cabinet ranges from 543.5 mm to 848.5 mm |
 | **Weight (Fully Configured)** | - Net weight: ?kg<br/>- Packaging material weight: ?kg |
 | **Power Consumption** | The power consumption of the whole server varies depending on the quantity and types of the compute units installed.|
