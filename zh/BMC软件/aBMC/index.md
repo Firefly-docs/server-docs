@@ -1,6 +1,7 @@
 # aBMC
 - [前言](preface.md)
 - [登录指南](guide.md)
+- [软件安装指南](install.md)
 
 # 使用手册
 - [常规配置](general.md)
