@@ -13,20 +13,16 @@ This case is intended for:
 
 ## Application Scenario
 
-A single NIC has to carry traffic in two directions at the same time:
+The BMC has only one NIC, yet it has to provide access to two subnets at the same time. The differences between the two services require them to be carried separately:
 
-- **Video input**: cameras, NVRs, or streaming servers push multiple video streams to the server. The bandwidth is high and continuous, and the traffic is sensitive to packet loss and jitter.
-- **Result output**: analysis results, alarms, and snapshots are sent back to result servers or clients. The volume is low, but the traffic must be stable and traceable.
+| Service | Traffic direction | Traffic profile | Key concern | Subnet |
+| --- | --- | --- | --- | --- |
+| Video input | Cameras / NVRs / streaming servers → server | High bandwidth, continuous | Packet loss, jitter | 192.168.20.0/24 |
+| Result output | Server → result servers / clients | Low volume, bursty | Stability, traceability | 192.168.30.0/24 |
 
-Both subnets are provided by the external network and enter through other ports of the internal L3 switch, for example through two upstream switches, or through one trunk that carries both VLANs. The internal L3 switch only performs Layer 2 forwarding here and delivers each subnet to its own VLAN.
+Sharing one subnet makes the two services interfere with each other and prevents per-service rate limiting, statistics, and troubleshooting; and since the BMC has no second NIC, separating the subnets by adding hardware is not an option.
 
-The traditional approach is to add a NIC: one NIC per subnet, with isolation achieved by physical separation, which also doubles the number of cables, switch ports, and upstream ports. However, the main board has no second service NIC available, so both services have to share one subnet, and isolation is impossible.
-
-**This solution requires no additional router**: both gateways reside on the upstream devices. The server only needs to pass the VLANs through to `nic0_5G` and terminate both subnets on two VLAN devices (802.1Q sub-interfaces).
-
-> **On the switch, set the port connected to `nic0_5G` as a trunk that permits both VLANs, and assign the ingress port of each subnet to the matching VLAN. On the aBMC side, create two VLAN devices on `nic0_5G` (for example, `vlan20` and `vlan30`), each with an address inside the upstream subnet and its gateway pointing to the upstream device.**
-
-From the perspective of the system, these are two interfaces, each with its own IP address. The result is identical to having two NICs on two different subnets: video input goes through one interface and result output through the other.
+Both subnets are provided by the upstream devices and enter through other ports of the internal L3 switch: either through two upstream switches, or through one trunk that carries both VLANs. The internal L3 switch only performs Layer 2 forwarding and delivers each subnet into its own VLAN; both gateways stay upstream, so no additional router is required.
 
 ## How It Works
 
