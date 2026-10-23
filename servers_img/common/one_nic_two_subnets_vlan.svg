@@ -68,9 +68,9 @@
   <text x="640" y="232" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="10.5" fill="#334155" text-anchor="middle">Trunk</text>
   <text x="640" y="256" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">802.1Q</text>
 
-  <!-- 整机主板网卡 -->
+  <!-- BMC网卡 -->
   <rect x="700" y="32" width="276" height="372" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#soft)"/>
-  <text x="720" y="60" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="600" fill="#0f172a">整机主板</text>
+  <text x="720" y="60" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="600" fill="#0f172a">BMC</text>
   <text x="720" y="80" font-family="'JetBrains Mono','SF Mono',Consolas,monospace" font-size="12" fill="#15803d">nic0_5G</text>
 
   <line x1="700" y1="228" x2="712" y2="228" stroke="#16a34a" stroke-width="2"/>

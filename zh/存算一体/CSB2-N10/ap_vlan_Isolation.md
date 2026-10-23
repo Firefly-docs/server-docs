@@ -45,7 +45,7 @@ BMC 只有一张网卡，却要同时接入两个网段。两类业务在带宽�
 
 整体拓扑如下：
 
-![一张网卡通过 VLAN 接入两个网段：两个网段从内部三层交换机不同端口进入，在 nic0_5G 上收口为两个 VLAN 子接口](../../../servers_img/common/one_nic_two_subnets_vlan.svg)
+![一张网卡通过 VLAN 接入两个网段：两个网段从内部三层交换机不同端口进入，在 nic0_5G 上收口为两个 VLAN 子接口](../../../servers_img/common/one_nic_two_subnets_vlan.png)
 
 *图：左侧两个网段分别从交换机的入口端口 A、B 进入 VLAN 20 / VLAN 30；中间交换机只做二层并汇合到 Trunk；右侧 `nic0_5G` 上一个 Trunk 口拆成 `vlan20`、`vlan30` 两个接口，网关仍指向上游。*
 

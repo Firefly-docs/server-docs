@@ -45,7 +45,7 @@ Equivalent setup:
 
 The overall topology is shown below:
 
-![One NIC connecting to two subnets: both subnets enter through different ports of the internal L3 switch and terminate on two VLAN sub-interfaces of nic0_5G](../../../servers_img/common/one_nic_two_subnets_vlan_en.svg)
+![One NIC connecting to two subnets: both subnets enter through different ports of the internal L3 switch and terminate on two VLAN sub-interfaces of nic0_5G](../../../servers_img/common/one_nic_two_subnets_vlan_en.png)
 
 *Figure: the two subnets enter VLAN 20 and VLAN 30 through ingress ports A and B of the switch; the switch works at Layer 2 only and converges the VLANs onto a trunk; on the right, the single trunk on `nic0_5G` splits into `vlan20` and `vlan30`, and both gateways still point upstream.*
 
