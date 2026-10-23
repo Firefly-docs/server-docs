@@ -13,16 +13,16 @@ This case is intended for:
 
 ## Application Scenario
 
-The BMC has only one NIC, yet it has to provide access to two subnets at the same time. The differences between the two services require them to be carried separately:
+The BMC has only one NIC, yet it has to provide access to two subnets at the same time. The differences in bandwidth and latency requirements between the two services mean that they must be carried separately:
 
 | Service | Traffic direction | Traffic profile | Key concern | Subnet |
 | --- | --- | --- | --- | --- |
 | Video input | Cameras / NVRs / streaming servers → server | High bandwidth, continuous | Packet loss, jitter | 192.168.20.0/24 |
 | Result output | Server → result servers / clients | Low volume, bursty | Stability, traceability | 192.168.30.0/24 |
 
-Sharing one subnet makes the two services interfere with each other and prevents per-service rate limiting, statistics, and troubleshooting; and since the BMC has no second NIC, separating the subnets by adding hardware is not an option.
+If both services share one subnet, they interfere with each other and cannot be rate limited, measured, or troubleshot separately. Since no second NIC is available on the BMC, separating the subnets by adding hardware is not an option.
 
-Both subnets are provided by the upstream devices and enter through other ports of the internal L3 switch: either through two upstream switches, or through one trunk that carries both VLANs. The internal L3 switch only performs Layer 2 forwarding and delivers each subnet into its own VLAN; both gateways stay upstream, so no additional router is required.
+A workable approach is to reuse the existing network: both subnets are provided by the upstream devices and enter through other ports of the internal L3 switch, either through two upstream switches or through one trunk that carries both VLANs. The internal L3 switch only performs Layer 2 forwarding and delivers each subnet into its own VLAN; both gateways stay upstream, so no additional router is required.
 
 ## How It Works
 
