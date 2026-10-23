@@ -1,4 +1,4 @@
-# One NIC for Multiple Subnets (VLAN Segmentation + Internal L3 Switch)
+# Single NIC, Multiple Subnets Case
 
 ## Overview
 
@@ -53,11 +53,11 @@ The overall topology is shown below:
 
 *Figure: the two subnets enter VLAN 20 and VLAN 30 through ingress ports A and B of the switch; the switch works at Layer 2 only and converges the VLANs onto a trunk; on the right, the single trunk on `nic0_5G` splits into `vlan20` and `vlan30`, and both gateways still point upstream.*
 
-## Procedure [step]
+## Procedure
 
 The VLAN IDs on the switch and on the BMC must match. Configure the switch first and the BMC second, so that you never end up in the intermediate state where a VLAN exists but the link does not work.
 
-### Step 1: Internal L3 switch
+### Step 1: Internal L3 switch [step]
 
 Open the aBMC management page and go to **Device Management** → **Switch Management Settings**, then configure the VLANs and ports as listed below.
 
@@ -68,7 +68,7 @@ Open the aBMC management page and go to **Device Management** → **Switch Manag
 | Ingress port of subnet 1 | Access, VLAN 20 | Deliver the video input subnet into VLAN 20 |
 | Ingress port of subnet 2 | Access, VLAN 30 (same as above) | Deliver the result output subnet into VLAN 30 |
 
-### Step 2: Create VLAN devices on the BMC
+### Step 2: Create VLAN devices on the BMC [step]
 
 Open **System → Network → VLAN Manage** in aBMC and add two VLAN devices on `nic0_5G`, one per subnet:
 
@@ -79,7 +79,7 @@ Open **System → Network → VLAN Manage** in aBMC and add two VLAN devices on 
 
 Enter the address of the **upstream device** in that subnet as the gateway. The VLAN ID and the VLAN link cannot be changed after creation; delete and recreate the device if either is wrong. For field descriptions, screenshots, and the rules for creating, modifying, and deleting VLANs, see the "Managing BMC VLANs" section of the [aBMC Web User Manual](/docs/server/bmc-software/aBMC/bmcNetwork).
 
-### Step 3: Verify connectivity
+### Step 3: Verify connectivity [step]
 
 From the BMC command line, ping the gateway of each subnet to verify that every VLAN device can reach its subnet:
 
