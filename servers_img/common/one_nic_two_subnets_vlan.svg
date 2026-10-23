@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" width="100%" role="img" aria-label="一张网卡通过 VLAN 接入两个网段的拓扑示意">
+  <defs>
+    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ea580c"/>
+    </marker>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="2.5" flood-color="#0f172a" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="460" fill="#ffffff"/>
+
+  <!-- 网段一：视频输入 -->
+  <rect x="24" y="32" width="240" height="164" rx="14" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5" filter="url(#soft)"/>
+  <rect x="196" y="52" width="52" height="20" rx="10" fill="#2563eb"/>
+  <text x="222" y="66" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="10.5" fill="#ffffff" text-anchor="middle">VLAN 20</text>
+  <text x="40" y="70" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="14.5" font-weight="600" fill="#1e3a8a">视频输入网段</text>
+  <text x="40" y="94" font-family="'JetBrains Mono','SF Mono',Consolas,monospace" font-size="12.5" fill="#1e293b">192.168.20.0/24</text>
+  <line x1="40" y1="108" x2="248" y2="108" stroke="#dbeafe" stroke-width="1"/>
+  <text x="40" y="132" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#475569">摄像头 / NVR / 流媒体服务器</text>
+  <text x="40" y="156" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#2563eb">网关 192.168.20.1（上游）</text>
+  <text x="40" y="180" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11" fill="#93a4bd">带宽大 · 持续性强 · 怕丢包</text>
+
+  <!-- 网段二：结果输出 -->
+  <rect x="24" y="240" width="240" height="164" rx="14" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5" filter="url(#soft)"/>
+  <rect x="196" y="260" width="52" height="20" rx="10" fill="#ea580c"/>
+  <text x="222" y="274" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="10.5" fill="#ffffff" text-anchor="middle">VLAN 30</text>
+  <text x="40" y="278" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="14.5" font-weight="600" fill="#9a3412">结果输出网段</text>
+  <text x="40" y="302" font-family="'JetBrains Mono','SF Mono',Consolas,monospace" font-size="12.5" fill="#1e293b">192.168.30.0/24</text>
+  <line x1="40" y1="316" x2="248" y2="316" stroke="#ffedd5" stroke-width="1"/>
+  <text x="40" y="340" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#475569">结果服务器 / 客户端</text>
+  <text x="40" y="364" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#ea580c">网关 192.168.30.1（上游）</text>
+  <text x="40" y="388" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11" fill="#c2a68f">流量小 · 要求稳定 · 可追溯</text>
+
+  <!-- 内部交换机 -->
+  <rect x="304" y="32" width="312" height="372" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#soft)"/>
+  <text x="324" y="60" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="14.5" font-weight="600" fill="#0f172a">内部三层交换机</text>
+  <text x="324" y="80" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11.5" fill="#64748b">本案例只做二层转发 · 不配网关</text>
+
+  <rect x="324" y="92" width="272" height="104" rx="10" fill="#f5f9ff" stroke="#93c5fd" stroke-dasharray="5 4"/>
+  <text x="344" y="120" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#1d4ed8">VLAN 20</text>
+  <text x="344" y="148" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#334155">入口端口 A · Access</text>
+  <text x="344" y="172" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11.5" fill="#64748b">承载：视频输入流量</text>
+
+  <rect x="324" y="260" width="272" height="104" rx="10" fill="#fffaf4" stroke="#fdba74" stroke-dasharray="5 4"/>
+  <text x="344" y="288" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="13.5" font-weight="600" fill="#c2410c">VLAN 30</text>
+  <text x="344" y="316" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#334155">入口端口 B · Access</text>
+  <text x="344" y="340" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11.5" fill="#64748b">承载：结果输出流量</text>
+
+  <!-- 网段进入交换机 -->
+  <line x1="264" y1="144" x2="320" y2="144" stroke="#2563eb" stroke-width="2" marker-end="url(#arrB)"/>
+  <line x1="264" y1="312" x2="320" y2="312" stroke="#ea580c" stroke-width="2" marker-end="url(#arrO)"/>
+
+  <!-- VLAN 汇合为 Trunk -->
+  <path d="M 596 144 H 606 V 224" fill="none" stroke="#94a3b8" stroke-width="1.8"/>
+  <path d="M 596 312 H 606 V 232" fill="none" stroke="#94a3b8" stroke-width="1.8"/>
+  <line x1="606" y1="228" x2="700" y2="228" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="612" y="218" width="56" height="20" rx="10" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="640" y="232" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="10.5" fill="#334155" text-anchor="middle">Trunk</text>
+  <text x="640" y="256" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">802.1Q</text>
+
+  <!-- 整机主板网卡 -->
+  <rect x="700" y="32" width="276" height="372" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#soft)"/>
+  <text x="720" y="60" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="14" font-weight="600" fill="#0f172a">整机主板</text>
+  <text x="720" y="80" font-family="'JetBrains Mono','SF Mono',Consolas,monospace" font-size="12" fill="#15803d">nic0_5G</text>
+
+  <line x1="700" y1="228" x2="712" y2="228" stroke="#16a34a" stroke-width="2"/>
+  <line x1="712" y1="144" x2="712" y2="312" stroke="#16a34a" stroke-width="2"/>
+  <line x1="712" y1="144" x2="720" y2="144" stroke="#16a34a" stroke-width="2" marker-end="url(#arrG)"/>
+  <line x1="712" y1="312" x2="720" y2="312" stroke="#16a34a" stroke-width="2" marker-end="url(#arrG)"/>
+
+  <rect x="720" y="92" width="236" height="104" rx="10" fill="#f7fdf9" stroke="#bbf7d0"/>
+  <text x="736" y="120" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="13" font-weight="600" fill="#15803d">vlan20</text>
+  <text x="736" y="146" font-family="'JetBrains Mono','SF Mono',Consolas,monospace" font-size="11.5" fill="#334155">192.168.20.10/24</text>
+  <text x="736" y="170" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11" fill="#64748b">网关 192.168.20.1</text>
+
+  <rect x="720" y="260" width="236" height="104" rx="10" fill="#f7fdf9" stroke="#bbf7d0"/>
+  <text x="736" y="288" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="13" font-weight="600" fill="#15803d">vlan30</text>
+  <text x="736" y="314" font-family="'JetBrains Mono','SF Mono',Consolas,monospace" font-size="11.5" fill="#334155">192.168.30.10/24</text>
+  <text x="736" y="338" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="11" fill="#64748b">网关 192.168.30.1</text>
+
+  <!-- 说明 -->
+  <text x="500" y="444" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" font-size="12" fill="#64748b" text-anchor="middle">两个网段的网关与跨网段策略都在上游设备；本机只在二层把一张网卡分成两个接口</text>
+</svg>

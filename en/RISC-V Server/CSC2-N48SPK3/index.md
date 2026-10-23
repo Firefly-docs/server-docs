@@ -20,6 +20,8 @@
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
 - [K3 Platform Software Development](k3_platform_software_development.md)
+# Application Cases
+- [One NIC for Multiple Subnets (VLAN Segmentation + Internal L3 Switch)](ap_vlan_Isolation.md)
 # Maintenance
 - [Log Collection](op_log_collection.md)
 - [Troubleshooting](op_issues_troubleshooting.md)

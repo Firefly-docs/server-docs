@@ -20,6 +20,8 @@
 - [Redfish API](redfishApi.md)
 - [K3s](k3s.md)
 - [K3平台软件开发](k3_platform_software_development.md)
+# 应用案例
+- [一张网卡接入多个网段（VLAN 划分 + 内部三层交换机）](ap_vlan_Isolation.md)
 # 运营维护
 - [日志收集](op_log_collection.md)
 - [异常排查](op_issues_troubleshooting.md)
