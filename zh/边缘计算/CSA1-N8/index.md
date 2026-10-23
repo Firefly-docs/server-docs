@@ -4,6 +4,7 @@
 - [系统支持列表](product_system_support_list.md)
 # 快速开始
 - [服务器安装](start_server_installation.md)
+- [电源操作](start_server_power.md)
 - [状态识别](start_server_status.md)
 - [网络接线方式](start_server_network.md)
 - [访问 BMC](start_login_bmc.md)

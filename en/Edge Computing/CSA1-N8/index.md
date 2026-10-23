@@ -4,6 +4,7 @@
 - [Support List](product_system_support_list.md)
 # Quick Start
 - [Server Installation](start_server_installation.md)
+- [Power Operations](start_server_power.md)
 - [Status Indicators](start_server_status.md)
 - [Network Wiring](start_server_network.md)
 - [Accessing the BMC](start_login_bmc.md)
