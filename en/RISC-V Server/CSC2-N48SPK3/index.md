@@ -22,6 +22,8 @@
 - [K3 Platform Software Development](k3_platform_software_development.md)
 # Application Cases
 - [Single NIC, Multiple Subnets Case](ap_vlan_Isolation.md)
+- [Network Isolation Case](ap_network_isolation.md)
+- [Network Sharing Case](ap_network_sharing.md)
 # Maintenance
 - [Log Collection](op_log_collection.md)
 - [Troubleshooting](op_issues_troubleshooting.md)

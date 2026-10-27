@@ -21,6 +21,8 @@
 - [K3s](k3s.md)
 # Application Cases
 - [Single NIC, Multiple Subnets Case](ap_vlan_Isolation.md)
+- [Network Isolation Case](ap_network_isolation.md)
+- [Network Sharing Case](ap_network_sharing.md)
 # Maintenance
 - [Log Collection](op_log_collection.md)
 - [Troubleshooting](op_issues_troubleshooting.md)
