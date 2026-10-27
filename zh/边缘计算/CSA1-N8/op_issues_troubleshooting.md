@@ -166,3 +166,110 @@ A：先通过串口确认子板系统是否仍在运行（子板系统本身异�
     2. 无任何日志输出
 
         请联系 Firefly 技术支持处理。
+## Q：内核日志出现 `bm-sophon0 api process fail` 或 `Tpu hang`，如何处理？ [step]
+
+A：这类日志表示 Sophon TPU（AI 加速单元）的任务处理异常，可能由驱动或固件异常、TPU 长时间高负载、硬件故障等原因引起。建议按以下步骤处理：
+
+1. 记录日志：
+
+    ```bash
+    dmesg -T | grep -iE "bm-sophon|tpu"
+    journalctl -k --no-pager | grep -iE "bm-sophon|tpu"
+    ```
+
+2. 记录出现问题的子板编号以及当时运行的业务，重启对应子板或整机，观察是否复现。
+
+3. 若重启后不再出现，可继续观察；若反复出现，请停止该子板上的 TPU 业务，收集上述日志并联系技术人员处理。
+
+<Callout title="注意" type="warn">
+  出现 `Tpu hang` 后不要继续长时间高负载运行，避免异常扩大；也不要自行刷新固件，先联系技术人员确认原因。
+</Callout>
+
+## Q：BMC 上电后 `pci_net` 网卡消失，如何排查？ [step]
+
+A：BMC 上电后如果系统中看不到 `pci_net` 网卡，先按以下步骤确认：
+
+1. 确认网卡是否真的缺失：
+
+    ```bash
+    ip link show
+    ls /sys/class/net
+    lspci -nn | grep -i net
+    ```
+
+2. 使用 `lsblk` 检查 `/boot` 分区是否已挂载：
+
+    ```bash
+    lsblk
+    findmnt /boot
+    ```
+
+3. 如果 `/boot` 分区未挂载，可能是系统启动或分区异常。**不要手动格式化分区，也不要随意修改 `/etc/fstab`**，请联系技术人员处理。
+
+4. 如果 `/boot` 已正常挂载但 `pci_net` 仍然不存在，请收集以下信息后联系技术人员：
+
+    ```bash
+    dmesg -T | grep -iE "pci|net"
+    lspci -nn
+    ```
+
+<Callout title="注意" type="warn">
+  请勿通过重命名网卡或自行新建网络配置文件的方式尝试"恢复" `pci_net`，以免影响 BMC 与子板之间的通信。
+</Callout>
+
+## Q：内核日志出现 `mmc0` 报错，如何判断 eMMC 是否健康？ [step]
+
+A：`mmc0` 通常对应板载 eMMC。出现 `mmc0` 相关报错时，先确认报错内容，再读取 eMMC 的寿命信息：
+
+1. 查看内核报错：
+
+    ```bash
+    dmesg -T | grep -i mmc
+    journalctl -k --no-pager | grep -i mmc
+    ```
+
+2. 读取 eMMC 寿命：
+
+    ```bash
+    cat /sys/block/mmcblk0/device/life_time
+    cat /sys/block/mmcblk0/device/pre_eol_info
+    ```
+
+3. 结果解读：
+
+    - `life_time` 是两个十六进制值，依次为 Type A、Type B（主存储区通常参考 Type B）：`0x01` 表示已使用 0–10%，`0x02` 表示 10–20%，依次类推，`0x0A` 表示 90–100%，`0x0B` 表示已超出寿命；
+    - `pre_eol_info`：`0x01` 表示正常，`0x02` 表示预警（已使用约 80%），`0x03` 表示紧急（已使用约 90%）。
+
+4. 如果 `pre_eol_info` 为 `0x01` 且 `life_time` 数值较小，说明 eMMC 寿命正常，可按普通 I/O 报错继续排查；如果出现 `0x02`、`0x03`、`0x0B`，或内核持续报 I/O 错误，请先备份数据，再联系技术人员处理。
+
+<Callout title="提示" type="info">
+  eMMC 只能读到寿命分档，无法给出精确百分比。若设备长期大量写日志，建议将日志外置或定期清理，减少 eMMC 写入。
+</Callout>
+
+## Q：SATA 硬盘变成只读，如何处理？ [step]
+
+A：SATA 硬盘出现只读，通常是硬盘自身进入故障保护，或文件系统、链路异常。建议按以下步骤确认：
+
+1. 使用 `lsblk` 确认出现问题的盘符（以下以 `/dev/sdX` 表示）。
+
+2. 确认只读状态：
+
+    ```bash
+    mount | grep " ro,"
+    cat /sys/block/sdX/ro
+    ```
+
+3. 查看内核报错和硬盘健康信息：
+
+    ```bash
+    dmesg -T | grep -iE "ata|sata|I/O error|read-only"
+    smartctl -a /dev/sdX   # 若系统已安装 smartctl
+    ```
+
+4. 如果使用的是机械硬盘，建议更换为固态硬盘（SSD）。机械硬盘在老化、震动或供电异常时更容易进入只读保护，继续使用可能导致数据丢失。
+
+5. 更换硬盘前请先备份数据；如果更换 SSD 后仍出现只读，请收集上述日志并联系技术人员。
+
+<Callout title="注意" type="warn">
+  不要通过强制重新挂载为读写（`mount -o remount,rw`）继续写入故障盘，可能造成数据损坏。请先备份数据再处理。
+</Callout>

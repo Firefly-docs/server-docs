@@ -165,3 +165,110 @@ A: First use the serial console to confirm whether the sub-board's system is sti
     2. There is no log output at all
 
         Contact Firefly technical support.
+## Q: What should I do if the kernel log shows `bm-sophon0 api process fail` or `Tpu hang`? [step]
+
+A: These messages indicate abnormal task processing in the Sophon TPU (AI accelerator), which may be caused by driver or firmware issues, prolonged high TPU load, or hardware failure. Proceed as follows:
+
+1. Capture the logs:
+
+    ```bash
+    dmesg -T | grep -iE "bm-sophon|tpu"
+    journalctl -k --no-pager | grep -iE "bm-sophon|tpu"
+    ```
+
+2. Record the sub-board number and the services running at the time, then restart the corresponding sub-board or the whole server and check whether the issue recurs.
+
+3. If the issue does not recur after the restart, continue to monitor it. If it recurs, stop the TPU services on that sub-board, collect the logs above, and contact technical support.
+
+<Callout title="Note" type="warn">
+  Do not continue running high-load workloads for a long time after `Tpu hang` occurs, as this may expand the impact. Do not flash the firmware yourself; contact technical support first to identify the cause.
+</Callout>
+
+## Q: The `pci_net` NIC disappears after the BMC powers on. How to troubleshoot? [step]
+
+A: If the `pci_net` NIC is not visible in the system after the BMC powers on, check the following:
+
+1. Confirm whether the NIC is actually missing:
+
+    ```bash
+    ip link show
+    ls /sys/class/net
+    lspci -nn | grep -i net
+    ```
+
+2. Use `lsblk` to check whether the `/boot` partition is mounted:
+
+    ```bash
+    lsblk
+    findmnt /boot
+    ```
+
+3. If the `/boot` partition is not mounted, the system boot or partition may be abnormal. **Do not format the partition manually, and do not modify `/etc/fstab` at will.** Contact technical support.
+
+4. If `/boot` is mounted properly but `pci_net` is still missing, collect the following information and contact technical support:
+
+    ```bash
+    dmesg -T | grep -iE "pci|net"
+    lspci -nn
+    ```
+
+<Callout title="Note" type="warn">
+  Do not try to "restore" `pci_net` by renaming NICs or creating new network configuration files, as this may affect communication between the BMC and the sub-boards.
+</Callout>
+
+## Q: The kernel log shows `mmc0` errors. How can I tell whether the eMMC is healthy? [step]
+
+A: `mmc0` usually corresponds to the on-board eMMC. When `mmc0`-related errors occur, first check the error messages, then read the eMMC life time information:
+
+1. Check kernel errors:
+
+    ```bash
+    dmesg -T | grep -i mmc
+    journalctl -k --no-pager | grep -i mmc
+    ```
+
+2. Read the eMMC life time:
+
+    ```bash
+    cat /sys/block/mmcblk0/device/life_time
+    cat /sys/block/mmcblk0/device/pre_eol_info
+    ```
+
+3. Interpretation:
+
+    - `life_time` contains two hexadecimal values, Type A and Type B in order (the main storage area usually refers to Type B): `0x01` means 0–10% used, `0x02` means 10–20% used, and so on; `0x0A` means 90–100% used, and `0x0B` means the life time has been exceeded;
+    - `pre_eol_info`: `0x01` means normal, `0x02` means warning (about 80% used), and `0x03` means urgent (about 90% used).
+
+4. If `pre_eol_info` is `0x01` and `life_time` is low, the eMMC is healthy and you can continue troubleshooting as a normal I/O error. If `0x02`, `0x03`, or `0x0B` appears, or the kernel keeps reporting I/O errors, back up the data first and contact technical support.
+
+<Callout title="Tip" type="info">
+  The eMMC only reports life time in ranges and cannot provide an exact percentage. If the device writes logs heavily for a long time, consider storing logs externally or cleaning them regularly to reduce eMMC writes.
+</Callout>
+
+## Q: The SATA drive has become read-only. What should I do? [step]
+
+A: A SATA drive becoming read-only is usually caused by the drive entering failure protection mode, or by file system or link issues. Check as follows:
+
+1. Use `lsblk` to identify the drive letter of the affected disk (represented as `/dev/sdX` below).
+
+2. Confirm the read-only state:
+
+    ```bash
+    mount | grep " ro,"
+    cat /sys/block/sdX/ro
+    ```
+
+3. Check kernel errors and drive health information:
+
+    ```bash
+    dmesg -T | grep -iE "ata|sata|I/O error|read-only"
+    smartctl -a /dev/sdX   # if smartctl is installed
+    ```
+
+4. If a hard disk drive (HDD) is used, it is recommended to replace it with a solid-state drive (SSD). HDDs are more likely to enter read-only protection when they age, experience vibration, or have power supply issues, and continued use may cause data loss.
+
+5. Back up the data before replacing the drive. If the read-only issue persists after replacing it with an SSD, collect the logs above and contact technical support.
+
+<Callout title="Note" type="warn">
+  Do not force-remount the drive as read-write (`mount -o remount,rw`) and continue writing to a faulty drive, as this may cause data corruption. Back up the data first.
+</Callout>
