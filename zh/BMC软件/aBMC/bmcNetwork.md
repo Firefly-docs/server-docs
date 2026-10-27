@@ -47,7 +47,7 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
     | Connection Status | 网口当前连接状态，例如 **In Use**、**Not In Use** 或 **Exception**。 |
     | IPv4 Address | 当前 IPv4 地址和前缀长度。同一网卡可显示多个地址。 |
     | Default Gateway | 当前 IPv4 默认网关。 |
-    | Gateway Priority | 当前默认网关的路由优先级。 |
+    | Gateway Priority | 当前默认网关的路由优先级，即路由表中的 metric，数值越小优先级越高。 |
     | DNS | 当前 DNS 服务器。 |
 
     ### 判断网卡是否允许配置 [step]
@@ -63,7 +63,7 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
 
     1. 确认当前为 **IPv4 Configuration**。**IPv6 Configuration** 和 **VLAN Configuration** 当前不可用。
     2. 在 **IPv4 Mode** 中选择 **Auto (DHCP)** 或 **Manual**。
-    3. 使用 Manual 时，输入 **Address** 和 **Subnet Mask**。填写完整地址后，页面会自动增加空白行；如需默认路由，在第一行填写 **Gateway** 和 **Gateway Priority**。
+    3. 使用 Manual 时，输入 **Address** 和 **Subnet Mask**。填写完整地址后，页面会自动增加空白行；如需默认路由，在第一行成对填写 **Gateway** 和 **Gateway Priority**，优先级数值越小越优先。
     4. 在 **DNS** 中输入 DNS 服务器；多个地址使用英文逗号分隔。
     5. 如果不保存修改，单击 **Cancel**。
     6. 检查参数无误后，单击 **Confirm**。
@@ -77,9 +77,13 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
     | Auto (DHCP) | 由 DHCP 服务分配 IPv4 地址。 |
     | Address | Manual 模式至少填写一个有效 IPv4 地址；支持同一网卡配置多个地址。 |
     | Subnet Mask | Manual 模式中，每个静态地址必须同时填写有效的子网掩码。 |
-    | Gateway | 可选；必须为有效 IPv4 地址。多地址场景中只在第一行输入。 |
-    | Gateway Priority | 填写网关时应同时填写正整数优先级。同一网关和优先级组合不能与其他网卡或 VLAN 重复。 |
+    | Gateway | 可选；必须为有效 IPv4 地址，并与 Gateway Priority 成对填写。多地址场景中只在第一行输入。 |
+    | Gateway Priority | 网关路由的 metric，必须为正整数，数值越小优先级越高；同一网关和优先级组合不能与其他网卡或 VLAN 重复。 |
     | DNS | 可选；必须为有效 IP 地址，多个地址使用英文逗号分隔。 |
+
+    <Callout title="网关与网关优先级" type="info">
+      **Gateway** 与 **Gateway Priority** 必须成对填写：只填其中一项会提交失败。优先级即路由表中的 metric，**数值越小优先级越高**。存在多条默认路由时，metric 最小的一条优先生效，其余作为备份保留在路由表中。
+    </Callout>
 
     ### 确认配置结果 [step]
 
@@ -139,7 +143,7 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
     | `--interface-ip` | 静态配置时使用 | IPv4 地址。 |
     | `--interface-ip-cidr` | 否 | IPv4 前缀长度；指定 IP 但未指定该参数时，CLI 默认使用 `24`。 |
     | `--interface-gateway` | 否 | IPv4 默认网关。 |
-    | `--interface-gateway-metric` | 否 | 网关路由优先级，必须为整数。 |
+    | `--interface-gateway-metric` | 否 | 网关路由优先级（metric），必须为整数，数值越小优先级越高；需与 `--interface-gateway` 成对使用。 |
     | `--interface-dns` | 否 | DNS 服务器。当前 CLI 每次接收一个 DNS 地址。 |
     | `--output-format` | 否 | 指定客户端输出格式。 |
 
@@ -194,7 +198,7 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
     | Mode | 当前网络聚合模式。 |
     | IPv4 Address | Bond 设备当前的 IPv4 地址。 |
     | Default Gateway | 当前 IPv4 默认网关。 |
-    | Gateway Priority | 默认网关的路由优先级。 |
+    | Gateway Priority | 默认网关的路由优先级，即路由表中的 metric，数值越小优先级越高。 |
     | Net Port | 当前 Bond 的成员网口。 |
     | DNS | 当前 DNS 服务器。 |
 
@@ -287,7 +291,7 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
     | Connection Status | VLAN 设备当前的连接状态。 |
     | IPv4 Address | VLAN 设备当前的 IPv4 地址和前缀长度。 |
     | Default Gateway | 当前 IPv4 默认网关。 |
-    | Gateway Priority | 默认网关的路由优先级。 |
+    | Gateway Priority | 默认网关的路由优先级，即路由表中的 metric，数值越小优先级越高。 |
     | DNS | 当前 DNS 服务器。 |
     | VLAN ID | VLAN 标识。 |
     | VLAN Link | VLAN 子接口关联的底层网口。 |
@@ -320,7 +324,7 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
     | VLAN Link | 新增时必填；选择承载 VLAN 的底层网口，回环接口 `lo` 不可用。 |
     | Auto (DHCP) | 由 DHCP 服务为 VLAN 设备分配 IPv4 地址。 |
     | Manual | 支持配置一个或多个 IPv4 地址、子网掩码、默认网关、网关优先级和 DNS。 |
-    | Gateway Priority | 同一网关和优先级组合不能与其他网卡或 VLAN 重复。 |
+    | Gateway Priority | 网关路由的 metric，数值越小优先级越高；同一网关和优先级组合不能与其他网卡或 VLAN 重复。 |
     | SettingEnabled | 为 `false` 时，WEB 中的修改和删除按钮均不可用。不要绕过限制操作系统内部 VLAN。 |
 
     <Callout title="VLAN 连通性要求" type="warn">
@@ -369,5 +373,16 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
 ### 6.如何配置多个 IPv4 地址
 在 WEB 的 Manual 模式中填完一行 **Address** 和 **Subnet Mask** 后，页面会自动增加空白行。CLI 每次只能为物理网卡提交一个地址，多地址场景请使用 WEB 或 API。
 
-### 7.网关优先级提示冲突
-同一网关和优先级组合已被其他网卡或 VLAN 使用。请调整 **Gateway** 或 **Gateway Priority**，避免与已有配置完全相同。
+### 7.网关优先级是什么，提示冲突如何处理
+**Gateway Priority** 是默认网关路由在路由表中的 metric（度量值），必须与 **Gateway** 成对填写：只填网关不填优先级，或只填优先级不填网关，都无法提交。
+
+数值越小优先级越高。存在多条默认路由时，metric 最小的一条优先生效，其余保留在路由表中作为备份，例如：
+
+```bash
+default via 192.168.20.1 dev vlan20 metric 100
+default via 192.168.30.1 dev vlan30 metric 200
+```
+
+上面的配置中，出网流量优先走 `vlan20`；当 `vlan20` 所在链路不可用时，才会切换到 metric 更大的 `vlan30`。
+
+提示冲突时，表示同一网关和优先级组合已被其他网卡、Bond 或 VLAN 使用。请调整 **Gateway** 或 **Gateway Priority**，使组合与其他配置不完全相同。

@@ -43,7 +43,7 @@ Sub-Board Network Management (Sub Network Manager) is a centralized network conf
     | Net Card | NIC name, for example `MGMT`, `eth0`, or `eth1`. |
     | IPv4 Address | Current IPv4 address and prefix length. When an interface has multiple addresses, click the address to expand and view them. |
     | Gateway | Current IPv4 default gateway. |
-    | Gateway Priority | Routing priority of the current gateway. |
+    | Gateway Priority | Routing priority of the current gateway, that is, the metric in the routing table; a smaller value means higher priority. |
     | MAC Address | NIC MAC address, used to identify the physical interface. |
     | DNS | Current DNS server list. |
     | Actions | When **Configure** is available, the interface can be configured; when the button is disabled, hover the pointer over it to see the reason for the restriction. |
@@ -73,7 +73,7 @@ Sub-Board Network Management (Sub Network Manager) is a centralized network conf
     2. Enter the static IPv4 address in **Address**.
     3. Enter the corresponding subnet mask in **Subnet Mask**. After completing an address row, the page automatically adds a blank row so you can add more addresses.
     4. To configure a default route, enter the gateway address in **Gateway**.
-    5. When entering a gateway, enter a positive integer priority in **Gateway Priority**.
+    5. Enter a positive integer priority in **Gateway Priority** together with the **Gateway**; a smaller value means higher priority.
     6. To configure DNS, enter the DNS servers in **DNS**; separate multiple addresses with commas.
     7. After verifying the parameters, click **Confirm** to save the configuration.
     8. To discard the changes, click **Cancel**.
@@ -97,9 +97,13 @@ Sub-Board Network Management (Sub Network Manager) is a centralized network conf
     | Auto (DHCP) | The IPv4 address is assigned by the DHCP service. Do not fill in static addresses and gateways when submitting. |
     | Address | In Manual mode, at least one valid IPv4 address must be entered; multiple addresses on the same interface are supported. |
     | Subnet Mask | Each static address must be accompanied by a valid subnet mask. |
-    | Gateway | Optional; when entering a gateway, Gateway Priority must be entered as well. |
-    | Gateway Priority | Must be a positive integer. The same gateway and priority combination must not duplicate another NIC or VLAN. |
+    | Gateway | Optional; must be entered together with Gateway Priority. Entering only one of the two prevents the configuration from being saved. |
+    | Gateway Priority | Routing metric of the gateway; must be a positive integer, and a smaller value means higher priority. The same gateway and priority combination must not duplicate another NIC or VLAN. |
     | DNS | Optional; must be valid IP addresses, separated by commas. |
+
+    <Callout title="Gateway and gateway priority" type="info">
+      **Gateway** and **Gateway Priority** must be entered as a pair; entering only one of them fails to save. The priority is the metric of the route in the routing table, and **a smaller value means higher priority**. When multiple default routes exist, the one with the smallest metric takes effect first, and the others remain in the routing table as backups.
+    </Callout>
 
     <Callout title="Current page capabilities" type="info">
       The current version only enables **IPv4 Configuration**. The **IPv6 Configuration** and **VLAN Configuration** tabs are disabled.
@@ -190,7 +194,7 @@ Sub-Board Network Management (Sub Network Manager) is a centralized network conf
     | `--interface-ip` | Used for static configuration | IPv4 address. |
     | `--interface-ip-cidr` | No | IPv4 prefix length; when not specified, the CLI uses `24` by default. |
     | `--interface-gateway` | No | IPv4 default gateway. |
-    | `--interface-gateway-metric` | No | Gateway routing priority; must be an integer. |
+    | `--interface-gateway-metric` | No | Gateway routing priority (metric); must be an integer, and a smaller value means higher priority. Must be used together with `--interface-gateway`. |
     | `--interface-dns` | No | DNS server. The current CLI accepts one DNS address at a time. |
     | `--output-format` | No | Specifies the client output format. |
 

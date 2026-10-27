@@ -42,7 +42,7 @@
     | Net Card | 网卡名称，例如 `MGMT`、`eth0` 或 `eth1`。 |
     | IPv4 Address | 当前 IPv4 地址和前缀长度。一个接口存在多个地址时，单击地址可展开查看。 |
     | Gateway | 当前 IPv4 默认网关。 |
-    | Gateway Priority | 当前网关的路由优先级。 |
+    | Gateway Priority | 当前网关的路由优先级，即路由表中的 metric，数值越小优先级越高。 |
     | MAC Address | 网卡 MAC 地址，用于识别物理接口。 |
     | DNS | 当前 DNS 服务器列表。 |
     | Actions | **Configure** 可用时允许配置；按钮禁用时，将鼠标移至按钮上查看限制原因。 |
@@ -72,7 +72,7 @@
     2. 在 **Address** 中输入静态 IPv4 地址。
     3. 在 **Subnet Mask** 中输入对应的子网掩码。填完一行地址后，页面会自动增加空白行，可继续添加其他地址。
     4. 如需配置默认路由，在 **Gateway** 中输入网关地址。
-    5. 填写网关时，在 **Gateway Priority** 中输入正整数优先级。
+    5. 在 **Gateway Priority** 中输入正整数优先级，与 **Gateway** 成对填写；数值越小优先级越高。
     6. 如需配置 DNS，在 **DNS** 中输入 DNS 服务器；多个地址使用英文逗号分隔。
     7. 检查参数无误后，单击 **Confirm** 保存配置。
     8. 如果不保存本次修改，单击 **Cancel**。
@@ -96,9 +96,13 @@
     | Auto (DHCP) | 由 DHCP 服务分配 IPv4 地址。提交时不应再填写静态地址和网关。 |
     | Address | Manual 模式至少填写一个有效 IPv4 地址；支持为同一接口配置多个地址。 |
     | Subnet Mask | 每个静态地址都必须填写有效的子网掩码。 |
-    | Gateway | 可选；填写网关时必须同时填写 Gateway Priority。 |
-    | Gateway Priority | 必须为正整数。同一网关和优先级组合不能与其他网卡或 VLAN 重复。 |
+    | Gateway | 可选；必须与 Gateway Priority 成对填写，只填其中一项无法保存。 |
+    | Gateway Priority | 网关路由的 metric，必须为正整数，数值越小优先级越高；同一网关和优先级组合不能与其他网卡或 VLAN 重复。 |
     | DNS | 可选；必须为有效 IP 地址，多个地址使用英文逗号分隔。 |
+
+    <Callout title="网关与网关优先级" type="info">
+      **Gateway** 与 **Gateway Priority** 必须成对填写：只填其中一项会保存失败。优先级即路由表中的 metric，**数值越小优先级越高**。存在多条默认路由时，metric 最小的一条优先生效，其余作为备份保留在路由表中。
+    </Callout>
 
     <Callout title="当前页面能力" type="info">
       当前版本仅开放 **IPv4 Configuration**。**IPv6 Configuration** 和 **VLAN Configuration** 标签处于禁用状态。
@@ -189,7 +193,7 @@
     | `--interface-ip` | 静态配置时使用 | IPv4 地址。 |
     | `--interface-ip-cidr` | 否 | IPv4 前缀长度；未指定时 CLI 默认使用 `24`。 |
     | `--interface-gateway` | 否 | IPv4 默认网关。 |
-    | `--interface-gateway-metric` | 否 | 网关路由优先级，必须为整数。 |
+    | `--interface-gateway-metric` | 否 | 网关路由优先级（metric），必须为整数，数值越小优先级越高；需与 `--interface-gateway` 成对使用。 |
     | `--interface-dns` | 否 | DNS 服务器。当前 CLI 每次接收一个 DNS 地址。 |
     | `--output-format` | 否 | 指定客户端输出格式。 |
 

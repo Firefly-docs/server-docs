@@ -48,7 +48,7 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
     | Connection Status | The current connection status of the port, for example **In Use**, **Not In Use**, or **Exception**. |
     | IPv4 Address | The current IPv4 address and prefix length. Multiple addresses may be displayed for the same NIC. |
     | Default Gateway | The current IPv4 default gateway. |
-    | Gateway Priority | The routing priority of the current default gateway. |
+    | Gateway Priority | The routing priority of the current default gateway, that is, the metric in the routing table; a smaller value means higher priority. |
     | DNS | The current DNS servers. |
 
     ### Determine whether a NIC allows configuration [step]
@@ -64,7 +64,7 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
 
     1. Confirm that the current mode is **IPv4 Configuration**. **IPv6 Configuration** and **VLAN Configuration** are currently unavailable.
     2. In **IPv4 Mode**, select **Auto (DHCP)** or **Manual**.
-    3. When using Manual, enter the **Address** and **Subnet Mask**. After a complete address is entered, the page automatically adds a blank row; if a default route is needed, enter the **Gateway** and **Gateway Priority** in the first row.
+    3. When using Manual, enter the **Address** and **Subnet Mask**. After a complete address is entered, the page automatically adds a blank row; if a default route is needed, enter the **Gateway** and **Gateway Priority** as a pair in the first row. A smaller priority value means higher priority.
     4. Enter DNS servers in **DNS**; separate multiple addresses with commas.
     5. To discard the changes, click **Cancel**.
     6. After verifying the parameters, click **Confirm**.
@@ -78,9 +78,13 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
     | Auto (DHCP) | The IPv4 address is assigned by the DHCP service. |
     | Address | In Manual mode, at least one valid IPv4 address must be entered; multiple addresses on the same NIC are supported. |
     | Subnet Mask | In Manual mode, each static address must be accompanied by a valid subnet mask. |
-    | Gateway | Optional; must be a valid IPv4 address. In multi-address scenarios, enter it only in the first row. |
-    | Gateway Priority | When entering a gateway, also enter a positive integer priority. The same gateway and priority combination must not duplicate another NIC or VLAN. |
+    | Gateway | Optional; must be a valid IPv4 address and must be entered together with Gateway Priority. In multi-address scenarios, enter it only in the first row. |
+    | Gateway Priority | Routing metric of the gateway; must be a positive integer, and a smaller value means higher priority. The same gateway and priority combination must not duplicate another NIC or VLAN. |
     | DNS | Optional; must be valid IP addresses, separated by commas. |
+
+    <Callout title="Gateway and gateway priority" type="info">
+      **Gateway** and **Gateway Priority** must be entered as a pair; entering only one of them fails to submit. The priority is the metric of the route in the routing table, and **a smaller value means higher priority**. When multiple default routes exist, the one with the smallest metric takes effect first, and the others remain in the routing table as backups.
+    </Callout>
 
     ### Confirm the configuration result [step]
 
@@ -140,7 +144,7 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
     | `--interface-ip` | Used for static configuration | IPv4 address. |
     | `--interface-ip-cidr` | No | IPv4 prefix length; when an IP is specified but this parameter is not, the CLI uses `24` by default. |
     | `--interface-gateway` | No | IPv4 default gateway. |
-    | `--interface-gateway-metric` | No | Gateway routing priority; must be an integer. |
+    | `--interface-gateway-metric` | No | Gateway routing priority (metric); must be an integer, and a smaller value means higher priority. Must be used together with `--interface-gateway`. |
     | `--interface-dns` | No | DNS server. The current CLI accepts one DNS address at a time. |
     | `--output-format` | No | Specifies the client output format. |
 
@@ -195,7 +199,7 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
     | Mode | Current network aggregation mode. |
     | IPv4 Address | Current IPv4 address of the Bond device. |
     | Default Gateway | Current IPv4 default gateway. |
-    | Gateway Priority | Routing priority of the default gateway. |
+    | Gateway Priority | Routing priority of the default gateway, that is, the metric in the routing table; a smaller value means higher priority. |
     | Net Port | Member ports of the current Bond. |
     | DNS | Current DNS servers. |
 
@@ -288,7 +292,7 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
     | Connection Status | Current connection status of the VLAN device. |
     | IPv4 Address | Current IPv4 address and prefix length of the VLAN device. |
     | Default Gateway | Current IPv4 default gateway. |
-    | Gateway Priority | Routing priority of the default gateway. |
+    | Gateway Priority | Routing priority of the default gateway, that is, the metric in the routing table; a smaller value means higher priority. |
     | DNS | Current DNS servers. |
     | VLAN ID | VLAN identifier. |
     | VLAN Link | Underlying network port associated with the VLAN sub-interface. |
@@ -321,7 +325,7 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
     | VLAN Link | Required when adding; select the underlying port that carries the VLAN. The loopback interface `lo` is not available. |
     | Auto (DHCP) | The IPv4 address of the VLAN device is assigned by the DHCP service. |
     | Manual | Supports configuring one or more IPv4 addresses, subnet masks, default gateway, gateway priority, and DNS. |
-    | Gateway Priority | The same gateway and priority combination must not duplicate another NIC or VLAN. |
+    | Gateway Priority | Routing metric of the gateway; a smaller value means higher priority. The same gateway and priority combination must not duplicate another NIC or VLAN. |
     | SettingEnabled | When `false`, both the modify and delete buttons in the WEB are unavailable. Do not bypass the restriction to operate on system-internal VLANs. |
 
     <Callout title="VLAN connectivity requirements" type="warn">
@@ -376,6 +380,17 @@ The current VLAN's `SettingEnabled` is `false`, which usually means the VLAN is 
 
 In the WEB Manual mode, after completing a row of **Address** and **Subnet Mask**, the page automatically adds a blank row. The CLI can submit only one address for a physical NIC at a time; for multiple addresses, use the WEB or API.
 
-### 7. Gateway priority conflict warning
+### 7. What is gateway priority, and how do I handle a conflict warning?
 
-The same gateway and priority combination is already used by another NIC or VLAN. Adjust **Gateway** or **Gateway Priority** to avoid duplicating an existing configuration.
+**Gateway Priority** is the metric of the default gateway route in the routing table. It must be entered together with **Gateway**: entering only a gateway without a priority, or only a priority without a gateway, cannot be submitted.
+
+A smaller value means higher priority. When multiple default routes exist, the one with the smallest metric takes effect first, and the others remain in the routing table as backups, for example:
+
+```bash
+default via 192.168.20.1 dev vlan20 metric 100
+default via 192.168.30.1 dev vlan30 metric 200
+```
+
+With the configuration above, outbound traffic uses `vlan20` first and switches to `vlan30`, whose metric is larger, only when the `vlan20` link becomes unavailable.
+
+A conflict warning means the same gateway and priority combination is already used by another NIC, Bond, or VLAN. Adjust **Gateway** or **Gateway Priority** so that the combination differs from the existing ones.
