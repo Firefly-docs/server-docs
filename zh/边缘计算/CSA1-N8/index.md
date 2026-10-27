@@ -20,6 +20,8 @@
 - [K3s](k3s.md)
 # 应用案例
 - [单网卡多网段案例](ap_vlan_Isolation.md)
+- [网络隔离案例](ap_network_isolation.md)
+- [网络共享案例](ap_network_sharing.md)
 # 运营维护
 - [日志收集](op_log_collection.md)
 - [异常排查](op_issues_troubleshooting.md)
