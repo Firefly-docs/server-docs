@@ -26,3 +26,5 @@
 # 运营维护
 - [日志收集](op_log_collection.md)
 - [异常排查](op_issues_troubleshooting.md)
+# 更新记录
+- [aBMC 更新记录](abmc_release_notes.md)
