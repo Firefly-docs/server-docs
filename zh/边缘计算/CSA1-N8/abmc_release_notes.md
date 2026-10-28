@@ -13,12 +13,11 @@
 | [v3.1.4](#v314) | 新版三层交换机管理；微服务自愈 |
 | [v3.1.3](#v313) | C2、CSA1、NVIDIA Orin 多项修复 |
 | [v3.1.2](#v312) | IPv6 支持；移除 root 默认账户；时间管理修复 |
-| [v0.1](#v010) | aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力 |
+| [v1.0](#v10) | aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力 |
 
-### v3.2.3（最新）
+## v3.2.3
 
-<details id="v323" open>
-<summary>Web 会话自动续期；交换机串口终端容错</summary>
+Web 会话自动续期；交换机串口终端容错
 
 **新增**
 
@@ -32,12 +31,9 @@
 
 - 新增令牌刷新接口 `POST /redfish/v1/token/refresh`；登录响应新增 `accessToken`、`refreshToken` 字段
 
-</details>
+## v3.2.2
 
-### v3.2.2
-
-<details id="v322">
-<summary>芯片平台探测；挂载点重挂；端口速率自动协商</summary>
+芯片平台探测；挂载点重挂；端口速率自动协商
 
 **新增**
 
@@ -54,12 +50,9 @@
 
 - 新增芯片类型查询/探测/指定、挂载点重挂接口
 
-</details>
+## v3.2.1
 
-### v3.2.1（升级必读）
-
-<details id="v321">
-<summary>移除独立 SSH 用户体系；取消 ShareDisk 默认挂载</summary>
+**升级必读** · 移除独立 SSH 用户体系；取消 ShareDisk 默认挂载
 
 <Callout title="非兼容性变更" type="warn">
   本版本移除了独立 SSH 用户管理体系，并取消了 ShareDisk 默认挂载/NFS 导出，升级前请确认相关业务已调整。
@@ -78,12 +71,9 @@
 
 - 子板强制下电后状态刷新不及时；CSC2 交换机端口拓扑映射错误
 
-</details>
+## v3.2.0
 
-### v3.2.0（重点版本）
-
-<details id="v320">
-<summary>核心板通信方式管理；ADB 稳定性；QCOM8550 支持</summary>
+**重点版本** · 核心板通信方式管理；ADB 稳定性；QCOM8550 支持
 
 **新增**
 
@@ -99,12 +89,9 @@
 
 - 新增核心板通信配置的查询、创建、测试、启用、删除接口
 
-</details>
+## v3.1.4
 
-### v3.1.4（重点版本）
-
-<details id="v314">
-<summary>新版三层交换机管理；微服务自愈</summary>
+**重点版本** · 新版三层交换机管理；微服务自愈
 
 **新增**
 
@@ -120,12 +107,9 @@
 
 - 新增交换机拓扑、端口、VLAN、Trunk 和 Web 终端接口
 
-</details>
+## v3.1.3
 
-### v3.1.3
-
-<details id="v313">
-<summary>C2、CSA1、NVIDIA Orin 多项修复</summary>
+C2、CSA1、NVIDIA Orin 多项修复
 
 **修复**
 
@@ -134,12 +118,9 @@
 - CSA1 v1.1 硬件版本 SATA 硬盘指示灯兼容
 - NVIDIA Orin 系列核心板存储容量改为按 NVMe 实际容量显示
 
-</details>
+## v3.1.2
 
-### v3.1.2
-
-<details id="v312">
-<summary>IPv6 支持；移除 root 默认账户；时间管理修复</summary>
+IPv6 支持；移除 root 默认账户；时间管理修复
 
 **新增**
 
@@ -158,15 +139,10 @@
 
 - 网络配置和查询接口新增 IPv6 字段；通用响应不再输出 `Id`/`Name`
 
-</details>
+## v1.0
 
-### v0.1（首个版本）
-
-<details id="v010">
-<summary>aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力</summary>
+**首个版本** · aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力
 
 **新增**
 
 - aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力
-
-</details>
