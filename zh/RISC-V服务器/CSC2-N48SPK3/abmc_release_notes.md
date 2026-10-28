@@ -15,11 +15,10 @@
 | [v3.1.2](#v312) | IPv6 支持；移除 root 默认账户；时间管理修复 |
 | [v0.1](#v010) | aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力 |
 
+### v3.2.3（最新）
+
 <details id="v323" open>
-<summary>
-<h3>v3.2.3（最新）</h3>
-<p>Web 会话自动续期；交换机串口终端容错</p>
-</summary>
+<summary>Web 会话自动续期；交换机串口终端容错</summary>
 
 **新增**
 
@@ -35,11 +34,10 @@
 
 </details>
 
+### v3.2.2
+
 <details id="v322">
-<summary>
-<h3>v3.2.2</h3>
-<p>芯片平台探测；挂载点重挂；端口速率自动协商</p>
-</summary>
+<summary>芯片平台探测；挂载点重挂；端口速率自动协商</summary>
 
 **新增**
 
@@ -58,11 +56,10 @@
 
 </details>
 
+### v3.2.1（升级必读）
+
 <details id="v321">
-<summary>
-<h3>v3.2.1（升级必读）</h3>
-<p>移除独立 SSH 用户体系；取消 ShareDisk 默认挂载</p>
-</summary>
+<summary>移除独立 SSH 用户体系；取消 ShareDisk 默认挂载</summary>
 
 <Callout title="非兼容性变更" type="warn">
   本版本移除了独立 SSH 用户管理体系，并取消了 ShareDisk 默认挂载/NFS 导出，升级前请确认相关业务已调整。
@@ -83,11 +80,10 @@
 
 </details>
 
+### v3.2.0（重点版本）
+
 <details id="v320">
-<summary>
-<h3>v3.2.0（重点版本）</h3>
-<p>核心板通信方式管理；ADB 稳定性；QCOM8550 支持</p>
-</summary>
+<summary>核心板通信方式管理；ADB 稳定性；QCOM8550 支持</summary>
 
 **新增**
 
@@ -105,11 +101,10 @@
 
 </details>
 
+### v3.1.4（重点版本）
+
 <details id="v314">
-<summary>
-<h3>v3.1.4（重点版本）</h3>
-<p>新版三层交换机管理；微服务自愈</p>
-</summary>
+<summary>新版三层交换机管理；微服务自愈</summary>
 
 **新增**
 
@@ -127,11 +122,10 @@
 
 </details>
 
+### v3.1.3
+
 <details id="v313">
-<summary>
-<h3>v3.1.3</h3>
-<p>C2、CSA1、NVIDIA Orin 多项修复</p>
-</summary>
+<summary>C2、CSA1、NVIDIA Orin 多项修复</summary>
 
 **修复**
 
@@ -142,11 +136,10 @@
 
 </details>
 
+### v3.1.2
+
 <details id="v312">
-<summary>
-<h3>v3.1.2</h3>
-<p>IPv6 支持；移除 root 默认账户；时间管理修复</p>
-</summary>
+<summary>IPv6 支持；移除 root 默认账户；时间管理修复</summary>
 
 **新增**
 
@@ -167,11 +160,10 @@
 
 </details>
 
+### v0.1（首个版本）
+
 <details id="v010">
-<summary>
-<h3>v0.1（首个版本）</h3>
-<p>aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力</p>
-</summary>
+<summary>aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力</summary>
 
 **新增**
 
