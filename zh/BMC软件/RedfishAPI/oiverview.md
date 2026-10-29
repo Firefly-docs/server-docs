@@ -13,12 +13,12 @@ Redfish是一种基于HTTPs服务的管理标准，利用RESTful接口实现设�
 
 | 章节 | 内容 |
 | --- | --- |
-| [Basic资源](docs/server/bmc-software/RedfishAPI/basicResources) | Redfish 版本入口和 Service Root。 |
-| [Chassis资源](docs/server/bmc-software/RedfishAPI/chassisResources) | 机箱状态、风扇、UID 和总电源管理。 |
-| [Systems资源](docs/server/bmc-software/RedfishAPI/systemResources) | 系统状态、网络、时间、磁盘、电源、端口映射和服务管理。 |
-| [Manage资源](docs/server/bmc-software/RedfishAPI/managerResources) | BMC 管理资源和日志资源。 |
-| [OEM 资源](docs/server/bmc-software/RedfishAPI/oemResources) | 远程管理和告警等 Firefly 扩展能力。 |
-| [Users资源](docs/server/bmc-software/RedfishAPI/accountResources) | 角色、账号和用户服务管理。 |
-| [Switchs资源](docs/server/bmc-software/RedfishAPI/switchResources) | 交换机二层、三层、VLAN 和聚合管理。 |
-| [Upgrades管理资源](docs/server/bmc-software/RedfishAPI/upgradesResources) | 固件查询、升级状态和升级操作。 |
+| [Basic资源](/docs/server/bmc-software/RedfishAPI/basicResources) | Redfish 版本入口和 Service Root。 |
+| [Chassis资源](/docs/server/bmc-software/RedfishAPI/chassisResources) | 机箱状态、风扇、UID 和总电源管理。 |
+| [Systems资源](/docs/server/bmc-software/RedfishAPI/systemResources) | 系统状态、网络、时间、磁盘、电源、端口映射和服务管理。 |
+| [Manage资源](/docs/server/bmc-software/RedfishAPI/managerResources) | BMC 管理资源和日志资源。 |
+| [OEM 资源](/docs/server/bmc-software/RedfishAPI/oemResources) | 远程管理和告警等 Firefly 扩展能力。 |
+| [Users资源](/docs/server/bmc-software/RedfishAPI/accountResources) | 角色、账号和用户服务管理。 |
+| [Switchs资源](/docs/server/bmc-software/RedfishAPI/switchResources) | 交换机二层、三层、VLAN 和聚合管理。 |
+| [Upgrades管理资源](/docs/server/bmc-software/RedfishAPI/upgradesResources) | 固件查询、升级状态和升级操作。 |
 
