@@ -25,3 +25,5 @@
 # Maintenance
 - [Log Collection](op_log_collection.md)
 - [Troubleshooting](op_issues_troubleshooting.md)
+# Release Notes
+- [aBMC Release Notes](abmc_release_notes.md)

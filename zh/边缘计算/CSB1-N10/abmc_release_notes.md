@@ -4,16 +4,16 @@
 
 ## 版本总览
 
-| 版本 | 主要更新 |
-| --- | --- |
-| [v3.2.3](#v323) | Web 会话自动续期；交换机串口终端容错 |
-| [v3.2.2](#v322) | 子板芯片平台探测；挂载点重新挂载；端口速率自动协商 |
-| [v3.2.1](#v321) | 移除独立 SSH 用户体系；统一 Web 终端；升级必读 |
-| [v3.2.0](#v320) | 核心板通信方式管理；ADB 稳定性；QCOM8550 支持 |
-| [v3.1.4](#v314) | 新版三层交换机管理；微服务自愈 |
-| [v3.1.3](#v313) | C2、CSA1、NVIDIA Orin 多项修复 |
-| [v3.1.2](#v312) | IPv6 支持；移除 root 默认账户；时间管理修复 |
-| [v1.0](#v10) | aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力 |
+| 版本 | 主要更新 | 软件包 |
+| --- | --- | --- |
+| [v3.2.3](#v323) | Web 会话自动续期；交换机串口终端容错 | [网盘下载](https://pan.baidu.com/s/15kfthwxS8cbRJxC_tXggCA?pwd=jctu)（提取码 `jctu`） |
+| [v3.2.2](#v322) | 子板芯片平台探测；挂载点重新挂载；端口速率自动协商 | [网盘下载](https://pan.baidu.com/s/1mFNqm3gXe9CeEJ3ujO3mhw?pwd=1kci)（提取码 `1kci`） |
+| [v3.2.1](#v321) | 移除独立 SSH 用户体系；统一 Web 终端；升级必读 | [网盘下载](https://pan.baidu.com/s/1F1mJ6wmn9B6z0UKj45rj6Q?pwd=5m2m)（提取码 `5m2m`） |
+| [v3.2.0](#v320) | 核心板通信方式管理；ADB 稳定性；QCOM8550 支持 | [网盘下载](https://pan.baidu.com/s/15WEKF-Dg_fqMqY25EMcBug?pwd=pr2s)（提取码 `pr2s`） |
+| [v3.1.4](#v314) | 新版三层交换机管理；微服务自愈 | [网盘下载](https://pan.baidu.com/s/198pJA1OSX4pzWlbGNeX46Q?pwd=bjv5)（提取码 `bjv5`） |
+| [v3.1.3](#v313) | C2、CSA1、NVIDIA Orin 多项修复 | [网盘下载](https://pan.baidu.com/s/1w_4FhcD-6h2f9KiBc5vpGQ?pwd=9j2t)（提取码 `9j2t`） |
+| [v3.1.2](#v312) | IPv6 支持；移除 root 默认账户；时间管理修复 | [网盘下载](https://pan.baidu.com/s/1mgV_QLyKxWD9n-YOuOJ5cw?pwd=q27j)（提取码 `q27j`） |
+| [v1.0](#v10) | aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力 | — |
 
 ## v3.2.3
 
