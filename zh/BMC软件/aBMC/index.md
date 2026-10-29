@@ -17,6 +17,7 @@
 - [文件共享](fileshare.md)
 - [BMC网络配置](bmcNetwork.md)
 - [子板网络管理](subNetwork.md)
+- [子板通信管理](subComm.md)
 
 # FAQ|疑难解答
 - [关于访问](FAQ_Access.md)
