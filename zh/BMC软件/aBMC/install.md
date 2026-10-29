@@ -20,13 +20,13 @@ aBMC
 
 以 v3.2.3 为例，版本目录中包含以下文件：
 
-| 文件名 | 说明 |
-| :--- | :--- |
-| `firefly-abmc-server_3.2.3-1793180173_arm64.deb` | 服务端主程序 |
-| `firefly-abmc-tools_1.1.0_arm64.deb` | 工具集（MCU 固件） |
-| `firefly-abmc_3.2.3-1793180173_all.deb` | 元包，用于一次性安装服务端与工具集 |
-| `firefly-abmc-client_1.0.1_all.deb` | 子板通信依赖包 |
-| `readme_zh.txt` / `readme_en.txt` | 安装命令与更新日志说明 |
+| 文件名 | 安装位置 | 说明 |
+| :--- | :--- | :--- |
+| `firefly-abmc-server_3.2.3-1793180173_arm64.deb` | BMC | 服务端主程序：aBMC Web 管理、节点服务、升级与恢复 |
+| `firefly-abmc-tools_1.1.0_arm64.deb` | BMC | 工具集：MCU 固件（风扇控制）+ 网络恢复资源 |
+| `firefly-abmc_3.2.3-1793180173_all.deb` | BMC | 元包 / 板级维护服务；安装时自动带上 server 与 tools |
+| `firefly-abmc-client_1.0.1_all.deb` | 子板 | 子板与 aBMC 通信所需的运行环境；可用 12 个系统依赖 + udev 规则替代 |
+| `readme_zh.txt` / `readme_en.txt` | — | 安装命令与更新日志说明 |
 
 ## 软件包关系
 
@@ -50,13 +50,6 @@ flowchart LR
 
   server -.->|通信 / 管理| client
 ```
-
-| 包 | 安装位置 | 作用 |
-| :--- | :--- | :--- |
-| `firefly-abmc` | BMC | 板级维护服务 / 元包；依赖 server 与 tools，包含 ADB、服务保活、子板复位、按键、烧录等板级服务 |
-| `firefly-abmc-server` | BMC | aBMC 主程序：Web 管理、节点服务、升级与恢复工具 |
-| `firefly-abmc-tools` | BMC | MCU 固件（风扇控制）+ 网络恢复资源 |
-| `firefly-abmc-client` | 子板 | 子板与 aBMC 通信所需的运行环境；也可用「12 个系统依赖 + udev 规则」替代 |
 
 ### 各包功能说明
 
