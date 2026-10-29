@@ -23,3 +23,6 @@
 # FAQ|疑难解答
 - [关于访问](FAQ_Access.md)
 - [关于系统恢复](FAQ_recovery.md)
+
+# 更新记录
+- [aBMC 更新记录](releaseNotes.md)

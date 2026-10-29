@@ -21,3 +21,6 @@
 
 # FAQ|Troubleshooting
 - [About Access](FAQ_Access.md)
+
+# Release Notes
+- [aBMC Release Notes](releaseNotes.md)

@@ -37,7 +37,7 @@ flowchart LR
   subgraph BMC["BMC 端：3 个包必须安装"]
     meta["firefly-abmc<br/>板级维护 / 元包"]
     server["firefly-abmc-server<br/>aBMC 主程序"]
-    tools["firefly-abmc-tools<br/>MCU 固件（风扇控制）"]
+    tools["firefly-abmc-tools<br/>MCU 固件 + 恢复镜像"]
     meta -->|Depends| server
     meta -->|Depends| tools
   end
@@ -55,8 +55,52 @@ flowchart LR
 | :--- | :--- | :--- |
 | `firefly-abmc` | BMC | 板级维护服务 / 元包；依赖 server 与 tools，包含 ADB、服务保活、子板复位、按键、烧录等板级服务 |
 | `firefly-abmc-server` | BMC | aBMC 主程序：Web 管理、节点服务、升级与恢复工具 |
-| `firefly-abmc-tools` | BMC | MCU 固件（风扇控制） |
+| `firefly-abmc-tools` | BMC | MCU 固件（风扇控制）+ 网络恢复资源 |
 | `firefly-abmc-client` | 子板 | 子板与 aBMC 通信所需的运行环境；也可用「12 个系统依赖 + udev 规则」替代 |
+
+### 各包功能说明
+
+#### firefly-abmc（BMC 端）
+
+- 安装时自动带上 `firefly-abmc-server` 和 `firefly-abmc-tools`。
+- 提供 BMC 板级维护服务：
+  - ADB 服务：启动 ADB，供子板连接。
+  - 服务保活：监控并拉起 Prometheus 等核心服务。
+  - 子板控制：子板复位、进入 loader。
+  - 按键处理：GPIO 按键事件。
+  - 烧录工具：网络 / USB 烧录（`flash-fw-net`、`flash-fw-usb`、`rkdeveloptool`）。
+  - 子板映射：`/etc/fbmc/*_adb_alias` 记录子板 USB 位置与名称。
+
+#### firefly-abmc-server（BMC 端）
+
+- aBMC 主程序：
+  - Web 管理后端：`aBMC.service`、`ffbackend_core`。
+  - 节点服务：`nodeService`（aarch64 / android / riscv64）。
+  - 升级与恢复：`flashserver`、`upgrade_tool`、`unpack_fw`。
+  - Web 与监控：Caddy、Prometheus、Alertmanager、TSDB。
+  - 数据目录：`/var/firefly-aBMC`（数据库、Web 资源、业务文件）。
+- 依赖的系统包由 apt 自动安装（ADB、SQLite、nftables、DHCP、chrony、NFS/Samba、Redis、VNC、netplan 等）。
+
+#### firefly-abmc-tools（BMC 端）
+
+- 提供板级 MCU 固件：
+  - 风扇 PWM、风扇检测、SATA 等功能的 hex 固件。
+  - 文件名对应不同机型（B1 / B2 / C2 / CS-B2 / CS-D2）。
+- 提供网络恢复资源：
+  - `netrecovery-slave`：网络恢复 / 烧录脚本。
+  - RK3399、RK3588S 的 recovery 镜像，用于子板网络恢复 / 烧录。
+- 无额外依赖。
+
+#### firefly-abmc-client（子板端）
+
+- 提供子板与 aBMC 通信所需的运行环境，推荐安装。
+- 包内文件说明：
+  - `etc/runtime-monitor.ini`：运行监控配置（可选）。
+  - `etc/udev/rules.d/99-rockchip-permissions.rules`：RK 平台设备权限规则。
+  - `lib/systemd/system/runtime-monitor.service`：运行监控服务（可选）。
+  - `usr/local/bin/runtime-monitor-arm64` / `riscv64`：运行监控程序（可选小工具）。
+- 不安装 client deb 时：需要安装 12 个系统依赖并补 udev 规则；非 RK 平台子板可跳过 udev 规则。
+- 运行监控可有可无，不影响 aBMC 基本运行。
 
 ## 安装与升级
 
