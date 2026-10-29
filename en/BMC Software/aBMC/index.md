@@ -17,6 +17,7 @@
 - [File Sharing](fileshare.md)
 - [BMC Network Configuration](bmcNetwork.md)
 - [Sub-Board Network Management](subNetwork.md)
+- [Sub-Board Communication Management](subComm.md)
 
 # FAQ|Troubleshooting
 - [About Access](FAQ_Access.md)

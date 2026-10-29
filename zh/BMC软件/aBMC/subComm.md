@@ -24,10 +24,10 @@
 
         1. 在左侧主导航栏中选择 **Devices**。
         2. 在二级导航栏中选择 **General**。
-        3. 在设备列表中定位目标子板。
-        4. 点击 **⚙️** 图标，选择 **Communication Method Configuration**。
+        3. 在设备列表中定位目标子板，点击 **⚙️** 图标。
+        4. 选择 **Communication Method Configuration**。
 
-        ![Open Communication configuration](../../../aBMC_img/v3.0/subComm_img/01-open-comm-config-v1.png)
+        ![Open Communication configuration](../../../aBMC_img/v3.0/subComm_img/01-open-comm-config-en-v1.png)
 
         ### 查看通信方式列表 [step]
 
@@ -41,15 +41,11 @@
         | Enabled | 该通信方式当前是否被启用 |
         | Actions | 操作，目前仅支持删除操作 |
         
-        ![Show Communication configuration](../../../aBMC_img/v3.0/subComm_img/02-show-comm-config-v1.png)
-
-        ### 打开新增通信方式窗口 [step]
-
-        1. 点击 **Add Communication Method**
-
-        ![Open Add Communication configuration](../../../aBMC_img/v3.0/subComm_img/03-open-add-comm-config-v1.png)
+        ![Show Communication configuration](../../../aBMC_img/v3.0/subComm_img/02-show-comm-config-en-v1.png)
 
         ### 新增通信方式 [step]
+
+        点击上一步示例图中的 **Add Communication Method**。
 
         1. 填写通信方式名称 Name。
         2. 选择通信方式类型 Type，目前仅支持 SSH。
@@ -59,7 +55,7 @@
         6. 填写密码或私钥。
         7. 点击 **Confirm** 确认新增。
 
-        ![Add Communication configuration](../../../aBMC_img/v3.0/subComm_img/04-add-comm-config-v1.png)
+        ![Add Communication configuration](../../../aBMC_img/v3.0/subComm_img/03-add-comm-config-en-v1.png)
 
         ### 测试通信方式 [step]
 
@@ -68,7 +64,7 @@
         1. 点击 **Test Communication**。
         2. 测试结果会呈现在 **Test Status** 这一列中。
 
-        ![Test Communication configuration](../../../aBMC_img/v3.0/subComm_img/05-test-comm-config-v1.png)
+        ![Test Communication configuration](../../../aBMC_img/v3.0/subComm_img/04-test-comm-config-en-v1.png)
 
         ### 启用通信方式 [step]
 
@@ -77,14 +73,14 @@
         1. 点击 **Enabled** 列对应的按钮。
         2. 切换通信方式后，对应设备会短暂离线，直到连接成功。
 
-        ![Enable Communication configuration](../../../aBMC_img/v3.0/subComm_img/06-enable-comm-config-v1.png)
+        ![Enable Communication configuration](../../../aBMC_img/v3.0/subComm_img/05-enable-comm-config-en-v1.png)
 
         ### 删除通信方式 [step]
 
-        1. 点击 **Actions** 列对应的删除按钮。
-        2. 在弹出的弹窗中选择 **Cancel** 取消删除，或者选择 **Confirm** 确认删除。
+        1. 点击 **Actions** 列对应的 remove 按钮。
+        2. 在弹出的弹窗中选择 **Confirm** 确认删除。
 
-        ![Delete Communication configuration](../../../aBMC_img/v3.0/subComm_img/07-delete-comm-config.png)
+        ![Delete Communication configuration](../../../aBMC_img/v3.0/subComm_img/06-delete-comm-config-en-v1.png)
     </CodeBlockTab>
 
     <CodeBlockTab value="API">
