@@ -28,3 +28,4 @@
 - [异常排查](op_issues_troubleshooting.md)
 # 更新记录
 - [aBMC 更新记录](abmc_release_notes.md)
+- [Wiki 更新记录](wiki_release_notes.md)
