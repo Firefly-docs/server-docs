@@ -28,3 +28,4 @@
 - [Troubleshooting](op_issues_troubleshooting.md)
 # Release Notes
 - [aBMC Release Notes](abmc_release_notes.md)
+- [Wiki Release Notes](wiki_release_notes.md)
