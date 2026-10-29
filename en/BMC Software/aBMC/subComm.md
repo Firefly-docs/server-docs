@@ -4,6 +4,10 @@
 
 Sub-Board Communication Management (Sub Communication Manager) is a fundamental feature that aBMC provides for array servers to establish and maintain communication links with each sub-board. Through this feature, you can customize the basic communication method between the BMC and sub-boards. aBMC establishes the communication link with sub-boards through the specified communication method, and the availability of the link determines the **device status** and the availability of other management features provided by aBMC.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v3.2.0.
+</Callout>
+
 ## Development Vision
 
 1. Enable users to intuitively see the communication method used between each sub-board and the BMC.
