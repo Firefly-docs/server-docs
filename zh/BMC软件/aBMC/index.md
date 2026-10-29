@@ -18,6 +18,7 @@
 - [BMC网络配置](bmcNetwork.md)
 - [子板网络管理](subNetwork.md)
 - [子板通信管理](subComm.md)
+- [子板串口采集](subSerialCollection.md)
 
 # FAQ|疑难解答
 - [关于访问](FAQ_Access.md)
