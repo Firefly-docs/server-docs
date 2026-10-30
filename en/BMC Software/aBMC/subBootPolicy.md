@@ -4,6 +4,10 @@
 
 The sub-board power boot policy (Boot Policy Setting) is a power recovery configuration feature that aBMC provides for array sub-boards. Administrators can set a power recovery policy and a power-on delay for each sub-board, so that sub-boards start in the expected state when the aBMC service initializes or when power is restored.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v3.1.0
+</Callout>
+
 ## Development Vision
 
 1. Provide a unified policy configuration entry that clearly defines the power state of sub-boards after power recovery, reducing the operations cost of powering devices on and restoring configurations one by one.

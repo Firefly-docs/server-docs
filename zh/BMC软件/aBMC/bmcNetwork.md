@@ -8,6 +8,10 @@ BMC 网络管理（BMC Network Manager是aBMC面向管理控制器提供的网�
 2. Bond Manage：将多个可用网口组成 Bond 聚合设备，并配置聚合模式和 IPv4 网络参数。
 3. VLAN Manage：在指定网口上创建 VLAN 子接口，并配置 VLAN ID、关联网口和 IPv4 网络参数。
 
+<Callout title="版本要求" type="info">
+    aBMC 版本 >= v1.4.0
+</Callout>
+
 ## 开发愿景
 1. 为用户提供统一、可视化的 BMC 网络状态和配置入口，方便快速确认管理网络、聚合网络和 VLAN 网络状态。
 2. 通过网卡类型限制、参数校验和配置结果确认，降低误修改关键网口导致 BMC 失联的风险。

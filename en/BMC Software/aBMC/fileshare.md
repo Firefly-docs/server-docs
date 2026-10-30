@@ -8,6 +8,10 @@ File Share (File Share) is an array file sharing group control system designed b
 2. CIFS is suitable for clients requiring Samba/SMB-compatible access and supports shared users, share names, read/write modes, and access lists.
 3. SSHFS is used for client-side mounting only; it mounts a remote directory to a local path on the device through an SSH account.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v2.9.0
+</Callout>
+
 ## Development Vision
 
 1. Provide a unified entry point for shared services and directory management in multi-device environments.

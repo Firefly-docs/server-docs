@@ -4,6 +4,10 @@
 
 Power Information (Power Info) is an array power monitoring system designed by aBMC for array servers. The system consists of three parts: power overview, output power trends, and power supply module details. Users can centrally view the presence status, health status, rated power, input/output electrical parameters, and power trends of power supply modules, and promptly identify issues such as missing power supplies, abnormal operation, or insufficient power capacity.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v3.1.0
+</Callout>
+
 ## Development Vision
 
 1. Provide users with visualized power status and output power trends, making it easy for customers to continuously understand the power supply conditions and power changes of array servers.

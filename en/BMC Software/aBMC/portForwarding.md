@@ -8,6 +8,10 @@ Port Forwarding is a traffic forwarding management feature designed for array se
 
 2. Page redirection: supports one-click access to the management web pages of array sub-nodes that customers deploy inside the server, enabling quick access
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v2.8.0
+</Callout>
+
 ## Development Vision
 1. Provide users with a unified network entry point to simplify operations and maintenance and reduce the cost of managing array sub-node addresses, routing, and access entries.
 

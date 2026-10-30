@@ -8,6 +8,10 @@ BMC Network Management (BMC Network Manager) is a network status viewing and con
 2. Bond Manage: combine multiple available network ports into a Bond aggregation device, and configure the aggregation mode and IPv4 network parameters.
 3. VLAN Manage: create VLAN sub-interfaces on a specified network port, and configure the VLAN ID, associated port, and IPv4 network parameters.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v1.4.0
+</Callout>
+
 ## Development Vision
 
 1. Provide a unified, visualized entry point for BMC network status and configuration, making it easy to quickly check the management network, aggregation network, and VLAN network status.

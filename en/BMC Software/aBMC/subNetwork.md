@@ -6,6 +6,10 @@ Sub-Board Network Management (Sub Network Manager) is a centralized network conf
 1. Network information management: centrally view the IPv4 addresses, gateways, gateway priorities, MAC addresses, and DNS of array sub-node NICs, with support for DHCP or manual configuration.
 2. Configuration file operations: provide entries for exporting network data, exporting templates, and importing configurations; the import feature supports Linux devices only.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v1.3.0
+</Callout>
+
 ## Development Vision
 
 1. Provide a unified, visualized network entry point for managing array sub-nodes of array servers, reducing the effort of logging in to each device to configure the network.

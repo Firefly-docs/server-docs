@@ -7,6 +7,10 @@ Disk Management (Disk Management) is a visualized management system that aBMC de
 2. Physical disk management module: manages disk partitions, file systems, volume labels, and mounting, and provides Udev and SMART information query capabilities.
 3. Software RAID management module: creates RAID arrays and provides maintenance capabilities such as adding disks, replacing drives, expanding capacity, changing modes, and deletion.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v2.9.0
+</Callout>
+
 ## Development Vision
 
 1. Provide centralized, visualized disk status and storage topology, helping administrators quickly identify drive anomalies, partition differences, and RAID risks.

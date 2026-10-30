@@ -6,6 +6,10 @@ Thermal Management (Thermal Control) is an array-wide cooling group control syst
 1. Monitoring module: collects hardware thermal information such as SOC temperatures across the array and real-time fan speeds.
 2. Temperature control module: provides three preset cooling strategies—Silent, Balanced (default), and Powerful—along with customizable temperature control settings, so users can choose flexibly based on data center environment and compute load.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v1.3.0
+</Callout>
+
 ## Development Vision
 
 1. Provide users with visualized temperature charts, making it easy for customers to adjust algorithm intensity based on cooling conditions.

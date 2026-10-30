@@ -4,6 +4,10 @@
 
 Time Management (Time Manager) is an array-wide time group control system designed by aBMC for array servers. Administrators can check device time, time zone, synchronization mode, NTP time source, and clock offset, and set the time of one or more devices via NTP or manually.
 
+<Callout title="Version Requirement" type="info">
+    aBMC version >= v2.8.0
+</Callout>
+
 ## Development Vision
 
 1. Establish a unified time baseline for the BMC and array sub-boards, reducing the impact of time deviation on log ordering, alarm correlation, task scheduling, and fault localization.
