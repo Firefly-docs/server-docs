@@ -17,6 +17,7 @@ Records updates to the entire Wiki documentation site, summarized by month.
 
 - aBMC release notes page, covering v1.0 – v3.2.3, with package download links (aBMC)
 - New "Sub-board communication management" guide (aBMC)
+- New "Sub-board serial collection" guide (aBMC)
 - New network isolation and network sharing application cases, plus English versions (General)
 - New "Single NIC, multiple subnets" application case, with Chinese/English topology diagrams (General)
 - CSA1-N8 Quick Start: new power operations page (Product Manuals)
