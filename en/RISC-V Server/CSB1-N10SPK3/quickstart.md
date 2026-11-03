@@ -111,7 +111,7 @@ New to CSB1-N10SPK3? Jump directly to a task, or switch to "First Time Setup" fo
   <Card title="Firmware Support List" href="product-system-support-list">
     Check the firmware versions supported by the current model.
   </Card>
-  <Card title="Release Notes" href="release-notes-overview">
+  <Card title="Release Notes" href="release-notes">
     See the latest aBMC and Wiki changes.
   </Card>
 </Cards>

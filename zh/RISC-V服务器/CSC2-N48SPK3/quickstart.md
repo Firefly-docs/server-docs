@@ -111,7 +111,7 @@
   <Card title="固件支持列表" href="product-system-support-list">
     查看当前机型支持的固件版本。
   </Card>
-  <Card title="更新记录" href="release-notes-overview">
+  <Card title="更新记录" href="release-notes">
     查看 aBMC 与 Wiki 的最新变更。
   </Card>
 </Cards>

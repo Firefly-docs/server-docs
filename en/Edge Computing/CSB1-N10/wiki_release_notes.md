@@ -21,7 +21,7 @@ Records updates to the entire Wiki documentation site, summarized by month.
 **Changed**
 
 - Wiki framework restructured: product manual navigation now uses Product Guide, Installation and Login, Usage and Maintenance, Application Cases, Development and Upgrade, and Release Notes (Product Manuals)
-- Release Notes now uses a dedicated selection page for Wiki Release Notes and aBMC Release Notes (Product Manuals)
+- Release Notes group now includes an aBMC Release Notes entry, so customers can choose Wiki or aBMC release notes from the group page (Product Manuals)
 
 ## 2026.10
 
