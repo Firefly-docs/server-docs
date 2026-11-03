@@ -1,23 +1,12 @@
 # Wiki Release Notes
 
-The Wiki documentation site and aBMC software maintain separate release notes. Choose the one you want to view.
-
-<Cards>
-  <Card title="Wiki Release Notes" href="#202611">
-    Updates to the entire Wiki documentation site, summarized by month.
-  </Card>
-  <Card title="aBMC Release Notes" href="/docs/server/bmc-software/aBMC/releaseNotes">
-    Key changes and package downloads for each aBMC version.
-  </Card>
-</Cards>
-
-Wiki documentation updates are summarized by month below.
+Records updates to the entire Wiki documentation site, summarized by month.
 
 ## Batch Overview
 
 | Batch | Highlights |
 | --- | --- |
-| [2026.11](#202611) | Quick Start page |
+| [2026.11](#202611) | Quick Start page; Wiki framework restructure |
 | [2026.10](#202610) | aBMC release notes and installation guide; network isolation/sharing cases; CSA1 power and troubleshooting |
 | [2026.09](#202609) | K3s documentation; log collection; troubleshooting; product renaming |
 | [2026.08](#202608) | Redfish API documentation; BMC upgrade and power operations; product docs |
@@ -28,6 +17,11 @@ Wiki documentation updates are summarized by month below.
 **Added**
 
 - New Quick Start page with "Find by Task" and "First Time Setup" entries (Product Manuals)
+
+**Changed**
+
+- Wiki framework restructured: product manual navigation now uses Product Guide, Installation and Login, Usage and Maintenance, Application Cases, Development and Upgrade, and Release Notes (Product Manuals)
+- Release Notes now uses a dedicated selection page for Wiki Release Notes and aBMC Release Notes (Product Manuals)
 
 ## 2026.10
 

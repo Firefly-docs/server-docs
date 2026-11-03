@@ -28,4 +28,5 @@
 - [K3 Platform Software Development](k3_platform_software_development.md)
 - [BMC Upgrade](bmc_firmware_upgrade.md)
 # Release Notes
+- [Release Notes](release_notes_overview.md)
 - [Wiki Release Notes](wiki_release_notes.md)

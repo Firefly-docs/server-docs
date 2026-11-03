@@ -26,4 +26,5 @@
 - [K3s](k3s.md)
 - [BMC Upgrade](bmc_firmware_upgrade.md)
 # Release Notes
+- [Release Notes](release_notes_overview.md)
 - [Wiki Release Notes](wiki_release_notes.md)
