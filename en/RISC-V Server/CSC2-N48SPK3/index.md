@@ -1,8 +1,9 @@
-# Overview
-- [Preface](product_introduction.md)
+# Product Guide
+- [Quick Start](quickstart.md)
+- [Product Introduction](product_introduction.md)
 - [Specifications](product_specifications.md)
 - [Support List](product_system_support_list.md)
-# Quick Start
+# Installation and Login
 - [Server Installation](start_server_installation.md)
 - [Power Operations](start_server_power.md)
 - [Status Indicators](start_server_status.md)
@@ -10,22 +11,21 @@
 - [Network Wiring](start_server_network.md)
 - [Accessing the BMC](start_login_bmc.md)
 - [Sub-node Login](start_login_sub.md)
-# Firmware
-- [Obtaining the SDK](sdk_application.md)
-- [Custom Firmware](dev_sub_firmware.md)
-- [rootfs Export](recovery_export.md)
-- [BMC Upgrade](bmc_firmware_upgrade.md)
-# Software
+# Usage and Maintenance
 - [aBMC](aBMC.md)
-- [Redfish API](redfishApi.md)
-- [K3s](k3s.md)
-- [K3 Platform Software Development](k3_platform_software_development.md)
+- [Log Collection](op_log_collection.md)
+- [Troubleshooting](op_issues_troubleshooting.md)
 # Application Cases
 - [Single NIC, Multiple Subnets Case](ap_vlan_Isolation.md)
 - [Network Isolation Case](ap_network_isolation.md)
 - [Network Sharing Case](ap_network_sharing.md)
-# Maintenance
-- [Log Collection](op_log_collection.md)
-- [Troubleshooting](op_issues_troubleshooting.md)
+# Development and Upgrade
+- [Obtaining the SDK](sdk_application.md)
+- [Custom Firmware](dev_sub_firmware.md)
+- [rootfs Export](recovery_export.md)
+- [Redfish API](redfishApi.md)
+- [K3s](k3s.md)
+- [K3 Platform Software Development](k3_platform_software_development.md)
+- [BMC Upgrade](bmc_firmware_upgrade.md)
 # Release Notes
 - [Wiki Release Notes](wiki_release_notes.md)

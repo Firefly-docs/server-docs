@@ -1,4 +1,4 @@
-# Introduction
+# Product Introduction
 The CSA1-N8 is a 1U rack-mount ARM barebone high-density array server. Targeting the Internet, AI edge computing, cloud computing, big data, and video edge computing markets, it delivers high-performance computing, low power consumption, and easy management and deployment.
 
 ![perspective view](../../../servers_img/CSA1-N8/perspective_view.png)
