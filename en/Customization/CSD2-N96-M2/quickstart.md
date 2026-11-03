@@ -36,53 +36,69 @@ New to CSD2-N96-M2? Jump directly to a task, or switch to "First Time Setup" for
     </CodeBlockTab>
 
     <CodeBlockTab value="first">
-      **1. Confirm Specifications and Support**
+      | **Prepare** | **Connect** | **Operate** | **Deliver** |
+      | :---: | :---: | :---: | :---: |
+      | 1–4 | 5–6 | 7–8 | 9 |
+
+      ### Prepare · Confirm Specifications and Support [step]
+
+      Confirm the node count, interfaces, power consumption, and the operating systems and sub-board models supported by this model.
 
       - [Specifications and Components](product-specifications)
       - [System Support List](product-system-support-list)
 
-      **2. Unboxing and Accessory Check**
+      ### Unbox and Check Accessories [step]
 
       Check power cords, rails / brackets, SFP modules, and serial cables. The actual accessory list depends on the model.
 
-      **3. Power-On Safety**
+      ### Power-On Safety [step]
+
+      Confirm the power supply, grounding, and power-on sequence. Never plug or unplug power cables while the device is live; wait at least 30 seconds after power-off before powering on again.
 
       - [Power Operations](start-server-power)
-      - Never plug or unplug power cables while the device is live; wait at least 30 seconds after power-off before powering on again.
 
-      **4. Power-On, Boot, and Status Check**
+      ### Power On, Boot, and Check Status [step]
+
+      Connect power and check the node / system indicators and BMC indicators to confirm that the device is manageable.
 
       - [Status Identification](start-server-status)
-      - Check the node / system indicators and BMC indicators to confirm that the device is manageable.
 
-      **5. Network Wiring and BMC Access**
+      ### Connect · Network Wiring and BMC Access [step]
+
+      Connect the management network according to the site plan, then access the BMC through its default IP or DHCP address and complete the first login.
 
       - [Network Wiring](start-server-network)
       - [Access the BMC](start-login-bmc)
 
-      **6. Configure aBMC Network and Sub-Boards**
+      ### Configure aBMC Network and Sub-Boards [step]
+
+      After logging in, change the BMC IP / VLAN, confirm that the management network matches the site plan, and then log in to the sub-boards.
 
       - [aBMC Network Configuration](/docs/server/bmc-software/aBMC/bmcNetwork)
       - [Log In to Sub-Boards](start-login-sub)
       - [Serial Console](start-server-serial)
 
-      **7. aBMC Features and Solutions**
+      ### Operate · aBMC Features and Solutions [step]
+
+      Configure users, alerts, storage, power policy, and other common features, and choose a network solution based on the site requirements.
 
       - [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface)
       - [Application Cases](application-cases)
 
-      **8. Firmware and Customization**
+      ### Firmware and Customization [step]
+
+      Check the support list and upgrade the BMC firmware. For customization, use the SDK and custom firmware workflows.
 
       - [Get the SDK](sdk-application)
       - [Custom Firmware](dev-sub-firmware)
       - [BMC Upgrade](bmc-firmware-upgrade)
 
-      **9. On-Site Deployment and Rack Installation**
+      ### Deliver · On-Site Deployment and Rack Installation [step]
+
+      Complete rack installation, cabling, and power-on. Customers deploy their own business software and define their own acceptance criteria.
 
       - [Server Installation](start-server-installation)
       - [Power Operations](start-server-power)
-
-      Customers deploy their own business software and define their own acceptance criteria.
     </CodeBlockTab>
 </CodeBlockTabs>
 
