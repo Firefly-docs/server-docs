@@ -26,5 +26,5 @@
 - [K3s](k3s.md)
 - [BMC Upgrade](bmc_firmware_upgrade.md)
 # Release Notes
-- [Release Notes Overview](release_notes_overview.md)
 - [Wiki Release Notes](wiki_release_notes.md)
+- [aBMC Release Notes](https://community.t-firefly.com/docs/server/bmc-software/aBMC/releaseNotes)

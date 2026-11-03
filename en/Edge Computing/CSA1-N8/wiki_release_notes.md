@@ -6,7 +6,7 @@ Records updates to the entire Wiki documentation site, summarized by month.
 
 | Batch | Highlights |
 | --- | --- |
-| [2026.11](#202611) | Quick Start page; product manual navigation restructure; release notes overview |
+| [2026.11](#202611) | Quick Start page |
 | [2026.10](#202610) | aBMC release notes and installation guide; network isolation/sharing cases; CSA1 power and troubleshooting |
 | [2026.09](#202609) | K3s documentation; log collection; troubleshooting; product renaming |
 | [2026.08](#202608) | Redfish API documentation; BMC upgrade and power operations; product docs |
@@ -17,21 +17,6 @@ Records updates to the entire Wiki documentation site, summarized by month.
 **Added**
 
 - New Quick Start page with "Find by Task" and "First Time Setup" entries (Product Manuals)
-- New Release Notes Overview page to choose between Wiki Release Notes and aBMC Release Notes (Product Manuals)
-- Product manual navigation restructured into Product Guide, Installation and Login, Usage and Maintenance, Application Cases, Development and Upgrade, and Release Notes (Product Manuals)
-
-**Changed**
-
-- First Time Setup reorganized into 9 phase-grouped steps: Prepare, Connect, Operate, and Deliver (Product Manuals)
-- First Time Setup now accesses the BMC before configuring the aBMC network and logging in to sub-boards (Product Manuals)
-- BMC upgrade removed from on-site deployment; it remains under Firmware and Customization (Product Manuals)
-- Product Introduction page unified as "Product Introduction"; old product guide, development, and deployment entries removed (Product Manuals)
-- Quick Start links now use the actual Wiki URLs to avoid 404s from underscore paths (Product Manuals)
-
-**Fixed**
-
-- Fixed 404 links on Quick Start task cards, application cases, and downloads/support (Product Manuals)
-- Fixed inconsistent old navigation entries and page titles in the product manual (Product Manuals)
 
 ## 2026.10
 

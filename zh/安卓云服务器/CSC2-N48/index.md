@@ -27,5 +27,5 @@
 - [K3s](k3s.md)
 - [BMC 升级](bmc_firmware_upgrade.md)
 # 更新记录
-- [更新记录总览](release_notes_overview.md)
 - [Wiki 更新记录](wiki_release_notes.md)
+- [aBMC 更新记录](https://community.t-firefly.com/docs/server/bmc-software/aBMC/releaseNotes)

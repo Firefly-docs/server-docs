@@ -28,5 +28,5 @@
 - [K3 Platform Software Development](k3_platform_software_development.md)
 - [BMC Upgrade](bmc_firmware_upgrade.md)
 # Release Notes
-- [Release Notes Overview](release_notes_overview.md)
 - [Wiki Release Notes](wiki_release_notes.md)
+- [aBMC Release Notes](https://community.t-firefly.com/docs/server/bmc-software/aBMC/releaseNotes)
