@@ -1,6 +1,17 @@
 # Wiki Release Notes
 
-Records updates to the entire Wiki documentation site, summarized by month.
+The Wiki documentation site and aBMC software maintain separate release notes. Choose the one you want to view.
+
+<Cards>
+  <Card title="Wiki Release Notes" href="#202611">
+    Updates to the entire Wiki documentation site, summarized by month.
+  </Card>
+  <Card title="aBMC Release Notes" href="/docs/server/bmc-software/aBMC/releaseNotes">
+    Key changes and package downloads for each aBMC version.
+  </Card>
+</Cards>
+
+Wiki documentation updates are summarized by month below.
 
 ## Batch Overview
 
