@@ -55,14 +55,14 @@ New to CSA1-N8? Jump directly to a task, or switch to "First Time Setup" for the
       - [Status Identification](start-server-status)
       - Check the node / system indicators and BMC indicators to confirm that the device is manageable.
 
-      **5. Network Configuration**
+      **5. Network Wiring and BMC Access**
 
       - [Network Wiring](start-server-network)
-      - [aBMC Network Configuration](/docs/server/bmc-software/aBMC/bmcNetwork)
-
-      **6. Log In to aBMC / Sub-Board**
-
       - [Access the BMC](start-login-bmc)
+
+      **6. Configure aBMC Network and Sub-Boards**
+
+      - [aBMC Network Configuration](/docs/server/bmc-software/aBMC/bmcNetwork)
       - [Log In to Sub-Boards](start-login-sub)
 
       **7. aBMC Features and Solutions**
@@ -80,7 +80,6 @@ New to CSA1-N8? Jump directly to a task, or switch to "First Time Setup" for the
 
       - [Server Installation](start-server-installation)
       - [Power Operations](start-server-power)
-      - [BMC Upgrade](bmc-firmware-upgrade)
 
       Customers deploy their own business software and define their own acceptance criteria.
     </CodeBlockTab>

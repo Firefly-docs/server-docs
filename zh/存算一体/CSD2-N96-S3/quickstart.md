@@ -55,14 +55,14 @@
       - [状态识别](start-server-status)
       - 检查节点 / 系统指示灯和 BMC 指示灯，确认设备进入可管理状态。
 
-      **5. 网络配置**
+      **5. 网络接线与访问 BMC**
 
       - [网络接线方式](start-server-network)
-      - [aBMC 网络配置](/docs/server/bmc-software/aBMC/bmcNetwork)
-
-      **6. 登录 aBMC / 子板**
-
       - [访问 BMC](start-login-bmc)
+
+      **6. 配置 aBMC 网络与子板**
+
+      - [aBMC 网络配置](/docs/server/bmc-software/aBMC/bmcNetwork)
       - [子节点登录](start-login-sub)
       - [串口使用](start-server-serial)
 
@@ -81,7 +81,6 @@
 
       - [服务器安装](start-server-installation)
       - [电源操作](start-server-power)
-      - [BMC 升级](bmc-firmware-upgrade)
 
       客户部署自己的业务软件，验收标准由客户自行确定。
     </CodeBlockTab>
