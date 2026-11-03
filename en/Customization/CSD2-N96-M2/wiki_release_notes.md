@@ -6,18 +6,42 @@ Records updates to the entire Wiki documentation site, summarized by month.
 
 | Batch | Highlights |
 | --- | --- |
-| [2026.10](#202610) | aBMC release notes; network isolation/sharing cases; CSA1 power and troubleshooting |
+| [2026.11](#202611) | Quick Start page; product manual navigation restructure; release notes overview |
+| [2026.10](#202610) | aBMC release notes and installation guide; network isolation/sharing cases; CSA1 power and troubleshooting |
 | [2026.09](#202609) | K3s documentation; log collection; troubleshooting; product renaming |
 | [2026.08](#202608) | Redfish API documentation; BMC upgrade and power operations; product docs |
 | [2026.07](#202607) | Initial documentation site; aBMC manual and English version |
+
+## 2026.11
+
+**Added**
+
+- New Quick Start page with "Find by Task" and "First Time Setup" entries (Product Manuals)
+- New Release Notes Overview page to choose between Wiki Release Notes and aBMC Release Notes (Product Manuals)
+- Product manual navigation restructured into Product Guide, Installation and Login, Usage and Maintenance, Application Cases, Development and Upgrade, and Release Notes (Product Manuals)
+
+**Changed**
+
+- First Time Setup reorganized into 9 phase-grouped steps: Prepare, Connect, Operate, and Deliver (Product Manuals)
+- First Time Setup now accesses the BMC before configuring the aBMC network and logging in to sub-boards (Product Manuals)
+- BMC upgrade removed from on-site deployment; it remains under Firmware and Customization (Product Manuals)
+- Product Introduction page unified as "Product Introduction"; old product guide, development, and deployment entries removed (Product Manuals)
+- Quick Start links now use the actual Wiki URLs to avoid 404s from underscore paths (Product Manuals)
+
+**Fixed**
+
+- Fixed 404 links on Quick Start task cards, application cases, and downloads/support (Product Manuals)
+- Fixed inconsistent old navigation entries and page titles in the product manual (Product Manuals)
 
 ## 2026.10
 
 **Added**
 
-- aBMC release notes page, covering v1.0 – v3.2.3, with package download links (aBMC)
-- New "Sub-board communication management" guide (aBMC)
-- New "Sub-board serial collection" guide (aBMC)
+- aBMC release notes page, covering v1.0 – v3.2.3, with Chinese/English versions and package download links (aBMC)
+- aBMC installation guide launched, with package relationships, client notes, and version requirements (aBMC)
+- Wiki Release Notes section launched in Chinese and English (General)
+- New "Sub-board communication management" guide, with version support notes (aBMC)
+- New "Sub-board serial collection" guide, with version support notes (aBMC)
 - New network isolation and network sharing application cases, plus English versions (General)
 - New "Single NIC, multiple subnets" application case, with Chinese/English topology diagrams (General)
 - CSA1-N8 Quick Start: new power operations page (Product Manuals)
@@ -25,7 +49,8 @@ Records updates to the entire Wiki documentation site, summarized by month.
 
 **Changed**
 
-- Update records moved to a standalone section; aBMC release notes switched to a timeline layout (General)
+- Update records moved to a standalone section; aBMC release notes moved into the aBMC docs and switched to a timeline layout (General / aBMC)
+- aBMC feature documentation now includes version requirements and uses the >= notation consistently (aBMC)
 - Network isolation/sharing cases: application scenarios rewritten; gateway priority and route metric notes added (General)
 - Topology diagrams now use PNG references (General)
 
