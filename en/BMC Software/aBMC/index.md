@@ -1,6 +1,7 @@
 # aBMC
 - [Preface](preface.md)
 - [Must-Read Guide for Developers](guide.md)
+- [Page Customization](pageCustomization.md)
 - [Software Installation Guide](install.md)
 
 # User Guide
