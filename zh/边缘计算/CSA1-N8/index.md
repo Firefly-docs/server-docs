@@ -2,7 +2,6 @@
 - [快速开始](quickstart.md)
 - [产品介绍](product_introduction.md)
 - [规格和组件](product_specifications.md)
-- [系统支持列表](product_system_support_list.md)
 # 安装与登录
 - [服务器安装](start_server_installation.md)
 - [电源操作](start_server_power.md)
@@ -19,7 +18,7 @@
 - [网络隔离案例](ap_network_isolation.md)
 - [网络共享案例](ap_network_sharing.md)
 # 开发与升级
-- [获取 SDK](sdk_application.md)
+- [获取 SDK 与系统支持](sdk_application.md)
 - [定制固件](dev_sub_firmware.md)
 - [rootfs 导出与打包](recovery_export.md)
 - [Redfish API](redfishApi.md)

@@ -2,7 +2,6 @@
 - [Quick Start](quickstart.md)
 - [Product Introduction](product_introduction.md)
 - [Specifications](product_specifications.md)
-- [Support List](product_system_support_list.md)
 # Installation and Login
 - [Server Installation](start_server_installation.md)
 - [Power Operations](start_server_power.md)
@@ -20,7 +19,7 @@
 - [Network Isolation Case](ap_network_isolation.md)
 - [Network Sharing Case](ap_network_sharing.md)
 # Development and Upgrade
-- [Obtaining the SDK](sdk_application.md)
+- [Get the SDK and System Support](sdk_application.md)
 - [Custom Firmware](dev_sub_firmware.md)
 - [rootfs Export](recovery_export.md)
 - [Redfish API](redfishApi.md)

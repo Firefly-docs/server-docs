@@ -6,7 +6,7 @@ Records updates to the entire Wiki documentation site, summarized by month.
 
 | Batch | Highlights |
 | --- | --- |
-| [2026.11](#202611) | Quick Start page; Wiki framework restructure |
+| [2026.11](#202611) | Quick Start page; Wiki framework restructure; system support merge |
 | [2026.10](#202610) | aBMC release notes and installation guide; network isolation/sharing cases; CSA1 power and troubleshooting |
 | [2026.09](#202609) | K3s documentation; log collection; troubleshooting; product renaming |
 | [2026.08](#202608) | Redfish API documentation; BMC upgrade and power operations; product docs |
@@ -22,6 +22,7 @@ Records updates to the entire Wiki documentation site, summarized by month.
 
 - Wiki framework restructured: product manual navigation now uses Product Guide, Installation and Login, Usage and Maintenance, Application Cases, Development and Upgrade, and Release Notes (Product Manuals)
 - Release Notes group now includes an aBMC Release Notes entry, so customers can choose Wiki or aBMC release notes from the group page (Product Manuals)
+- System Support List merged into the "Get the SDK and System Support" page (Product Manuals)
 
 ## 2026.10
 

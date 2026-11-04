@@ -27,7 +27,7 @@
           单网卡多网段、网络隔离、网络共享等案例。
         </Card>
         <Card title="固件与定制" href="bmc-firmware-upgrade">
-          BMC 升级、支持列表、定制固件与 recovery。
+          BMC 升级、定制固件与 recovery；SDK 与系统支持见「获取 SDK 与系统支持」。
         </Card>
         <Card title="运维与排障" href="op-issues-troubleshooting">
           日志收集、异常排查、子板断联处理。
@@ -45,7 +45,7 @@
       确认节点数量、接口、功耗，以及本机型支持的操作系统和子板型号。
 
       - [规格和组件](product-specifications)
-      - [系统支持列表](product-system-support-list)
+      - [系统支持列表](sdk-application#系统支持列表)
 
       ### 开箱与配件确认 [step]
 
@@ -84,11 +84,11 @@
       - [aBMC 使用手册](/docs/server/bmc-software/aBMC/preface)
       - [应用案例](application-cases)
 
-      ### 固件与定制 [step]
+      ### SDK、固件与定制 [step]
 
-      查支持列表、升级 BMC 固件；需要定制时进入 SDK、定制固件流程。
+      在「获取 SDK 与系统支持」页面查看系统支持列表并获取 SDK；按需升级 BMC 或定制固件。
 
-      - [获取 SDK](sdk-application)
+      - [获取 SDK 与系统支持](sdk-application)
       - [定制固件](dev-sub-firmware)
       - [BMC 升级](bmc-firmware-upgrade)
 
@@ -107,8 +107,8 @@
   <Card title="下载与支持" href="/docs/server/bmc-software/aBMC/install">
     获取 aBMC 安装包，查看版本目录与安装命令。
   </Card>
-  <Card title="固件支持列表" href="product-system-support-list">
-    查看当前机型支持的固件版本。
+  <Card title="获取 SDK 与系统支持" href="sdk-application#系统支持列表">
+    查看系统支持列表并获取 SDK。
   </Card>
   <Card title="更新记录" href="release-notes">
     查看 aBMC 与 Wiki 的最新变更。

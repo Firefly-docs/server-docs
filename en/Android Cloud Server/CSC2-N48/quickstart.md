@@ -27,7 +27,7 @@ New to CSC2-N48? Jump directly to a task, or switch to "First Time Setup" for th
           Single NIC with multiple subnets, network isolation, and network sharing.
         </Card>
         <Card title="Firmware and Customization" href="bmc-firmware-upgrade">
-          BMC upgrade, support list, custom firmware, and recovery.
+          BMC upgrade, custom firmware, and recovery; see "Get the SDK and System Support" for the SDK and system support list.
         </Card>
         <Card title="Maintenance and Troubleshooting" href="op-issues-troubleshooting">
           Log collection, troubleshooting, and sub-board disconnection handling.
@@ -45,7 +45,7 @@ New to CSC2-N48? Jump directly to a task, or switch to "First Time Setup" for th
       Confirm the node count, interfaces, power consumption, and the operating systems and sub-board models supported by this model.
 
       - [Specifications and Components](product-specifications)
-      - [System Support List](product-system-support-list)
+      - [System Support List](sdk-application#system-support-list)
 
       ### Unbox and Check Accessories [step]
 
@@ -85,11 +85,11 @@ New to CSC2-N48? Jump directly to a task, or switch to "First Time Setup" for th
       - [aBMC Web User Manual](/docs/server/bmc-software/aBMC/preface)
       - [Application Cases](application-cases)
 
-      ### Firmware and Customization [step]
+      ### SDK, Firmware, and Customization [step]
 
-      Check the support list and upgrade the BMC firmware. For customization, use the SDK and custom firmware workflows.
+      Check the system support list and get the SDK on the "Get the SDK and System Support" page. Upgrade the BMC or customize the firmware as needed.
 
-      - [Get the SDK](sdk-application)
+      - [Get the SDK and System Support](sdk-application)
       - [Custom Firmware](dev-sub-firmware)
       - [BMC Upgrade](bmc-firmware-upgrade)
 
@@ -108,8 +108,8 @@ New to CSC2-N48? Jump directly to a task, or switch to "First Time Setup" for th
   <Card title="Downloads and Support" href="/docs/server/bmc-software/aBMC/install">
     Get aBMC packages, version directories, and installation commands.
   </Card>
-  <Card title="Firmware Support List" href="product-system-support-list">
-    Check the firmware versions supported by the current model.
+  <Card title="Get the SDK and System Support" href="sdk-application#system-support-list">
+    Check the system support list and get the SDK.
   </Card>
   <Card title="Release Notes" href="release-notes">
     See the latest aBMC and Wiki changes.
