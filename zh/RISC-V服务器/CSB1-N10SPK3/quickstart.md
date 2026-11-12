@@ -12,9 +12,6 @@
 
 
 目前服务器常用的用户场景有以下几种
-<Callout title="上电前先看：安全规范" type="warn">
-  严禁带电插拔电源线；断电后等待 30 秒以上再上电。不同机型的上电方式不同，请先阅读对应机型的[电源操作](start-server-power)。
-</Callout>
 
 <CodeBlockTabs defaultValue="tasks">
     <CodeBlockTabsList>
@@ -25,12 +22,14 @@
     </CodeBlockTabsList>
 
     <CodeBlockTab value="transcode">
-    编码转码场景通常使用RK3588/RK3588S，用户可以使用rkmpp或者ffmedia编解码去快速实现项目
-
+    编码转码场景通常使用RK3588/RK3588S
     | SOC | 厂家 | 编/转码视频流数量（参考） |
     | :--- | :---: | ---: |
     | RK3588/RK3588S | Rockchip | 16 |
 
+    用户可以使用rkmpp或者ffmedia编解码去快速实现项目
+    1. rkmpp：Rockchip 官方底层媒体 SDK，直接操作 VPU 硬件，自由度高、可控性强，适合需要深度定制媒体链路的自研项目
+    2. ffmedia: Firefly 封装的上层媒体管线框架，内置 RKMPP/RGA/RKNN 联动，模块可快速拼装，上手快，适合快速落地原型与业务
     </CodeBlockTab>
 
     <CodeBlockTab value="edge-AI-infer">
