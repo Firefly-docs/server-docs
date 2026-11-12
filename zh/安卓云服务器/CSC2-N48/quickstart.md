@@ -26,7 +26,7 @@
     <CodeBlockTab value="transcode">
     编码转码场景通常使用RK3588/RK3588S
     | SOC | 厂家 | 编/转码视频流数量（参考） |
-    | :--- | :---: | ---: |
+    | :---: | :---: | :---: |
     | RK3588/RK3588S | Rockchip | 16 |
 
     用户可以使用rkmpp或者ffmedia编解码去快速实现项目
@@ -37,7 +37,7 @@
     <CodeBlockTab value="edge-AI-infer">
 
     | SOC | 厂家 | AI推理视频流数量（参考） |
-    | :--- | :---: | ---: |
+    | :---: | :---: | :---: |
     | RK3588/RK3588S | Rockchip | 4 |
     | BM1684X | Sophgo | 16 |
     | Jetson Orin NX 16GB | NVIDIA | 10 |
