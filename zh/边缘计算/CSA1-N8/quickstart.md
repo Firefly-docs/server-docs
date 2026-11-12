@@ -15,10 +15,10 @@
 
 目前服务器常用的用户场景有以下几种
 
-<CodeBlockTabs defaultValue="tasks">
+<CodeBlockTabs defaultValue="edge-AI-infer">
     <CodeBlockTabsList>
-        <CodeBlockTabsTrigger value="transcode">编码转码</CodeBlockTabsTrigger>
         <CodeBlockTabsTrigger value="edge-AI-infer">AI边缘推理</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="transcode">编码转码</CodeBlockTabsTrigger>
         <CodeBlockTabsTrigger value="cloud-phone">云手机</CodeBlockTabsTrigger>
         <CodeBlockTabsTrigger value="RISC-V">RISC-V</CodeBlockTabsTrigger>
     </CodeBlockTabsList>
@@ -52,34 +52,34 @@
     云手机场景推荐使用RK3588/RK3588S，基于容器化技术实现云手机多开。
     支持功能如下：
     <Cards>
-        <Card title="批量同屏" href="cloud-phone-batch-screen">
+        <Card title="批量同屏">
           多设备画面同步同屏展示。
         </Card>
-        <Card title="自动Root" href="cloud-phone-auto-root">
+        <Card title="自动Root">
           自动化完成设备Root权限配置。
         </Card>
-        <Card title="GPS定位" href="cloud-phone-gps">
+        <Card title="GPS定位">
           模拟/读取GPS位置信息。
         </Card>
-        <Card title="陀螺仪" href="cloud-phone-gyroscope">
+        <Card title="陀螺仪">
           陀螺仪传感器数据模拟与上报。
         </Card>
-        <Card title="手机选型" href="cloud-phone-device-selection">
+        <Card title="手机选型">
           云手机硬件方案、SoC选型对比。
         </Card>
-        <Card title="一键新机" href="cloud-phone-oneclick-new">
+        <Card title="一键新机">
           一键重置设备环境，生成全新设备标识。
         </Card>
-        <Card title="远程重启/关机" href="cloud-phone-remote-power">
+        <Card title="远程重启/关机">
           远程对手机节点执行重启、关机操作。
         </Card>
-        <Card title="APK 管理" href="cloud-phone-apk-manage">
+        <Card title="APK 管理">
           APK 批量安装、卸载。
         </Card>
-        <Card title="恢复出厂设置" href="cloud-phone-factory-reset">
+        <Card title="恢复出厂设置">
           远程触发设备恢复出厂。
         </Card>
-        <Card title="数据备份" href="cloud-phone-data-backup">
+        <Card title="数据备份">
           设备应用与数据批量备份。
         </Card>
     </Cards>
