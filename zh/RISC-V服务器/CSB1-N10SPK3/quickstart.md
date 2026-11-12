@@ -40,7 +40,7 @@
     | BM1684X | Sophgo | 16 |
 
 
-    ![View Udev information](../../../img/servers_img/common/introduction/ai-video-recognition.png)
+    ![View Udev information](../../../servers_img/common/introduction/ai-video-recognition.png)
 
     </CodeBlockTab>
 
