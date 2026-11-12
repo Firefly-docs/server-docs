@@ -57,6 +57,8 @@
     8. APK安装和卸载
     9. 恢复出厂设置
     10. 数据备份等等
+
+    ![Select the source and target devices for Multi Control](../../../aBMC_img/v3.0/casting_img/05-multi-control-source-target-en-steps-v3.png)
     </CodeBlockTab>
 
     <CodeBlockTab value="RISC-V">
