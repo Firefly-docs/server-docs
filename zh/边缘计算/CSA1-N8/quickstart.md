@@ -5,10 +5,12 @@
 
 本产品是一款阵列式（多个SOC通过USB和网络的方式组合在一起）服务器，解决的实际问题是解决单一计算单元计算能力不足的问题，同时整机价格相比同等算力的X86服务器有优势。为了方便客户操作和开发，我们在BMC上开发了aBMC服务程序，主要提供网络远程刷机、网络设置和设备状态监控等功能。那相比于多个计算盒子组织网，我们这的阵列式服务器有什么优势？
 
-1. 成本上：标准服务器 > 阵列式服务器 > 同等数量算力盒子
-2. 管理方便： 通过aBMC程序可轻松实现网络远程刷机、网络设置和设备状态监控等功能
-3. 性能： 机架式服务器相比于盒子有更好的散热和供电能力
-4. 产品：多个算力节点集合在机架式服务器中，更好的部署到客户机房并验收
+| 项目 | 说明 |
+| :--- | :--- |
+| 成本 | 标准服务器 > 阵列式服务器 > 同等算力算力盒子 |
+| 管理便捷性 | 依托 aBMC 实现远程刷机、网络配置、状态监控，远程运维便捷 |
+| 性能 | 机架式具备更强的供电与散热能力，相比算力盒子稳定性更好 |
+| 部署交付 | 算力节点整机集成，适配机房机柜，方便现场部署、验收 |
 
 
 目前服务器常用的用户场景有以下几种
@@ -38,6 +40,8 @@
     | :--- | :---: | ---: |
     | RK3588/RK3588S | Rockchip | 4 |
     | BM1684X | Sophgo | 16 |
+    | Jetson Orin NX 16GB | NVIDIA | 10 |
+    | Jetson Orin Nano 8GB | NVIDIA | 6 |
 
 
     ![View Udev information](../../../servers_img/common/introduction/ai-video-recognition.png)
@@ -47,16 +51,38 @@
     <CodeBlockTab value="cloud-phone">
     云手机场景推荐使用RK3588/RK3588S，基于容器化技术实现云手机多开。
     支持功能如下：
-    1. 批量同屏
-    2. 自动root
-    3. GPS定位
-    4. 陀螺仪
-    5. 手机选型
-    6. 一键新机
-    7. 远程重启/关闭手机
-    8. APK安装和卸载
-    9. 恢复出厂设置
-    10. 数据备份等等
+    <Cards>
+        <Card title="批量同屏" href="cloud-phone-batch-screen">
+          多设备画面同步同屏展示。
+        </Card>
+        <Card title="自动Root" href="cloud-phone-auto-root">
+          自动化完成设备Root权限配置。
+        </Card>
+        <Card title="GPS定位" href="cloud-phone-gps">
+          模拟/读取GPS位置信息。
+        </Card>
+        <Card title="陀螺仪" href="cloud-phone-gyroscope">
+          陀螺仪传感器数据模拟与上报。
+        </Card>
+        <Card title="手机选型" href="cloud-phone-device-selection">
+          云手机硬件方案、SoC选型对比。
+        </Card>
+        <Card title="一键新机" href="cloud-phone-oneclick-new">
+          一键重置设备环境，生成全新设备标识。
+        </Card>
+        <Card title="远程重启/关机" href="cloud-phone-remote-power">
+          远程对手机节点执行重启、关机操作。
+        </Card>
+        <Card title="APK 管理" href="cloud-phone-apk-manage">
+          APK 批量安装、卸载。
+        </Card>
+        <Card title="恢复出厂设置" href="cloud-phone-factory-reset">
+          远程触发设备恢复出厂。
+        </Card>
+        <Card title="数据备份" href="cloud-phone-data-backup">
+          设备应用与数据批量备份。
+        </Card>
+    </Cards>
 
     ![Select the source and target devices for Multi Control](../../../aBMC_img/v3.0/casting_img/05-multi-control-source-target-en-steps-v3.png)
     </CodeBlockTab>
