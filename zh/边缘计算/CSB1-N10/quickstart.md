@@ -1,6 +1,74 @@
 # 快速开始
 
-第一次使用 CSB1-N10？按任务直接进入，或切到「第一次使用」按 9 步走一遍。本页只做入口，详细说明在对应页面。
+如果您是第一次使用 CSB1-N10 服务器，建议按以下顺序了解和使用本产品，从产品认知、开机验证到开发对接与现场交付，逐步完成上手。
+
+
+本产品是一款阵列式（多个SOC通过USB和网络的方式组合在一起）服务器，解决的实际问题是解决单一计算单元计算能力不足的问题，同时整机价格相比同等算力的X86服务器有优势。为了方便客户操作和开发，我们在BMC上开发了aBMC服务程序，主要提供网络远程刷机、网络设置和设备状态监控等功能。那相比于多个计算盒子组织网，我们这的阵列式服务器有什么优势？
+
+1. 成本上：标准服务器 > 阵列式服务器 > 同等数量算力盒子
+2. 管理方便： 通过aBMC程序可轻松实现网络远程刷机、网络设置和设备状态监控等功能
+3. 性能： 机架式服务器相比于盒子有更好的散热和供电能力
+4. 产品：多个算力节点集合在机架式服务器中，更好的部署到客户机房并验收
+
+
+目前服务器常用的用户场景有以下几种
+<Callout title="上电前先看：安全规范" type="warn">
+  严禁带电插拔电源线；断电后等待 30 秒以上再上电。不同机型的上电方式不同，请先阅读对应机型的[电源操作](start-server-power)。
+</Callout>
+
+<CodeBlockTabs defaultValue="tasks">
+    <CodeBlockTabsList>
+        <CodeBlockTabsTrigger value="transcode">编码转码</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="edge-AI-infer">AI边缘推理</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="cloud-phone">云手机</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="RISC-V">RISC-V</CodeBlockTabsTrigger>
+    </CodeBlockTabsList>
+
+    <CodeBlockTab value="transcode">
+    编码转码场景通常使用RK3588/RK3588S，用户可以使用rkmpp或者ffmedia编解码去快速实现项目
+
+    | SOC | 厂家 | 编/转码视频流数量（参考） |
+    | :--- | :---: | ---: |
+    | RK3588/RK3588S | Rockchip | 16 |
+
+    </CodeBlockTab>
+
+    <CodeBlockTab value="edge-AI-infer">
+
+    | SOC | 厂家 | AI推理视频流数量（参考） |
+    | :--- | :---: | ---: |
+    | RK3588/RK3588S | Rockchip | 4 |
+    | BM1684X | Sophgo | 16 |
+
+    </CodeBlockTab>
+
+    <CodeBlockTab value="cloud-phone">
+    云手机场景推荐使用RK3588/RK3588S，基于容器化技术实现云手机多开。
+    支持功能如下：
+    1. 批量同屏
+    2. 自动root
+    3. GPS定位
+    4. 陀螺仪
+    5. 手机选型
+    6. 一键新机
+    7. 远程重启/关闭手机
+    8. APK安装和卸载
+    9. 恢复出厂设置
+    10. 数据备份等等
+    </CodeBlockTab>
+
+    <CodeBlockTab value="RISC-V">
+    服务器支持安装 Spacemit K3 ，用户可以
+    </CodeBlockTab>
+</CodeBlockTabs>
+
+
+如果您是第一次使用 CSB1-N10 服务器，建议按以下顺序了解和使用本产品，从产品认知、开机验证到开发对接与现场交付，逐步完成上手。
+1. 产品规格介绍
+2. 服务器开机测试
+3. 服务器相关SDK和API开发资料获取
+4. 服务器固件计算节点固件
+5. 现场交付
 
 <Callout title="上电前先看：安全规范" type="warn">
   严禁带电插拔电源线；断电后等待 30 秒以上再上电。不同机型的上电方式不同，请先阅读对应机型的[电源操作](start-server-power)。
