@@ -39,6 +39,9 @@
     | RK3588/RK3588S | Rockchip | 4 |
     | BM1684X | Sophgo | 16 |
 
+
+    ![View Udev information](../../../img/servers_img/common/introduction/ai-video-recognition.png)
+
     </CodeBlockTab>
 
     <CodeBlockTab value="cloud-phone">
