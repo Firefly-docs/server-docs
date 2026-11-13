@@ -9,6 +9,28 @@
 | 性能 | 机架式具备更强的供电与散热能力，相比算力盒子稳定性更好 |
 | 部署交付 | 算力节点整机集成，适配机房机柜，方便现场部署、验收 |
 
+
+
+<CodeBlockTabs defaultValue="energy-efficient">
+    <CodeBlockTabsList>
+        <CodeBlockTabsTrigger value="energy-efficient">高能效</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="BMC">BMC</CodeBlockTabsTrigger>
+        <CodeBlockTabsTrigger value="L3_netword">内置3层网络</CodeBlockTabsTrigger>
+    </CodeBlockTabsList>
+
+    <CodeBlockTab value="energy-efficient">
+    ![View Udev information](../../../servers_img/common/introduction/feature_ARM_Array_Server.png)
+    </CodeBlockTab>
+
+    <CodeBlockTab value="BMC">
+    ![View Udev information](../../../servers_img/common/introduction/feature_BMC.png)
+    </CodeBlockTab>
+
+    <CodeBlockTab value="L3_netword">
+    ![View Udev information](../../../servers_img/common/introduction/feature_Server_L3_netword.png)
+    </CodeBlockTab>
+</CodeBlockTabs>
+
 # 项目场景
 目前服务器常用的用户场景有以下几种
 
