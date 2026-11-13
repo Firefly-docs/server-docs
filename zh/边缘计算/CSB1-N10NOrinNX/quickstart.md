@@ -23,11 +23,11 @@
     </CodeBlockTab>
 
     <CodeBlockTab value="BMC">
-    ![View Udev information](../../../servers_img/common/introduction/feature_BMC.png)
+    ![feature_BMC](../../../servers_img/common/introduction/feature_BMC.png)
     </CodeBlockTab>
 
     <CodeBlockTab value="L3_netword">
-    ![View Udev information](../../../servers_img/common/introduction/feature_Server_L3_netword.png)
+    ![feature_Server_L3_netword](../../../servers_img/common/introduction/feature_Server_L3_netword.png)
     </CodeBlockTab>
 </CodeBlockTabs>
 
