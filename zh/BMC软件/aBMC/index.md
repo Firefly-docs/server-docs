@@ -3,6 +3,7 @@
 - [登录指南](guide.md)
 - [页面自定义](pageCustomization.md)
 - [软件安装指南](install.md)
+- [配置文件说明](configFile.md)
 
 # 使用手册
 - [常规配置](general.md)

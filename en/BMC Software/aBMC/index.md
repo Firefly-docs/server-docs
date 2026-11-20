@@ -3,6 +3,7 @@
 - [Must-Read Guide for Developers](guide.md)
 - [Page Customization](pageCustomization.md)
 - [Software Installation Guide](install.md)
+- [Configuration File Reference](configFile.md)
 
 # User Guide
 - [General Configuration](general.md)
