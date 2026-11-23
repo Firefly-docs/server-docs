@@ -2,9 +2,9 @@
 
 ## Overview
 
-When deploying array servers at scale, the site network environment is often not known during project planning. It is only during deployment that constraints such as a limited public IP quota, strict network control, and a ban on configuring multiple public IPs become apparent.
+When deploying array servers at scale, the site network environment is often not known during project planning. Constraints such as a limited public IP quota, strict network control, and a ban on configuring multiple public IPs usually surface only during deployment.
 
-The traditional architecture uses a one-to-one "one core board, one public IP" model: every core board needs its own public IP, either requested separately or configured manually. This model only works for small deployments. For large array clusters it causes IP shortages, non-compliant multi-IP deployment, high O&M costs, and wasted addresses. Adding a router increases hardware and maintenance costs and requires multi-department coordination, budget approval, and procurement, which significantly extends the deployment cycle.
+The traditional architecture uses a one-to-one "one core board, one public IP" model: every core board needs its own public IP, either requested separately or configured manually. This model only works for small deployments. In a large array cluster it causes IP shortages, non-compliant multi-IP deployment, high O&M costs, and wasted addresses. Adding a router increases hardware and maintenance costs and requires multi-department coordination, budget approval, and procurement, which extends the deployment cycle.
 
 This case uses a high-speed BMC NIC (5 Gbps or higher recommended) with the internal L3 switch to create WAN and LAN logical interfaces through VLANs, and enables NAT and IP forwarding on the BMC so that the whole cluster uses only one public IP. The goal is to reduce public IP consumption, simplify O&M, improve address utilization, and isolate the internal and external networks without adding network devices.
 
@@ -21,103 +21,114 @@ As the number of cluster nodes grows, the limitations of the one-to-one IP model
 | Site problem | Details | How this case addresses it |
 | --- | --- | --- |
 | High cost and long approval cycle for new network devices | A router adds hardware and maintenance costs; a temporary device also requires multi-department coordination, budget approval, and procurement | No additional router; reuse the BMC's NAT and IP forwarding |
-| Public IP shortage | A `/24` subnet has only 254 usable addresses, while two 128-node servers already have 256 nodes | The whole cluster uses only one public IP |
-| Complex network O&M | IP addresses must be configured, recorded, maintained, and troubleshot one by one; bulk changes easily cause IP conflicts, parameter errors, and inconsistent records | Sub-boards use internal addresses; only the BMC needs a public address |
+| Public IP shortage | Installing one server consumes more than ten public IPs | The whole cluster uses only one public IP |
+| Complex network O&M | IP addresses must be configured, recorded, and maintained one by one; bulk changes easily cause IP conflicts, parameter errors, and inconsistent records | Sub-boards use internal addresses; only the BMC needs a public address |
 | Low public IP utilization | Most core boards only perform routine data exchange but each holds a public IP | Internal addresses do not consume public IPs; the public address is shared |
 
-This case applies to clusters with a limited public IP quota, a ban on multiple public IPs, or a requirement to avoid adding a router. If public IPs are sufficient, assign an independent IP to each sub-board and do not enable this case.
+This case applies to clusters with a limited public IP quota, a ban on bulk configuration of multiple public IPs, or a requirement to avoid adding a router. If public IPs are sufficient, assign an independent IP to each sub-board and do not enable this case.
+
+## Network Topology
+
+Physical connections on a single CSA1-N8: one chassis holds eight sub-boards (SUB01–SUB08). Each sub-board has a PHY NIC on both sides, connected to two internal switches. The BMC connects to the two switches through its pci_net and usb_net NICs. SFP+1, GE, SFP+2, and GEM are the external ports on the chassis front panel. The VLAN split and NAT in this case are built on these physical links.
+
+![network topology](../../../servers_img/CSA1-N8/network_topo.png)
 
 ## How It Works
 
-### WAN / LAN split
-
-The high-speed BMC NIC works with the internal L3 switch to create two logical interfaces through VLANs:
-
-| Logical interface | VLAN (example) | Connects to | Purpose |
-| --- | --- | --- | --- |
-| WAN | VLAN 50 | Site service network | Single external egress for the cluster |
-| LAN | VLAN 1 | Compute cores (sub-boards) | Carry compute core data traffic |
-| Management | VLAN 2101 / 4000 | aBMC, switch | Internal management and device communication |
-
-The L3 switch puts the compute nodes and the site service network into two independent network zones, providing internal/external isolation.
-
-### One-way communication
-
-This case requires **one-way communication**: compute cores can access site terminals such as cameras, but the site network cannot directly access the compute core intranet.
-
-| Direction | Allowed? | Implementation |
-| --- | --- | --- |
-| Compute core → site terminal | Yes | MASQUERADE (source NAT) on the BMC |
-| Site network → compute core intranet | No | No DNAT; internal addresses are not advertised, and VLAN isolation plus routing policy block the traffic |
-
-![Network sharing topology](../../../servers_img/common/network_sharing_topology_en.png)
-
-*Figure: The external network sees only one address; compute cores use internal addresses and share the public IP through BMC NAT.*
-
-![One-way data flow](../../../servers_img/common/network_sharing_nat_flow_en.png)
-
-*Figure: Compute cores use MASQUERADE to reach the external network; no DNAT is configured for the site network to access the compute core intranet.*
-
-### Data flow
-
-**Compute core to site terminal:**
-
-1. The sub-board sends traffic to the BMC nic0.
-2. The BMC forwards the traffic to the WAN interface (VLAN 50) with IP forwarding enabled.
-3. MASQUERADE changes the source address to the BMC WAN address.
-4. The traffic leaves for the site service network with this single public address.
-
-**Site network to compute core:**
-
-1. A site terminal accesses the BMC WAN address.
-2. No DNAT rule or route to the compute core intranet exists on the BMC.
-3. The traffic cannot enter the compute core intranet.
+Disable all PHY1 NICs on the server. Traffic enters through the GE port on the chassis, passes through the BMC's eth0 NIC, leaves through the usb_net NIC, goes to switch SWITCH0, and finally reaches the sub-board's eth0 NIC.
 
 ## Procedure
 
-Configure in the following order: switch VLANs → aBMC → sub-boards and routing → IP forwarding and NAT → verification.
+### Step 1: Configure the sub-board eth1 IP and DNS [step]
 
-### Step 1: Configure WAN / LAN VLANs on the switch [step]
+![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_sub.png)
 
-Log in to the switch web UI:
+Set the sub-board to manual mode, leave the IP address empty, and configure DNS.
 
-1. Create VLAN 50 (WAN), VLAN 1 (LAN), and VLAN 2101 / 4000 for management.
-2. Set the site service network ports (for example `ge1/25`, `ge1/26`, `xe1/27`, `xe1/28`) to **Access** and add them to VLAN 50.
-3. Set the BMC uplink port (for example `ge1/21`) to **Trunk** and allow VLAN 50 and VLAN 4000.
-4. Set the ports for BMC nic0 and each sub-board eth0 to **Access** and add them to VLAN 1 (examples: `ge1/1`, `ge1/12`–`ge1/20`; confirm the BMC nic0 port on the actual device).
+### Step 2: Add a new network configuration on the sub-board [step]
 
-### Step 2: Configure aBMC [step]
+```bash
+linaro@bm1684:~$ sudo cat /etc/netplan/eth0_static_ip.yaml 
+network:
+        version: 2
+        renderer: NetworkManager
+        ethernets:
+                eth0:
+                        dhcp4: no
+                        addresses: [192.168.150.23/24]
+                        optional: yes
+linaro@bm1684:~$ sudo cat /etc/netplan/default.yaml 
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    eth0:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+      - 192.168.150.23/24
+      optional: true
+      routes:
+      - to: 0.0.0.0/0
+        via: 192.168.150.100
+        metric: 100
+linaro@bm1684:~$ 
+```
 
-1. Log in to the aBMC web UI and open **VLAN Network Configuration**.
-2. Add the WAN interface (VLAN 50):
+Create `/etc/netplan/default.yaml` and set the route to `192.168.150.100`, which is the IP of the BMC's usb_net NIC.
+Set the eth0 address to the one in `/etc/netplan/eth0_static_ip.yaml`.
+Run `sudo netplan apply`.
+Check the configuration result.
+```bash
+linaro@bm1684:~$ sudo cat /etc/netplan/default.yaml ^C
+linaro@bm1684:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: dummy0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether f2:6f:df:5c:14:71 brd ff:ff:ff:ff:ff:ff
+3: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN group default qlen 1000
+    link/sit 0.0.0.0 brd 0.0.0.0
+4: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 5c:f8:38:73:66:7c brd ff:ff:ff:ff:ff:ff
+    inet 192.168.150.23/24 brd 192.168.150.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5ef8:38ff:fe73:667c/64 scope link 
+       valid_lft forever preferred_lft forever
+5: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 5c:f8:38:73:66:7d brd ff:ff:ff:ff:ff:ff
+    inet 169.254.151.47/16 brd 169.254.255.255 scope link noprefixroute eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5ef8:38ff:fe73:667d/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+6: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
+    link/ether 02:42:4a:79:32:25 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+linaro@bm1684:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.150.100 0.0.0.0         UG    100    0        0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U     101    0        0 eth1
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+192.168.150.0   0.0.0.0         255.255.255.0   U     100    0        0 eth0
+224.0.0.0       0.0.0.0         240.0.0.0       U     101    0        0 eth1
+linaro@bm1684:~$ 
+```
 
-    | Item | Value (example) |
-    | --- | --- |
-    | IP address | 172.16.66.88/16 |
-    | Subnet mask | 255.255.0.0 (16 bits) |
-    | Gateway | 172.16.0.1 |
-    | Gateway priority | 100 |
+eth1 has an address in the 169.254.x.x range; ignore it.
+Confirm that the first entry in the routing table uses 192.168.150.100 as its gateway.
 
-3. Configure a service address on BMC nic0 (LAN): 192.168.100.100/24.
-4. Run `ping 172.16.0.1` on aBMC; a successful ping indicates that the WAN interface is configured correctly.
+### Step 3: Configure the BMC eth0 NIC [step]
 
-### Step 3: Configure sub-boards and routing [step]
+![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_bmc.png)
 
-1. Configure a service address on each sub-board eth0:
+Select a static IP here. The NAT rules below depend on this address; if DHCP assigns the address dynamically, the NAT rules will not take effect.
 
-    ```text
-    IP address: 192.168.100.x/24 (unique per sub-board; do not use .100, which belongs to the BMC)
-    ```
-
-2. Configure the default route on each sub-board to point to the BMC LAN address:
-
-    ```bash
-    ip route add default via 192.168.100.100
-    ```
-
-3. Run `ping 192.168.100.100` on a sub-board; a successful ping to the BMC indicates that the LAN configuration is correct.
-
-### Step 4: Enable IP forwarding and configure NAT [step]
+### Step 4: Configure NAT and IP forwarding on the BMC [step]
 
 Log in to the BMC:
 
@@ -129,21 +140,62 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
 sysctl -p
 
-# If nftables is also in use, flush its rules first to avoid conflicts
-nft flush ruleset
+# Configure NAT rules
+iptables-legacy -t nat -A PREROUTING -i eth0 ! -d 172.16.11.211 -j DNAT --to-destination 192.168.150.1-192.168.150.200
 
 # Outbound only: source NAT for compute cores accessing the external network
-iptables-legacy -t nat -A POSTROUTING -o vlan50 -j MASQUERADE
+iptables-legacy -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # Show the rules
 iptables-legacy -t nat -L -n -v
 ```
 
-No DNAT is configured in this case, so the site network cannot initiate access to the compute core intranet.
+**Persist the NAT rules**
 
-<Callout title="Tip" type="info">
-  If the default FORWARD policy on the BMC is DROP, add a rule to allow LAN → WAN forwarding; otherwise, the sub-boards still cannot access the external network.
-</Callout>
+The iptables rules above live only in memory and are lost after a reboot. Use a systemd service to load the two rules at startup.
+
+1. Create the service unit `/etc/systemd/system/nat-forward.service`:
+
+```bash
+cat > /etc/systemd/system/nat-forward.service <<'EOF'
+[Unit]
+Description=Persist NAT forwarding rules
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/iptables-legacy -t nat -A PREROUTING -i eth0 ! -d 172.16.11.211 -j DNAT --to-destination 192.168.150.1-192.168.150.200
+ExecStart=/usr/sbin/iptables-legacy -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+2. Enable and start the service:
+
+```bash
+systemctl daemon-reload
+systemctl enable nat-forward.service
+systemctl start nat-forward.service
+```
+
+3. Check the service status and the rules:
+
+```bash
+systemctl status nat-forward.service --no-pager
+iptables-legacy -t nat -L -n -v
+```
+
+`systemctl status` should show `active (exited)`, and `iptables-legacy -t nat -L -n -v` should list both the DNAT and MASQUERADE rules. The service reapplies them on every reboot after that.
+
+Notes:
+
+- Each start appends the rules again. Repeated `systemctl restart` calls create duplicate entries; reboot the device to clear them.
+- The service only handles iptables rules. `ip_forward` is already persisted through `/etc/sysctl.conf` above.
+- The BMC eth0 must keep its static IP (see Step 3). After changing the eth0 address, update the addresses in this service and run `systemctl restart nat-forward.service`.
 
 ### Step 5: Verify one-way communication [step]
 
@@ -151,8 +203,4 @@ No DNAT is configured in this case, so the site network cannot initiate access t
 | --- | --- | --- |
 | Compute core to site network | Run `ping 172.16.0.1` on a sub-board | Ping succeeds |
 | Compute core to the Internet | Run `ping www.baidu.com` on a sub-board | Ping succeeds (DNS must be configured on the sub-board) |
-| Site network to compute core intranet | Ping a sub-board internal address (for example `192.168.100.11`) from a site network terminal | **Ping fails (expected)** |
-
-<Callout title="Note" type="warn">
-  The addresses, ports, and VLAN IDs in this document are examples; adjust them according to the site network. After a BMC reboot, the `iptables` rules and `ip_forward` setting are not restored automatically; configure persistence. If external access to sub-boards is really required, evaluate the security risk and configure DNAT separately instead of opening the entire intranet.
-</Callout>
+| Site network to compute core intranet | Ping a sub-board internal address (for example `192.168.150.21`) from a site network terminal | **Ping fails (expected)** |

@@ -6,6 +6,7 @@
 
 | 版本 | 主要更新 | 软件包 |
 | --- | --- | --- |
+| [v3.2.4](#v324) | 多项稳定性修复 | [网盘下载](https://pan.baidu.com/s/1xufhdrHKb3FhGl1l_hn8eA?pwd=yktw)（提取码 `yktw`） |
 | [v3.2.3](#v323) | Web 会话自动续期；交换机串口终端容错 | [网盘下载](https://pan.baidu.com/s/15kfthwxS8cbRJxC_tXggCA?pwd=jctu)（提取码 `jctu`） |
 | [v3.2.2](#v322) | 子板芯片平台探测；挂载点重新挂载；端口速率自动协商 | [网盘下载](https://pan.baidu.com/s/1mFNqm3gXe9CeEJ3ujO3mhw?pwd=1kci)（提取码 `1kci`） |
 | [v3.2.1](#v321) | 移除独立 SSH 用户体系；统一 Web 终端；升级必读 | [网盘下载](https://pan.baidu.com/s/1F1mJ6wmn9B6z0UKj45rj6Q?pwd=5m2m)（提取码 `5m2m`） |
@@ -14,6 +15,30 @@
 | [v3.1.3](#v313) | C2、CSA1、NVIDIA Orin 多项修复 | [网盘下载](https://pan.baidu.com/s/1w_4FhcD-6h2f9KiBc5vpGQ?pwd=9j2t)（提取码 `9j2t`） |
 | [v3.1.2](#v312) | IPv6 支持；移除 root 默认账户；时间管理修复 | [网盘下载](https://pan.baidu.com/s/1mgV_QLyKxWD9n-YOuOJ5cw?pwd=q27j)（提取码 `q27j`） |
 | [v1.0](#v10) | aBMC 首个版本发布，提供 Web 管理界面与基础带外管理能力 | — |
+
+## v3.2.4
+
+多项稳定性修复
+
+**优化**
+
+- 全平台统一内存容量采集方式，数据更准确
+- 物理网卡识别过滤虚拟网卡，识别结果更准确
+- 软件包安装、升级与卸载流程加固，降低升级异常风险
+
+**修复**
+
+- 磁盘状态偶发不刷新的问题
+- 删除分区时可能误删其他分区的问题
+- 核心板管理服务异常后恢复不稳定、配置数据写入偶发丢失的问题
+- BM1688 固件升级适配、BM1684X 旧版本固件包升级失败的问题
+- CS-C2 机型 5G 网卡命名规则错误
+- CS-B2-BM1684X 电源模块信息读取异常
+- CSB2 静音模式风扇转速异常
+
+**API**
+
+- 新增磁盘健康查询接口
 
 ## v3.2.3
 

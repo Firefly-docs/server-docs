@@ -6,6 +6,7 @@ Records the main changes in each aBMC release, newest first.
 
 | Version | Highlights | Package |
 | --- | --- | --- |
+| [v3.2.4](#v324) | Various stability fixes | [Baidu Pan](https://pan.baidu.com/s/1xufhdrHKb3FhGl1l_hn8eA?pwd=yktw) (code: `yktw`) |
 | [v3.2.3](#v323) | Web session auto-renewal; switch serial terminal tolerance | [Baidu Pan](https://pan.baidu.com/s/15kfthwxS8cbRJxC_tXggCA?pwd=jctu) (code: `jctu`) |
 | [v3.2.2](#v322) | Sub-board chip platform detection; mount point remount; port speed auto-negotiation | [Baidu Pan](https://pan.baidu.com/s/1mFNqm3gXe9CeEJ3ujO3mhw?pwd=1kci) (code: `1kci`) |
 | [v3.2.1](#v321) | Standalone SSH user management removed; unified Web terminal; upgrade required | [Baidu Pan](https://pan.baidu.com/s/1F1mJ6wmn9B6z0UKj45rj6Q?pwd=5m2m) (code: `5m2m`) |
@@ -14,6 +15,30 @@ Records the main changes in each aBMC release, newest first.
 | [v3.1.3](#v313) | Fixes for C2, CSA1, and NVIDIA Orin | [Baidu Pan](https://pan.baidu.com/s/1w_4FhcD-6h2f9KiBc5vpGQ?pwd=9j2t) (code: `9j2t`) |
 | [v3.1.2](#v312) | IPv6 support; root account removed; time management fixes | [Baidu Pan](https://pan.baidu.com/s/1mgV_QLyKxWD9n-YOuOJ5cw?pwd=q27j) (code: `q27j`) |
 | [v1.0](#v10) | First aBMC release with a Web UI and basic out-of-band management | — |
+
+## v3.2.4
+
+Various stability fixes
+
+**Improved**
+
+- Unified memory capacity collection across all platforms for more accurate data.
+- Physical NIC identification now filters out virtual NICs for more accurate results.
+- Hardened package installation, upgrade, and removal handling to reduce the risk of upgrade failures.
+
+**Fixed**
+
+- Disk status was occasionally not refreshed.
+- Deleting a partition could inadvertently remove other partitions.
+- The core board management service did not always recover reliably after a failure, and configuration data could occasionally be lost.
+- BM1688 firmware upgrade compatibility; firmware upgrades from older packages failed on BM1684X.
+- Incorrect 5G NIC naming rule on the CS-C2.
+- Power module information was read incorrectly on the CS-B2-BM1684X.
+- Incorrect fan speed in CSB2 silent mode.
+
+**API**
+
+- Added a disk health query endpoint.
 
 ## v3.2.3
 

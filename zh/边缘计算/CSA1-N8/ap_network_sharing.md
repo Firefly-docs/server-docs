@@ -21,103 +21,114 @@
 | 现场问题 | 具体表现 | 本案例的应对方式 |
 | --- | --- | --- |
 | 新增网络设备成本高、审批周期长 | 采购路由器增加硬件和管理维护成本；临时申报还要经过多部门协调、预算审批和采购手续 | 不新增路由器，复用 BMC 的 NAT 与 IP 转发能力 |
-| 外网 IP 地址资源紧张 | `/24` 网段只有 254 个可用地址，两台 128 节点服务器就有 256 个节点 | 整个集群只占用一个外网 IP |
+| 外网 IP 地址资源紧张 | 上架一台服务器，会占用十几个外网 IP | 整个集群只占用一个外网 IP |
 | 网络运维管理复杂 | 逐台配置、登记、维护 IP，批量配置容易产生 IP 冲突、参数错误和台账混乱 | 子板使用内部地址，只需配置 BMC 一个外网地址 |
 | 外网 IP 资源利用率低 | 多数核心板只做常规数据交互，却各自占用一个外网 IP | 内部地址不占用外网 IP，外网地址集中复用 |
 
 适合外网 IP 配额有限、禁止批量配置多个外网 IP、或不希望为组网新增路由器的集群部署。若现场外网 IP 充足，直接为每块子板配置独立 IP 即可，不需要启用本方案。
 
+## 网络拓扑图
+
+CSA1-N8 单机的物理连接：一台机箱内 8 块子板（SUB01–SUB08），每块子板两侧各挂一颗 PHY 网卡，分别接入两颗内部交换机；BMC 通过 pci_net、usb_net 两路网卡分别挂在两颗交换机上；SFP+1、GE、SFP+2、GEM 是机箱面板上的对外网口。本方案的 VLAN 划分与 NAT 都基于这套物理链路。
+
+![network topology](../../../servers_img/CSA1-N8/network_topo.png)
+
 ## 方案原理
 
-### WAN / LAN 怎么划分
-
-BMC 的高速网卡与内部三层交换机配合，通过 VLAN 虚拟出两路逻辑网口：
-
-| 逻辑接口 | VLAN（示例） | 对接对象 | 作用 |
-| --- | --- | --- | --- |
-| WAN | VLAN 50 | 现场业务网络 | 集群统一的外网出口 |
-| LAN | VLAN 1 | 算力核心（子板） | 承载算力核心的数据交互 |
-| 管理 | VLAN 2101 / 4000 | aBMC、交换机 | 内部管理与设备通信 |
-
-三层交换机把算力节点与现场业务网络划分为两个相互独立的网络区域，完成内外网隔离。
-
-### 单向通信怎么实现
-
-本案例要求**单向通信**：算力核心可以访问摄像头等现场终端设备，现场网络不能直接访问算力核心内网。
-
-| 方向 | 是否允许 | 实现方式 |
-| --- | --- | --- |
-| 算力核心 → 现场终端 | 允许 | BMC 做 MASQUERADE（源地址转换） |
-| 现场网络 → 算力核心内网 | 禁止 | 不配置 DNAT；内网地址不对外发布，依靠 VLAN 隔离和路由策略阻断 |
-
-![网络共享方案拓扑](../../../servers_img/common/network_sharing_topology.png)
-
-*图：外部网络只看到一个地址；算力核心使用内部地址接入，通过 BMC 的 NAT 共享外网 IP。*
-
-![单向通信数据流向](../../../servers_img/common/network_sharing_nat_flow.png)
-
-*图：算力核心访问外网使用 MASQUERADE；现场网络访问算力核心内网未配置 DNAT，无法进入。*
-
-### 数据怎么走
-
-**算力核心访问现场终端：**
-
-1. 子板把数据发给 BMC 的 nic0；
-2. BMC 开启 IP 转发，把数据转到 WAN 口（VLAN 50）；
-3. 经过 MASQUERADE，源地址变成 BMC 的 WAN 地址；
-4. 数据以这个唯一的外网地址发往现场业务网络。
-
-**现场网络访问算力核心：**
-
-1. 现场终端访问 BMC 的 WAN 地址；
-2. BMC 没有配置到算力核心内网的 DNAT 规则，也没有对应路由；
-3. 数据无法进入算力核心内网。
+将服务器的 PHY1 网卡全部关闭，数据从机箱上的 GE 口进入，流经 BMC 的 eth0 网卡，再从 usb_net 网卡流出，流向交换机 SWITCH0，最后流向子板的 eth0 网卡。
 
 ## 操作步骤
 
-建议按「交换机 VLAN → aBMC → 子板与路由 → IP 转发与 NAT → 验证」的顺序配置。
+### 步骤 1：配置子板 eth1 IP 与 DNS [step]
 
-### 步骤 1：交换机配置 WAN / LAN VLAN[step]
+![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_sub.png)
 
-登录交换机 Web 管理页面：
+子板选择手动模式，IP 地址留空，配置 DNS。
 
-1. 创建 VLAN 50（WAN）、VLAN 1（LAN），以及管理用 VLAN 2101、4000；
-2. 将现场业务网络接入口（示例 `ge1/25`、`ge1/26`、`xe1/27`、`xe1/28`）设置为 **Access** 并加入 VLAN 50；
-3. 将 BMC 上联口（示例 `ge1/21`）设置为 **Trunk**，允许 VLAN 50 和 VLAN 4000 通过；
-4. 将 BMC nic0 与各子板 eth0 对应的端口设置为 **Access** 并加入 VLAN 1（示例 `ge1/1`、`ge1/12`–`ge1/20`，BMC nic0 对应端口以实际设备为准）。
+### 步骤 2：进入子板命令行，增加新的网络配置 [step]
 
-### 步骤 2：配置 aBMC[step]
+```bash
+linaro@bm1684:~$ sudo cat /etc/netplan/eth0_static_ip.yaml 
+network:
+        version: 2
+        renderer: NetworkManager
+        ethernets:
+                eth0:
+                        dhcp4: no
+                        addresses: [192.168.150.23/24]
+                        optional: yes
+linaro@bm1684:~$ sudo cat /etc/netplan/default.yaml 
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    eth0:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+      - 192.168.150.23/24
+      optional: true
+      routes:
+      - to: 0.0.0.0/0
+        via: 192.168.150.100
+        metric: 100
+linaro@bm1684:~$ 
+```
 
-1. 登录 aBMC 管理界面，打开「VLAN 网络配置」。
-2. 添加 WAN 口（VLAN 50）：
+新建配置文件 `/etc/netplan/default.yaml`，其中填写路由 `192.168.150.100`，该地址是 BMC 的 usb_net 网卡的 IP。
+eth0 的地址按 `/etc/netplan/eth0_static_ip.yaml` 中的地址填写。
+执行 `sudo netplan apply`。
+查看配置结果。
+```bash
+linaro@bm1684:~$ sudo cat /etc/netplan/default.yaml ^C
+linaro@bm1684:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: dummy0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether f2:6f:df:5c:14:71 brd ff:ff:ff:ff:ff:ff
+3: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN group default qlen 1000
+    link/sit 0.0.0.0 brd 0.0.0.0
+4: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 5c:f8:38:73:66:7c brd ff:ff:ff:ff:ff:ff
+    inet 192.168.150.23/24 brd 192.168.150.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5ef8:38ff:fe73:667c/64 scope link 
+       valid_lft forever preferred_lft forever
+5: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 5c:f8:38:73:66:7d brd ff:ff:ff:ff:ff:ff
+    inet 169.254.151.47/16 brd 169.254.255.255 scope link noprefixroute eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5ef8:38ff:fe73:667d/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+6: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
+    link/ether 02:42:4a:79:32:25 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+linaro@bm1684:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.150.100 0.0.0.0         UG    100    0        0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U     101    0        0 eth1
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 docker0
+192.168.150.0   0.0.0.0         255.255.255.0   U     100    0        0 eth0
+224.0.0.0       0.0.0.0         240.0.0.0       U     101    0        0 eth1
+linaro@bm1684:~$ 
+```
 
-    | 项目 | 配置值（示例） |
-    | --- | --- |
-    | IP 地址 | 172.16.66.88/16 |
-    | 子网掩码 | 255.255.0.0（16 位） |
-    | 网关 | 172.16.0.1 |
-    | 网关优先级 | 100 |
+eth1 上有一个 169.254.x.x 网段的 IP，无需处理。
+确认路由表中第一条的网关为 192.168.150.100 即可。
 
-3. 为 BMC 的 nic0（LAN 口）配置业务地址：192.168.100.100/24。
-4. 在 aBMC 上执行 `ping 172.16.0.1`，能 ping 通表示 WAN 口配置正确。
+### 步骤 3：配置 BMC 的 eth0 网卡 [step]
 
-### 步骤 3：配置子板与路由[step]
+![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_bmc.png)
 
-1. 为每块子板的 eth0 配置业务地址：
+这里必须选择静态 IP。后续 NAT 规则依赖这个地址；如果使用 DHCP 动态分配地址，NAT 规则不会生效。
 
-    ```text
-    IP 地址：192.168.100.x/24（每块子板不同，且不要与 BMC 的 .100 冲突）
-    ```
-
-2. 为子板配置默认路由，指向 BMC 的 LAN 地址：
-
-    ```bash
-    ip route add default via 192.168.100.100
-    ```
-
-3. 在任意子板上执行 `ping 192.168.100.100`，能 ping 通 BMC 即表示 LAN 口配置正确。
-
-### 步骤 4：开启 IP 转发并配置 NAT[step]
+### 步骤 4：配置 BMC 的 NAT 和 IP 转发 [step]
 
 登录 BMC 系统：
 
@@ -129,30 +140,67 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
 sysctl -p
 
-# 如系统同时使用 nftables，先清空规则，避免冲突
-nft flush ruleset
+# 配置 NAT 规则
+iptables-legacy -t nat -A PREROUTING -i eth0 ! -d 172.16.11.211 -j DNAT --to-destination 192.168.150.1-192.168.150.200
 
-# 仅配置出方向：算力核心访问外网时做源地址转换
-iptables-legacy -t nat -A POSTROUTING -o vlan50 -j MASQUERADE
+# 仅配置出方向：算力核心访问外网时做源地址转换 
+iptables-legacy -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # 查看规则
 iptables-legacy -t nat -L -n -v
 ```
 
-本案例不配置 DNAT，因此现场网络无法主动访问算力核心内网。
+**NAT 规则持久化**
 
-<Callout title="提示" type="info">
-  如果 BMC 的 FORWARD 默认策略为 DROP，需要额外放行 LAN → WAN 的转发流量，否则子板仍无法访问外网。
-</Callout>
+上面的 iptables 规则只存在于内存中，设备重启后失效。用 systemd 服务在开机时自动下发这两条规则。
 
-### 步骤 5：验证单向通信[step]
+1. 新建服务单元 `/etc/systemd/system/nat-forward.service`：
+
+```bash
+cat > /etc/systemd/system/nat-forward.service <<'EOF'
+[Unit]
+Description=Persist NAT forwarding rules
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/iptables-legacy -t nat -A PREROUTING -i eth0 ! -d 172.16.11.211 -j DNAT --to-destination 192.168.150.1-192.168.150.200
+ExecStart=/usr/sbin/iptables-legacy -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+2. 启用服务并立即启动：
+
+```bash
+systemctl daemon-reload
+systemctl enable nat-forward.service
+systemctl start nat-forward.service
+```
+
+3. 验证服务状态和规则：
+
+```bash
+systemctl status nat-forward.service --no-pager
+iptables-legacy -t nat -L -n -v
+```
+
+预期 `systemctl status` 显示 `active (exited)`，`iptables-legacy -t nat -L -n -v` 中能看到 DNAT 和 MASQUERADE 两条规则。之后设备每次重启都会自动下发。
+
+注意：
+
+- 服务每启动一次就追加一次规则，反复 `systemctl restart` 会出现重复条目；需要清理时重启设备。
+- 本服务只负责 iptables 规则；`ip_forward` 已由前面的 `/etc/sysctl.conf` 配置持久化。
+- BMC 的 eth0 必须保持静态 IP（见步骤 3）。修改 eth0 地址后，需同步修改本服务里的地址并执行 `systemctl restart nat-forward.service`。
+
+### 步骤 5：验证单向通信 [step]
 
 | 测试项 | 操作方法 | 预期结果 |
 | --- | --- | --- |
 | 算力核心访问现场网络 | 在子板上执行 `ping 172.16.0.1` | 能 ping 通 |
 | 算力核心访问公网 | 在子板上执行 `ping www.baidu.com` | 能 ping 通（子板需已配置 DNS） |
-| 现场网络访问算力核心内网 | 在现场网络终端上 ping 子板内网地址（如 `192.168.100.11`） | **ping 不通（正常现象）** |
-
-<Callout title="注意" type="warn">
-  文中的地址、端口和 VLAN 编号均为示例，请按现场网络调整。BMC 重启后 `iptables` 规则和 `ip_forward` 默认不会自动恢复，需要做持久化配置。若业务确实需要外部访问子板，应另行评估安全风险并配置 DNAT，不要直接放开整个内网。
-</Callout>
+| 现场网络访问算力核心内网 | 在现场网络终端上 ping 子板内网地址（如 `192.168.150.21`） | **ping 不通（正常现象）** |
