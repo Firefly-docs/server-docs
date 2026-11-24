@@ -31,19 +31,25 @@ This case applies to clusters with a limited public IP quota, a ban on bulk conf
 
 Physical connections on a single CSA1-N8: one chassis holds eight sub-boards (SUB01–SUB08). Each sub-board has a PHY NIC on both sides, connected to two internal switches. The BMC connects to the two switches through its pci_net and usb_net NICs. SFP+1, GE, SFP+2, and GEM are the external ports on the chassis front panel. The VLAN split and NAT in this case are built on these physical links.
 
-![network topology](../../../servers_img/CSA1-N8/network_topo.png)
+![CSA1-N8 network topology](../../../servers_img/CSA1-N8/network_topo.png)
+
+*Figure: CSA1-N8 single-unit network topology. This case only uses the SWITCH0 side; the SWITCH1 side stays idle.*
 
 ## How It Works
 
-Disable all PHY1 NICs on the server. Traffic enters through the GE port on the chassis, passes through the BMC's eth0 NIC, leaves through the usb_net NIC, goes to switch SWITCH0, and finally reaches the sub-board's eth0 NIC.
+Disable all PHY1 NICs on the server. Traffic flows as follows:
+
+1. It enters through the GE port on the chassis and reaches the BMC's eth0 NIC (the external NIC).
+2. The BMC performs NAT and IP forwarding, and the traffic leaves through the usb_net NIC.
+3. It goes through switch SWITCH0 and finally reaches the sub-board's eth0 NIC.
 
 ## Procedure
 
 ### Step 1: Configure the sub-board eth1 IP and DNS [step]
 
-![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_sub.png)
+Set the sub-board to manual mode, leave the IP address empty, and configure DNS:
 
-Set the sub-board to manual mode, leave the IP address empty, and configure DNS.
+![Sub-board network configuration page](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_sub.png)
 
 ### Step 2: Add a new network configuration on the sub-board [step]
 
@@ -75,23 +81,20 @@ network:
 linaro@bm1684:~$ 
 ```
 
-Create `/etc/netplan/default.yaml` and set the route to `192.168.150.100`, which is the IP of the BMC's usb_net NIC.
-Set the eth0 address to the one in `/etc/netplan/eth0_static_ip.yaml`.
-Run `sudo netplan apply`.
-Check the configuration result.
+1. Create `/etc/netplan/default.yaml` and set the route to `192.168.150.100`, which is the IP of the BMC's usb_net NIC.
+2. Set the eth0 address to the one in `/etc/netplan/eth0_static_ip.yaml`.
+3. Run `sudo netplan apply` to apply the configuration.
+4. Run `ip a` and `route -n` to check the result: eth0 should hold `192.168.150.23/24`, and the `0.0.0.0` route should use gateway `192.168.150.100`.
+
 ```bash
-linaro@bm1684:~$ sudo cat /etc/netplan/default.yaml ^C
 linaro@bm1684:~$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host 
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-2: dummy0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default qlen 1000
-    link/ether f2:6f:df:5c:14:71 brd ff:ff:ff:ff:ff:ff
-3: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN group default qlen 1000
-    link/sit 0.0.0.0 brd 0.0.0.0
+    ... (dummy0, sit0, and other unrelated interfaces omitted)
 4: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
     link/ether 5c:f8:38:73:66:7c brd ff:ff:ff:ff:ff:ff
     inet 192.168.150.23/24 brd 192.168.150.255 scope global noprefixroute eth0
@@ -102,12 +105,9 @@ linaro@bm1684:~$ ip a
     link/ether 5c:f8:38:73:66:7d brd ff:ff:ff:ff:ff:ff
     inet 169.254.151.47/16 brd 169.254.255.255 scope link noprefixroute eth1
        valid_lft forever preferred_lft forever
-    inet6 fe80::5ef8:38ff:fe73:667d/64 scope link noprefixroute 
+    inet6 fe80::5ef8:38ff:fe73:667d/64 scope link noprefixroute
        valid_lft forever preferred_lft forever
-6: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
-    link/ether 02:42:4a:79:32:25 brd ff:ff:ff:ff:ff:ff
-    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
-       valid_lft forever preferred_lft forever
+    ... (docker0 omitted)
 linaro@bm1684:~$ route -n
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
@@ -124,9 +124,11 @@ Confirm that the first entry in the routing table uses 192.168.150.100 as its ga
 
 ### Step 3: Configure the BMC eth0 NIC [step]
 
-![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_bmc.png)
+![BMC NIC configuration page](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_bmc.png)
 
-Select a static IP here. The NAT rules below depend on this address; if DHCP assigns the address dynamically, the NAT rules will not take effect.
+<Callout title="A static IP is required" type="warn">
+  The NAT rules below depend on this address; if DHCP assigns the address dynamically, the NAT rules will not take effect.
+</Callout>
 
 ### Step 4: Configure NAT and IP forwarding on the BMC [step]
 
@@ -150,7 +152,7 @@ iptables-legacy -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables-legacy -t nat -L -n -v
 ```
 
-**Persist the NAT rules**
+#### Persist the NAT rules
 
 The iptables rules above live only in memory and are lost after a reboot. Use a systemd service to load the two rules at startup.
 
@@ -191,11 +193,9 @@ iptables-legacy -t nat -L -n -v
 
 `systemctl status` should show `active (exited)`, and `iptables-legacy -t nat -L -n -v` should list both the DNAT and MASQUERADE rules. The service reapplies them on every reboot after that.
 
-Notes:
-
-- Each start appends the rules again. Repeated `systemctl restart` calls create duplicate entries; reboot the device to clear them.
-- The service only handles iptables rules. `ip_forward` is already persisted through `/etc/sysctl.conf` above.
-- The BMC eth0 must keep its static IP (see Step 3). After changing the eth0 address, update the addresses in this service and run `systemctl restart nat-forward.service`.
+<Callout title="Note" type="warn">
+  Each start appends the rules again, so repeated `systemctl restart` calls create duplicate entries — reboot the device to clear them. The service only handles iptables rules; `ip_forward` is already persisted through `/etc/sysctl.conf` above. The BMC eth0 must keep its static IP (see Step 3); after changing the eth0 address, update the addresses in this service and run `systemctl restart nat-forward.service`.
+</Callout>
 
 ### Step 5: Verify one-way communication [step]
 

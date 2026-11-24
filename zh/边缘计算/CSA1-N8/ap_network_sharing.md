@@ -31,19 +31,25 @@
 
 CSA1-N8 单机的物理连接：一台机箱内 8 块子板（SUB01–SUB08），每块子板两侧各挂一颗 PHY 网卡，分别接入两颗内部交换机；BMC 通过 pci_net、usb_net 两路网卡分别挂在两颗交换机上；SFP+1、GE、SFP+2、GEM 是机箱面板上的对外网口。本方案的 VLAN 划分与 NAT 都基于这套物理链路。
 
-![network topology](../../../servers_img/CSA1-N8/network_topo.png)
+![CSA1-N8 单机网络拓扑](../../../servers_img/CSA1-N8/network_topo.png)
+
+*图：CSA1-N8 单机网络拓扑；本方案只使用 SWITCH0 一侧链路，SWITCH1 侧闲置。*
 
 ## 方案原理
 
-将服务器的 PHY1 网卡全部关闭，数据从机箱上的 GE 口进入，流经 BMC 的 eth0 网卡，再从 usb_net 网卡流出，流向交换机 SWITCH0，最后流向子板的 eth0 网卡。
+将服务器的 PHY1 网卡全部关闭，数据按以下路径流动：
+
+1. 现场网络从机箱上的 GE 口进入，到达 BMC 的 eth0 网卡（外网口）；
+2. BMC 做 NAT 与 IP 转发，数据从 usb_net 网卡流出；
+3. 经交换机 SWITCH0 到达子板的 eth0 网卡。
 
 ## 操作步骤
 
 ### 步骤 1：配置子板 eth1 IP 与 DNS [step]
 
-![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_sub.png)
+子板选择手动模式，IP 地址留空，配置 DNS：
 
-子板选择手动模式，IP 地址留空，配置 DNS。
+![子板网络配置界面](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_sub.png)
 
 ### 步骤 2：进入子板命令行，增加新的网络配置 [step]
 
@@ -75,23 +81,20 @@ network:
 linaro@bm1684:~$ 
 ```
 
-新建配置文件 `/etc/netplan/default.yaml`，其中填写路由 `192.168.150.100`，该地址是 BMC 的 usb_net 网卡的 IP。
-eth0 的地址按 `/etc/netplan/eth0_static_ip.yaml` 中的地址填写。
-执行 `sudo netplan apply`。
-查看配置结果。
+1. 新建配置文件 `/etc/netplan/default.yaml`，路由填写 `192.168.150.100`，该地址是 BMC 的 usb_net 网卡的 IP；
+2. eth0 的地址按 `/etc/netplan/eth0_static_ip.yaml` 中的地址填写；
+3. 执行 `sudo netplan apply` 应用配置；
+4. 执行 `ip a` 和 `route -n` 检查结果，关键看 eth0 拿到 `192.168.150.23/24`、路由表 `0.0.0.0` 条目的网关为 `192.168.150.100`。
+
 ```bash
-linaro@bm1684:~$ sudo cat /etc/netplan/default.yaml ^C
 linaro@bm1684:~$ ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host 
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-2: dummy0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default qlen 1000
-    link/ether f2:6f:df:5c:14:71 brd ff:ff:ff:ff:ff:ff
-3: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN group default qlen 1000
-    link/sit 0.0.0.0 brd 0.0.0.0
+    ...（dummy0、sit0 等无关接口略）
 4: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
     link/ether 5c:f8:38:73:66:7c brd ff:ff:ff:ff:ff:ff
     inet 192.168.150.23/24 brd 192.168.150.255 scope global noprefixroute eth0
@@ -102,12 +105,9 @@ linaro@bm1684:~$ ip a
     link/ether 5c:f8:38:73:66:7d brd ff:ff:ff:ff:ff:ff
     inet 169.254.151.47/16 brd 169.254.255.255 scope link noprefixroute eth1
        valid_lft forever preferred_lft forever
-    inet6 fe80::5ef8:38ff:fe73:667d/64 scope link noprefixroute 
+    inet6 fe80::5ef8:38ff:fe73:667d/64 scope link noprefixroute
        valid_lft forever preferred_lft forever
-6: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default 
-    link/ether 02:42:4a:79:32:25 brd ff:ff:ff:ff:ff:ff
-    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
-       valid_lft forever preferred_lft forever
+    ...（docker0 略）
 linaro@bm1684:~$ route -n
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
@@ -124,9 +124,11 @@ eth1 上有一个 169.254.x.x 网段的 IP，无需处理。
 
 ### 步骤 3：配置 BMC 的 eth0 网卡 [step]
 
-![network topology](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_bmc.png)
+![BMC 网卡配置界面](../../../servers_img/CSA1-N8/ap_network_sharing/network_share_bmc.png)
 
-这里必须选择静态 IP。后续 NAT 规则依赖这个地址；如果使用 DHCP 动态分配地址，NAT 规则不会生效。
+<Callout title="必须使用静态 IP" type="warn">
+  后续 NAT 规则依赖这个地址；如果使用 DHCP 动态分配地址，NAT 规则不会生效。
+</Callout>
 
 ### 步骤 4：配置 BMC 的 NAT 和 IP 转发 [step]
 
@@ -150,7 +152,7 @@ iptables-legacy -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables-legacy -t nat -L -n -v
 ```
 
-**NAT 规则持久化**
+#### NAT 规则持久化
 
 上面的 iptables 规则只存在于内存中，设备重启后失效。用 systemd 服务在开机时自动下发这两条规则。
 
@@ -191,11 +193,9 @@ iptables-legacy -t nat -L -n -v
 
 预期 `systemctl status` 显示 `active (exited)`，`iptables-legacy -t nat -L -n -v` 中能看到 DNAT 和 MASQUERADE 两条规则。之后设备每次重启都会自动下发。
 
-注意：
-
-- 服务每启动一次就追加一次规则，反复 `systemctl restart` 会出现重复条目；需要清理时重启设备。
-- 本服务只负责 iptables 规则；`ip_forward` 已由前面的 `/etc/sysctl.conf` 配置持久化。
-- BMC 的 eth0 必须保持静态 IP（见步骤 3）。修改 eth0 地址后，需同步修改本服务里的地址并执行 `systemctl restart nat-forward.service`。
+<Callout title="注意" type="warn">
+  服务每启动一次就追加一次规则，反复 `systemctl restart` 会出现重复条目，需要清理时重启设备；本服务只负责 iptables 规则，`ip_forward` 已由前面的 `/etc/sysctl.conf` 配置持久化；BMC 的 eth0 必须保持静态 IP（见步骤 3），修改 eth0 地址后需同步修改本服务里的地址并执行 `systemctl restart nat-forward.service`。
+</Callout>
 
 ### 步骤 5：验证单向通信 [step]
 
